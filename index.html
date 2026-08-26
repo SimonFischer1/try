@@ -2,24 +2,19 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Jenseits der Gleichung — Brigitta Nuß</title>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<meta name="theme-color" content="#050a0d">
+
+<title>Jenseits der Gleichung</title>
 
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
-
-:root {
-    --bg: #05080b;
-    --bg2: #081117;
-    --blue: #6e9eae;
-    --blue-bright: #a9d3dc;
-    --blue-dark: #17333d;
-    --white: #e8eeee;
-    --grey: #78858a;
-    --line: rgba(140,185,195,.22);
-}
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
     box-sizing: border-box;
@@ -29,1303 +24,1214 @@
 
 html {
     scroll-behavior: smooth;
+    background: #050a0d;
 }
 
 body {
+    min-width: 320px;
+    overflow-x: hidden;
+
     background:
         radial-gradient(
-            circle at 50% 20%,
-            rgba(36,73,85,.12),
-            transparent 40%
+            circle at 50% 38%,
+            rgba(31, 66, 76, 0.13),
+            transparent 38%
         ),
-        #05080b;
+        #050a0d;
 
-    color: var(--white);
-    overflow-x: hidden;
-    font-family: "Cormorant Garamond", serif;
+    color: #d9e1e4;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 }
 
+/* =========================================================
+   MATHEMATISCHE HINTERGRUNDSTRUKTUR
+========================================================= */
 
-/* =====================================================
-   MATHEMATISCHER HINTERGRUND
-===================================================== */
+body::before {
+    content: "";
 
-#equations {
     position: fixed;
     inset: 0;
+
     pointer-events: none;
     z-index: 0;
-    overflow: hidden;
-    opacity: .28;
-}
 
-.equation {
-    position: absolute;
-    color: rgba(143,191,201,.22);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: clamp(10px, 1vw, 14px);
-    letter-spacing: .15em;
-    white-space: nowrap;
-}
-
-.e1 {
-    top: 17%;
-    left: 7%;
-}
-
-.e2 {
-    top: 32%;
-    right: 8%;
-    transform: rotate(6deg);
-}
-
-.e3 {
-    top: 57%;
-    left: 4%;
-    transform: rotate(-4deg);
-}
-
-.e4 {
-    top: 73%;
-    right: 10%;
-    transform: rotate(8deg);
-}
-
-.e5 {
-    top: 87%;
-    left: 18%;
-    transform: rotate(-5deg);
-}
-
-.grid {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
+    opacity: 0.22;
 
     background-image:
         linear-gradient(
-            rgba(130,170,180,.035) 1px,
+            rgba(87, 119, 129, 0.12) 1px,
             transparent 1px
         ),
         linear-gradient(
             90deg,
-            rgba(130,170,180,.035) 1px,
+            rgba(87, 119, 129, 0.12) 1px,
             transparent 1px
         );
 
-    background-size: 70px 70px;
+    background-size:
+        82px 82px;
 
     mask-image:
         linear-gradient(
             to bottom,
-            transparent,
-            black 20%,
-            black 80%,
+            black,
+            rgba(0,0,0,.65),
             transparent
         );
 }
 
+/* =========================================================
+   GLOBAL
+========================================================= */
 
-/* =====================================================
-   FIXED COVER
-===================================================== */
+.page {
+    position: relative;
+    z-index: 1;
 
-.cover {
-    position: fixed;
-    top: 32px;
-    right: 32px;
-    width: 105px;
-    z-index: 50;
-    transition: all .6s ease;
-}
-
-.cover img {
     width: 100%;
-    display: block;
-
-    border: 1px solid rgba(120,180,195,.35);
-
-    box-shadow:
-        0 0 25px rgba(70,130,145,.13),
-        0 0 80px rgba(20,70,80,.08);
 }
-
-.cover span {
-    display: block;
-    margin-top: 8px;
-
-    text-align: center;
-
-    font-family: "IBM Plex Mono", monospace;
-    color: #59666b;
-    font-size: 8px;
-    letter-spacing: .18em;
-}
-
-
-/* =====================================================
-   SCROLL
-===================================================== */
-
-.scroll-message {
-    position: fixed;
-
-    left: 50%;
-    bottom: 42px;
-
-    transform: translateX(-50%);
-
-    z-index: 40;
-
-    font-family: "IBM Plex Mono", monospace;
-
-    font-size: 11px;
-    letter-spacing: .45em;
-
-    color: #717b7f;
-
-    animation:
-        pulse 2.7s infinite ease-in-out;
-
-    transition:
-        opacity .5s ease;
-}
-
-@keyframes pulse {
-
-    0%,100% {
-        opacity: .22;
-        transform:
-            translateX(-50%)
-            translateY(0);
-    }
-
-    50% {
-        opacity: .85;
-        transform:
-            translateX(-50%)
-            translateY(-4px);
-    }
-
-}
-
-
-/* =====================================================
-   SECTIONS
-===================================================== */
 
 section {
     position: relative;
-    z-index: 2;
+
+    width: 100%;
+    min-height: 100svh;
 
     min-height: 100vh;
-    width: 100%;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 100px 8vw;
+    padding:
+        max(80px, 10vh)
+        clamp(18px, 5vw, 80px);
+
+    overflow: hidden;
 }
 
-.inner {
-    width: min(1050px, 100%);
+/* =========================================================
+   TEXT
+========================================================= */
+
+h1,
+h2,
+h3,
+p {
     text-align: center;
 }
 
+h1,
+h2,
+h3 {
+    font-weight: 400;
+}
 
-/* =====================================================
-   HERO
-===================================================== */
+.mono {
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+    letter-spacing: 0.28em;
+}
+
+.small-label {
+    color: #71848b;
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+    font-size:
+        clamp(0.65rem, 1.4vw, 0.95rem);
+
+    letter-spacing:
+        clamp(0.25em, 1vw, 0.5em);
+
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+}
+
+.scroll-indicator {
+    position: absolute;
+
+    left: 50%;
+    bottom: clamp(30px, 6vh, 70px);
+
+    transform: translateX(-50%);
+
+    color: #65777d;
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+    font-size:
+        clamp(0.65rem, 1.6vw, 0.9rem);
+
+    letter-spacing:
+        clamp(0.25em, 1vw, 0.55em);
+
+    animation:
+        pulseScroll 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseScroll {
+
+    0%,
+    100% {
+        opacity: .25;
+    }
+
+    50% {
+        opacity: .9;
+    }
+}
+
+/* =========================================================
+   INTRO
+========================================================= */
 
 .hero {
-    min-height: 100vh;
-    overflow: hidden;
+    min-height: 100svh;
+
+    flex-direction: column;
+
+    text-align: center;
 }
 
-.hero-inner {
-    position: relative;
-    transform: translateY(20px);
+.hero-content {
+    width: min(1100px, 100%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 25px;
 }
 
-.eyebrow {
-    font-family: "IBM Plex Mono", monospace;
+.hero-subtitle {
+    color: #71838a;
 
-    font-size: 12px;
-    letter-spacing: .5em;
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
 
-    color: #77858a;
+    font-size:
+        clamp(0.7rem, 1.8vw, 1rem);
 
-    margin-bottom: 35px;
+    letter-spacing:
+        clamp(0.22em, 1vw, 0.5em);
+
+    line-height: 1.7;
+
+    text-transform: uppercase;
+
+    max-width: 850px;
 }
 
-.hero h1 {
-    font-size: clamp(70px, 11vw, 175px);
+.hero-title {
+    color: #e9eef0;
 
-    line-height: .78;
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-    font-weight: 500;
+    font-size:
+        clamp(3.4rem, 11vw, 10rem);
 
-    letter-spacing: .02em;
+    line-height: .88;
 
-    color: #e8eeee;
+    letter-spacing:
+        clamp(-0.06em, -0.3vw, -0.02em);
+
+    text-transform: uppercase;
 
     text-shadow:
-        0 0 25px rgba(130,190,200,.12),
-        0 0 90px rgba(50,100,115,.08);
+        0 0 15px rgba(217, 232, 237, .12);
+
+    max-width: 1200px;
 }
 
-.hero h1 span {
+.hero-title span {
     display: block;
 }
 
-.hero-line {
-    width: min(600px, 80%);
-    height: 1px;
-
-    margin:
-        55px auto
-        25px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(140,190,200,.4),
-            transparent
-        );
-}
-
-.hero-sub {
-    font-family: "IBM Plex Mono", monospace;
-
-    color: #7e898d;
-
-    font-size: 12px;
-
-    letter-spacing: .22em;
-}
-
-
-/* =====================================================
-   TEXT
-===================================================== */
-
-.message {
-    max-width: 900px;
-    margin: auto;
-}
-
-.message-number {
-    font-family: "IBM Plex Mono", monospace;
-
-    color: #506168;
-
-    font-size: 10px;
-
-    letter-spacing: .35em;
-
-    margin-bottom: 45px;
-}
-
-.message h2 {
-    font-size: clamp(40px, 6vw, 80px);
-
-    font-weight: 500;
-
-    line-height: 1.05;
-
-    margin-bottom: 35px;
-}
-
-.message p {
-    max-width: 700px;
-
-    margin: 0 auto;
-
-    font-size:
-        clamp(
-            21px,
-            2.3vw,
-            32px
-        );
-
-    line-height: 1.45;
-
-    color: #b7c1c3;
-}
-
-.highlight {
-    color: var(--blue-bright);
-}
-
-.small-note {
-    margin-top: 40px;
+.hero-description {
+    color: #73858c;
 
     font-family:
-        "IBM Plex Mono",
+        "Courier New",
+        Courier,
         monospace;
 
-    font-size: 11px;
+    font-size:
+        clamp(0.75rem, 1.7vw, 1rem);
 
-    letter-spacing: .2em;
+    line-height: 1.8;
 
-    color: #59666b;
+    letter-spacing: .18em;
+
+    max-width: 800px;
 }
 
+/* =========================================================
+   SECTION 2
+========================================================= */
 
-/* =====================================================
-   EQUATION
-===================================================== */
-
-.equation-section {
-    overflow: hidden;
+.equation {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(25, 54, 63, .12),
+            transparent 60%
+        );
 }
 
-.equation-stage {
+.equation-inner {
+    width: min(1050px, 100%);
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 35px;
+}
+
+.section-title {
+    color: #dce4e7;
+
+    font-size:
+        clamp(2rem, 5vw, 4.2rem);
+
+    line-height: 1.15;
+
+    max-width: 900px;
+}
+
+.section-subtitle {
+    color: #aab7bc;
+
+    font-size:
+        clamp(1.15rem, 3vw, 2rem);
+
+    line-height: 1.4;
+
+    max-width: 850px;
+}
+
+/* Gleichungsbox */
+
+.equation-box {
     position: relative;
 
-    width: min(850px, 90vw);
+    width: min(900px, 100%);
 
-    height: 480px;
+    min-height: clamp(380px, 60vh, 650px);
 
-    border:
-        1px solid
-        rgba(130,175,185,.15);
+    border: 1px solid rgba(88, 120, 131, .28);
 
-    background:
-        rgba(8,17,22,.38);
-
-    box-shadow:
-        inset 0 0 100px
-        rgba(60,110,125,.05),
-
-        0 0 100px
-        rgba(20,60,70,.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     overflow: hidden;
+
+    background:
+        rgba(4, 10, 13, .35);
+
+    box-shadow:
+        inset 0 0 80px rgba(37, 76, 87, .04);
 }
 
-.equation-stage::before {
-
+.equation-box::before,
+.equation-box::after {
     content: "";
 
     position: absolute;
 
-    inset: 0;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent 49.9%,
-            rgba(130,180,190,.12) 50%,
-            transparent 50.1%
-        ),
-
-        linear-gradient(
-            transparent 49.9%,
-            rgba(130,180,190,.12) 50%,
-            transparent 50.1%
-        );
-}
-
-.formula {
-
-    position: absolute;
+    color: rgba(107, 143, 153, .13);
 
     font-family:
-        "IBM Plex Mono",
+        "Courier New",
         monospace;
 
-    color:
-        rgba(160,205,212,.65);
-
     font-size:
-        clamp(14px, 2vw, 24px);
+        clamp(1rem, 3vw, 2rem);
 
-    transition:
-        transform 1.4s
-        cubic-bezier(.2,.7,.2,1);
+    pointer-events: none;
 }
 
-.f1 {
-    left: 10%;
+.equation-box::before {
+    content: "x → ∞     f(x) = ?";
+
     top: 18%;
+    left: 10%;
 }
 
-.f2 {
+.equation-box::after {
+    content: "A ≠ B";
+
     right: 12%;
-    top: 29%;
+    bottom: 18%;
 }
 
-.f3 {
-    left: 22%;
-    bottom: 20%;
-}
+.equation-main {
+    position: relative;
 
-.f4 {
-    right: 18%;
-    bottom: 16%;
-}
+    z-index: 2;
 
-.center-equation {
-
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%,-50%);
+    color: #9bb2ba;
 
     font-family:
-        "IBM Plex Mono",
+        "Courier New",
         monospace;
 
     font-size:
-        clamp(22px, 4vw, 52px);
+        clamp(2rem, 7vw, 5rem);
 
-    color: #c8dfe3;
+    letter-spacing:
+        clamp(.05em, 1vw, .2em);
 
-    letter-spacing: .15em;
+    text-align: center;
 
     white-space: nowrap;
 }
 
-.center-equation::after {
+/* NICHT MEHR ÜBERLAPPEND */
 
-    content: "";
-
-    position: absolute;
-
-    width: 160px;
-    height: 1px;
-
-    background:
-        var(--blue);
-
-    left: 50%;
-
-    bottom: -25px;
-
-    transform:
-        translateX(-50%);
-
-    opacity: .5;
-}
-
-
-/* =====================================================
-   ZWEI WEGE
-===================================================== */
-
-.paths {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 35px;
-
-    max-width: 950px;
-
-    margin:
-        60px auto 0;
-}
-
-.path {
-
-    padding: 50px 35px;
-
-    border:
-        1px solid
-        rgba(130,175,185,.16);
-
-    background:
-        rgba(10,20,25,.35);
-
-    transition:
-        all .5s ease;
-}
-
-.path:hover {
-
-    transform:
-        translateY(-8px);
-
-    border-color:
-        rgba(150,200,210,.4);
-
-    background:
-        rgba(18,34,40,.55);
-}
-
-.path-number {
-
-    font-family:
-        "IBM Plex Mono",
-        monospace;
-
-    color: #607278;
-
-    font-size: 10px;
-
-    letter-spacing: .3em;
-
-    margin-bottom: 25px;
-}
-
-.path h3 {
-
-    font-size: 38px;
-
-    font-weight: 500;
-
-    margin-bottom: 20px;
-}
-
-.path p {
-
-    color: #9ba8ab;
-
-    font-size: 20px;
-
-    line-height: 1.5;
-}
-
-
-/* =====================================================
-   AUTHOR
-===================================================== */
-
-.author {
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(37,71,80,.12),
-            transparent 50%
-        );
-}
-
-.author-box {
-
-    max-width: 850px;
-
-    margin: auto;
-}
-
-.author h2 {
-
-    font-size:
-        clamp(45px, 7vw, 95px);
-
-    font-weight: 500;
-
-    margin-bottom: 25px;
-}
-
-.author p {
-
-    font-size: 24px;
-
-    color: #aab5b8;
-
-    line-height: 1.5;
-}
-
-
-/* =====================================================
-   COVER MITTIG
-===================================================== */
-
-.cover-section {
-
-    min-height: 100vh;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(34,73,84,.14),
-            transparent 55%
-        );
-}
-
-.cover-display {
-
-    width: min(390px, 78vw);
-
-    margin: 45px auto 0;
-
-    padding: 18px;
-
-    border:
-        1px solid
-        rgba(130,180,195,.22);
-
-    background:
-        rgba(5,12,16,.75);
-
-    box-shadow:
-        0 0 80px
-        rgba(40,90,105,.09),
-
-        inset 0 0 50px
-        rgba(40,90,105,.04);
-}
-
-.cover-display iframe {
-
-    width: 100%;
-
-    height: 560px;
-
-    display: block;
-
-    border: none;
-
-    background: #05080b;
-}
-
-.cover-caption {
-
-    padding-top: 18px;
-
-    font-family:
-        "IBM Plex Mono",
-        monospace;
-
-    font-size: 9px;
-
-    letter-spacing: .25em;
-
-    color: #637176;
-}
-
-
-/* =====================================================
-   KAUFEN
-===================================================== */
-
-.buy {
-
-    min-height: 100vh;
-}
-
-.buy-box {
-
-    width: min(900px, 100%);
-
-    border:
-        1px solid
-        rgba(130,180,195,.25);
-
-    padding: 75px 40px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(40,85,98,.13),
-            transparent 65%
-        ),
-
-        rgba(5,12,16,.75);
-
-    box-shadow:
-        0 0 80px
-        rgba(40,90,105,.08),
-
-        inset 0 0 80px
-        rgba(40,90,105,.05);
-}
-
-.buy h2 {
-
-    font-size:
-        clamp(45px, 6vw, 85px);
-
-    font-weight: 500;
-
-    margin-bottom: 15px;
-}
-
-.buy-sub {
-
-    color: #77858a;
-
-    font-family:
-        "IBM Plex Mono",
-        monospace;
-
-    letter-spacing: .18em;
-
-    font-size: 11px;
-
-    margin-bottom: 45px;
-}
-
-.buttons {
+.equation-details {
+    width: min(800px, 100%);
 
     display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    justify-content: center;
+    gap: 20px;
 
-    flex-wrap: wrap;
-
-    gap: 15px;
-}
-
-.button {
-
-    display: inline-block;
-
-    padding:
-        17px 28px;
-
-    color: #dce8ea;
-
-    border:
-        1px solid
-        rgba(140,190,200,.35);
-
-    text-decoration: none;
+    color: #71868e;
 
     font-family:
-        "IBM Plex Mono",
+        "Courier New",
         monospace;
 
-    font-size: 11px;
+    font-size:
+        clamp(.75rem, 2vw, 1.05rem);
 
-    letter-spacing: .18em;
+    letter-spacing:
+        clamp(.08em, .4vw, .18em);
 
-    transition:
-        all .35s ease;
-
-    background:
-        rgba(15,30,36,.4);
+    line-height: 1.6;
 }
 
-.button:hover {
-
-    background:
-        rgba(100,160,175,.15);
-
-    border-color:
-        rgba(170,215,220,.7);
-
-    box-shadow:
-        0 0 25px
-        rgba(80,150,165,.15);
-
-    transform:
-        translateY(-3px);
+.equation-details div {
+    width: 100%;
+    text-align: center;
 }
 
+/* =========================================================
+   STORY
+========================================================= */
 
-/* =====================================================
-   RECHTLICHES
-===================================================== */
-
-.legal {
-
-    min-height: auto;
-
-    padding:
-        90px 8vw 35px;
-
-    border-top:
-        1px solid
-        rgba(120,170,180,.12);
-
-    background:
-        rgba(3,7,9,.75);
+.story {
+    min-height: 100svh;
 }
 
-.legal-inner {
+.story-inner {
+    width: min(1000px, 100%);
 
-    width:
-        min(1000px, 100%);
+    display: flex;
+    flex-direction: column;
 
-    margin: auto;
+    align-items: center;
+
+    gap: clamp(35px, 7vh, 80px);
 
     text-align: center;
 }
 
-.legal-title {
+.story-title {
+    color: #dce4e7;
 
-    font-size: 18px;
+    font-size:
+        clamp(2rem, 5vw, 4rem);
 
-    color: #7f8b8f;
-
-    font-family:
-        "IBM Plex Mono",
-        monospace;
-
-    letter-spacing: .25em;
-
-    margin-bottom: 30px;
+    line-height: 1.15;
 }
 
-.legal-links {
+.story-text {
+    width: min(800px, 100%);
+
+    color: #aab7bc;
+
+    font-size:
+        clamp(1.1rem, 2.8vw, 1.7rem);
+
+    line-height: 1.75;
+
+    text-align: center;
+}
+
+/* =========================================================
+   COVER
+========================================================= */
+
+.cover-section {
+    flex-direction: column;
+
+    padding-top:
+        max(90px, 12vh);
+
+    padding-bottom:
+        max(100px, 12vh);
+}
+
+.cover-inner {
+    width: min(950px, 100%);
 
     display: flex;
+    flex-direction: column;
 
-    justify-content: center;
+    align-items: center;
+
+    gap: 35px;
+}
+
+.cover-title {
+    color: #dce4e7;
+
+    font-size:
+        clamp(2rem, 5vw, 4rem);
+
+    line-height: 1.15;
+
+    max-width: 900px;
+}
+
+.cover-subtitle {
+    color: #9baab0;
+
+    font-size:
+        clamp(1rem, 2.5vw, 1.4rem);
+
+    line-height: 1.6;
+
+    max-width: 700px;
+}
+
+/*
+   PDF CONTAINER
+
+   cover.pdf liegt im selben Ordner wie index.html.
+*/
+
+.cover-frame {
+    width: min(560px, 90vw);
+
+    aspect-ratio: 2 / 3;
+
+    border: 1px solid rgba(91, 126, 137, .45);
+
+    background: #020608;
+
+    box-shadow:
+        0 0 70px rgba(34, 67, 77, .12);
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+.cover-frame iframe {
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+
+    display: block;
+
+    background: #020608;
+}
+
+/*
+   Falls der Browser PDF im iframe nicht unterstützt,
+   bleibt der Link sichtbar.
+*/
+
+.cover-fallback {
+    position: absolute;
+
+    left: 50%;
+    bottom: 18px;
+
+    transform: translateX(-50%);
+
+    z-index: 5;
+
+    white-space: nowrap;
+
+    padding: 10px 18px;
+
+    border: 1px solid rgba(110, 143, 152, .5);
+
+    background: rgba(4, 10, 13, .92);
+
+    color: #a9b8bd;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: .72rem;
+
+    letter-spacing: .12em;
+
+    text-decoration: none;
+}
+
+.cover-author {
+    color: #71858d;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(.65rem, 1.7vw, .9rem);
+
+    letter-spacing:
+        .35em;
+
+    text-transform: uppercase;
+
+    text-align: center;
+}
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.buy-section {
+    min-height: 80svh;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(30, 65, 76, .14),
+            transparent 60%
+        );
+}
+
+.buy-inner {
+    width: min(850px, 100%);
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 35px;
+}
+
+.buy-title {
+    color: #e0e8ea;
+
+    font-size:
+        clamp(2.2rem, 6vw, 5rem);
+
+    line-height: 1.05;
+}
+
+.buy-text {
+    color: #8fa1a7;
+
+    font-size:
+        clamp(1rem, 2.5vw, 1.35rem);
+
+    line-height: 1.7;
+
+    max-width: 650px;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.buttons {
+    display: flex;
 
     flex-wrap: wrap;
 
-    gap: 12px 30px;
+    justify-content: center;
+
+    gap: 14px;
+
+    width: 100%;
 }
 
-.legal-button {
+.buy-button {
+    position: relative;
 
-    border: none;
+    min-width: min(250px, 90vw);
 
-    background: transparent;
+    padding: 18px 28px;
 
-    color: #6d7a7f;
+    border: 1px solid rgba(104, 140, 151, .65);
+
+    background:
+        rgba(6, 13, 16, .9);
+
+    color: #d9e2e5;
+
+    text-decoration: none;
 
     font-family:
-        "IBM Plex Mono",
+        "Courier New",
         monospace;
 
-    font-size: 10px;
+    font-size:
+        clamp(.75rem, 1.8vw, .9rem);
 
-    letter-spacing: .16em;
+    letter-spacing:
+        .16em;
+
+    text-align: center;
+
+    overflow: hidden;
+
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        border-color .3s ease;
+}
+
+.buy-button::before {
+    content: "";
+
+    position: absolute;
+
+    left: -100%;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(150, 190, 200, .08),
+            transparent
+        );
+
+    transition: left .6s ease;
+}
+
+.buy-button:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(156, 188, 196, .9);
+
+    background:
+        rgba(18, 32, 37, .95);
+}
+
+.buy-button:hover::before {
+    left: 100%;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+
+    padding:
+        70px
+        clamp(20px, 5vw, 70px)
+        35px;
+
+    border-top:
+        1px solid rgba(82, 112, 122, .18);
+
+    background:
+        rgba(3, 8, 11, .9);
+
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 12px 28px;
+
+    margin-bottom: 35px;
+}
+
+.footer-links button {
+    border: 0;
+
+    background: none;
+
+    color: #778a91;
 
     cursor: pointer;
 
-    padding: 8px;
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: .75rem;
+
+    letter-spacing: .14em;
 
     transition:
-        color .3s ease;
+        color .25s ease;
 }
 
-.legal-button:hover {
+.footer-links button:hover {
+    color: #d0dade;
+}
 
-    color:
-        var(--blue-bright);
+.footer-copy {
+    color: #4e6066;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: .65rem;
+
+    letter-spacing: .1em;
+
+    line-height: 1.8;
 }
 
 .made-with {
+    margin-top: 30px;
 
-    margin-top: 55px;
-
-    padding-top: 25px;
-
-    border-top:
-        1px solid
-        rgba(120,170,180,.08);
-
-    color: #536066;
+    color: #697b82;
 
     font-family:
-        "IBM Plex Mono",
+        "Courier New",
         monospace;
 
-    font-size: 9px;
+    font-size: .72rem;
 
-    letter-spacing: .22em;
+    letter-spacing: .15em;
 }
 
-.heart {
-
-    color:
-        #b77d85;
-
-    display: inline-block;
-
-    animation:
-        heartbeat 2.2s infinite ease-in-out;
-}
-
-@keyframes heartbeat {
-
-    0%,100% {
-        transform: scale(1);
-        opacity: .7;
-    }
-
-    50% {
-        transform: scale(1.15);
-        opacity: 1;
-    }
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
+/* =========================================================
+   MODALS
+========================================================= */
 
 .modal {
-
     position: fixed;
 
     inset: 0;
 
-    z-index: 200;
+    z-index: 1000;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    padding: 30px;
+    padding: 20px;
 
     background:
-        rgba(1,4,6,.88);
+        rgba(0, 0, 0, .78);
 
     backdrop-filter:
-        blur(12px);
+        blur(10px);
 
     opacity: 0;
 
     visibility: hidden;
 
     transition:
-        opacity .35s ease,
-        visibility .35s ease;
+        opacity .25s ease,
+        visibility .25s ease;
 }
 
 .modal.active {
-
     opacity: 1;
 
     visibility: visible;
 }
 
 .modal-box {
+    width: min(850px, 100%);
 
-    position: relative;
-
-    width:
-        min(850px, 100%);
-
-    max-height:
-        82vh;
+    max-height: min(85svh, 850px);
 
     overflow-y: auto;
 
     padding:
-        55px 55px 60px;
+        clamp(25px, 5vw, 55px);
 
     border:
-        1px solid
-        rgba(130,180,195,.28);
+        1px solid rgba(101, 138, 149, .4);
 
     background:
-        linear-gradient(
-            145deg,
-            rgba(10,23,29,.98),
-            rgba(4,10,14,.99)
-        );
+        #071014;
 
     box-shadow:
-        0 0 100px
-        rgba(40,90,105,.15);
+        0 0 80px rgba(0, 0, 0, .7);
+
+    position: relative;
 }
 
-.modal-box::-webkit-scrollbar {
-    width: 5px;
+.modal-box h2 {
+    color: #dce5e8;
+
+    font-size:
+        clamp(1.7rem, 4vw, 2.8rem);
+
+    margin-bottom: 30px;
+
+    text-align: center;
 }
 
-.modal-box::-webkit-scrollbar-track {
-    background: #05080b;
+.modal-box h3 {
+    color: #b8c7cc;
+
+    font-size: 1.05rem;
+
+    margin-top: 25px;
+    margin-bottom: 10px;
+
+    text-align: left;
 }
 
-.modal-box::-webkit-scrollbar-thumb {
-    background: #385963;
+.modal-box p {
+    color: #8fa1a7;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size:
+        clamp(.85rem, 2vw, .98rem);
+
+    line-height: 1.75;
+
+    text-align: left;
+
+    margin-bottom: 14px;
 }
 
-.modal-close {
-
+.close-modal {
     position: absolute;
 
-    top: 18px;
-    right: 22px;
+    top: 15px;
+    right: 18px;
 
-    width: 36px;
-    height: 36px;
+    border: 0;
 
-    border:
-        1px solid
-        rgba(130,180,195,.25);
+    background: none;
 
-    background: transparent;
-
-    color: #8c999d;
+    color: #81939a;
 
     cursor: pointer;
 
-    font-size: 18px;
+    font-size: 1.8rem;
 
-    transition:
-        all .3s ease;
+    line-height: 1;
+
+    padding: 5px;
 }
 
-.modal-close:hover {
-
+.close-modal:hover {
     color: white;
-
-    border-color:
-        rgba(170,215,220,.6);
 }
 
-.modal-number {
-
-    font-family:
-        "IBM Plex Mono",
-        monospace;
-
-    color:
-        #5e737a;
-
-    font-size: 9px;
-
-    letter-spacing: .3em;
-
-    margin-bottom: 20px;
-}
-
-.modal h2 {
-
-    font-size:
-        clamp(40px, 5vw, 65px);
-
-    font-weight: 500;
-
-    margin-bottom: 35px;
-}
-
-.modal h3 {
-
-    font-size: 26px;
-
-    font-weight: 500;
-
-    color:
-        var(--blue-bright);
-
-    margin:
-        35px 0 12px;
-}
-
-.modal p {
-
-    font-size: 18px;
-
-    line-height: 1.65;
-
-    color:
-        #aab5b8;
-
-    margin-bottom: 15px;
-}
-
-.placeholder {
-
-    color:
-        #b6d9df;
-
-    font-family:
-        "IBM Plex Mono",
-        monospace;
-
-    font-size: .8em;
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-footer {
-
-    min-height: 45vh;
-
-    position: relative;
-
-    z-index: 2;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    border-top:
-        1px solid
-        rgba(120,170,180,.1);
-}
-
-footer .footer-title {
-
-    font-size: 42px;
-
-    margin-bottom: 20px;
-}
-
-footer p {
-
-    color: #667277;
-
-    font-family:
-        "IBM Plex Mono",
-        monospace;
-
-    font-size: 10px;
-
-    letter-spacing: .2em;
-}
-
-
-/* =====================================================
-   REVEAL
-===================================================== */
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
 
 .reveal {
-
     opacity: 0;
 
     transform:
-        translateY(60px);
+        translateY(35px);
 
     transition:
-        opacity 1.2s ease,
-        transform 1.2s
-        cubic-bezier(.2,.7,.2,1);
+        opacity 1s ease,
+        transform 1s ease;
 }
 
 .reveal.visible {
-
     opacity: 1;
 
     transform:
         translateY(0);
 }
 
-
-/* =====================================================
+/* =========================================================
    MOBILE
-===================================================== */
+========================================================= */
 
 @media (max-width: 700px) {
 
-    .cover {
-
-        width: 72px;
-
-        top: 18px;
-
-        right: 18px;
-    }
-
     section {
+        min-height: 100svh;
 
         padding:
-            80px 25px;
+            85px
+            18px
+            100px;
     }
 
-    .hero h1 {
-
-        font-size: 18vw;
+    .hero {
+        padding-top: 100px;
     }
 
-    .eyebrow {
+    .hero-title {
+        font-size:
+            clamp(3.2rem, 17vw, 6rem);
 
-        font-size: 9px;
+        line-height: .88;
 
-        letter-spacing: .32em;
+        max-width: 100%;
     }
 
-    .paths {
+    .hero-subtitle {
+        font-size: .67rem;
 
-        grid-template-columns:
-            1fr;
+        letter-spacing: .25em;
+
+        max-width: 330px;
     }
 
-    .equation-stage {
+    .hero-description {
+        font-size: .72rem;
 
-        height: 390px;
+        max-width: 320px;
+
+        letter-spacing: .1em;
     }
 
-    .center-equation {
+    .section-title {
+        font-size:
+            clamp(1.9rem, 9vw, 3rem);
 
-        font-size: 17px;
+        max-width: 340px;
     }
 
-    .buy-box {
+    .section-subtitle {
+        font-size:
+            clamp(1rem, 5vw, 1.4rem);
 
+        max-width: 340px;
+    }
+
+    .equation-box {
+        min-height: 440px;
+
+        width: 100%;
+    }
+
+    .equation-main {
+        white-space: normal;
+
+        font-size:
+            clamp(1.6rem, 10vw, 3rem);
+
+        line-height: 1.5;
+
+        padding: 20px;
+    }
+
+    .equation-box::before {
+        top: 12%;
+        left: 8%;
+
+        font-size: .85rem;
+    }
+
+    .equation-box::after {
+        right: 8%;
+        bottom: 13%;
+
+        font-size: .9rem;
+    }
+
+    .equation-details {
+        gap: 28px;
+
+        font-size: .7rem;
+
+        letter-spacing: .08em;
+    }
+
+    .story-inner {
+        gap: 45px;
+    }
+
+    .story-text {
+        font-size:
+            clamp(1.05rem, 5vw, 1.3rem);
+
+        line-height: 1.75;
+
+        max-width: 340px;
+    }
+
+    .cover-section {
+        padding-top: 100px;
+    }
+
+    .cover-title {
+        font-size:
+            clamp(2rem, 10vw, 3rem);
+
+        max-width: 350px;
+    }
+
+    .cover-subtitle {
+        font-size:
+            clamp(.95rem, 4.5vw, 1.2rem);
+
+        max-width: 330px;
+    }
+
+    /*
+       Das Cover bleibt auf mobilen Geräten groß genug,
+       damit es wirklich erkennbar ist.
+    */
+
+    .cover-frame {
+        width:
+            min(86vw, 430px);
+
+        aspect-ratio: 2 / 3;
+
+        min-height: 470px;
+    }
+
+    .cover-author {
+        font-size: .65rem;
+
+        letter-spacing: .25em;
+    }
+
+    .buy-section {
+        min-height: 75svh;
+    }
+
+    .buy-title {
+        font-size:
+            clamp(2rem, 11vw, 3.5rem);
+
+        max-width: 350px;
+    }
+
+    .buy-text {
+        font-size:
+            1rem;
+
+        max-width: 330px;
+    }
+
+    .buttons {
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+    .buy-button {
+        width: min(330px, 90vw);
+
+        min-width: 0;
+    }
+
+    footer {
         padding:
-            55px 20px;
+            60px 18px 30px;
     }
 
-    .scroll-message {
+    .footer-links {
+        flex-direction: column;
 
-        bottom: 25px;
-
-        font-size: 9px;
-    }
-
-    .cover-display {
-
-        width: 88%;
-    }
-
-    .cover-display iframe {
-
-        height: 500px;
+        gap: 18px;
     }
 
     .modal {
-
-        padding: 15px;
+        padding: 12px;
     }
 
     .modal-box {
+        max-height: 90svh;
 
         padding:
-            45px 25px 40px;
+            55px 22px 30px;
     }
-
-    .modal h2 {
-
-        font-size: 40px;
-    }
-
-    .modal p {
-
-        font-size: 17px;
-    }
-
 }
 
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
 
-/* =====================================================
-   REDUZIERTE BEWEGUNG
-===================================================== */
+@media (max-width: 380px) {
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .equation-box {
+        min-height: 400px;
+    }
+
+    .cover-frame {
+        width: 88vw;
+
+        min-height: 430px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
 
     *,
     *::before,
     *::after {
-
-        scroll-behavior: auto !important;
-
         animation-duration: .01ms !important;
-
         animation-iteration-count: 1 !important;
-
         transition-duration: .01ms !important;
     }
 
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 </style>
@@ -1334,486 +1240,240 @@ footer p {
 
 <body>
 
+<div class="page">
 
-<!-- =====================================================
-     HINTERGRUND
-===================================================== -->
-
-<div id="equations">
-
-    <div class="equation e1">
-        x → ∞ &nbsp;&nbsp; ∑(n=1...∞) &nbsp;&nbsp; f(x) = ?
-    </div>
-
-    <div class="equation e2">
-        01 01 01 &nbsp;&nbsp; ∫ &nbsp;&nbsp; Δ &nbsp;&nbsp; ∂
-    </div>
-
-    <div class="equation e3">
-        A = B &nbsp;&nbsp; ? &nbsp;&nbsp; B ≠ A
-    </div>
-
-    <div class="equation e4">
-        y = f(x) &nbsp;&nbsp; // &nbsp;&nbsp; ERROR
-    </div>
-
-    <div class="equation e5">
-        1 + 1 = 2 &nbsp;&nbsp; / &nbsp;&nbsp; oder doch nicht?
-    </div>
-
-</div>
-
-<div class="grid"></div>
-
-
-<!-- =====================================================
-     COVER OBEN RECHTS
-===================================================== -->
-
-<div class="cover">
-
-    <!--
-        Falls du zusätzlich cover.jpg hast,
-        kannst du hier weiterhin dein kleines
-        Cover verwenden.
-
-        Für das große Cover weiter unten wird
-        cover.pdf verwendet.
-    -->
-
-    <img
-        src="cover.jpg"
-        alt="Jenseits der Gleichung"
-    >
-
-    <span>
-        BRIGITTA NUSS
-    </span>
-
-</div>
-
-
-<!-- =====================================================
-     SCROLL
-===================================================== -->
-
-<div
-    class="scroll-message"
-    id="scrollMessage"
->
-    SCROLL · · ·
-</div>
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
+<!-- ======================================================
+     01 — START
+====================================================== -->
 
 <section class="hero">
 
-    <div class="hero-inner inner reveal">
+    <div class="hero-content reveal">
 
-        <div class="eyebrow">
-            EINE BIOGRAFISCH INSPIRIERTE ERZÄHLUNG
+        <div class="hero-subtitle">
+            Eine biografisch inspirierte Erzählung
         </div>
 
-        <h1>
-
-            <span>
-                JENSEITS
-            </span>
-
-            <span>
-                DER
-            </span>
-
-            <span>
-                GLEICHUNG
-            </span>
-
+        <h1 class="hero-title">
+            <span>Jenseits</span>
+            <span>der</span>
+            <span>Gleichung</span>
         </h1>
 
-        <div class="hero-line"></div>
-
-        <div class="hero-sub">
-            SELBSTFINDUNG · WAHRNEHMUNG · EIGENER WEG
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     INTRO
-===================================================== -->
-
-<section>
-
-    <div class="message reveal">
-
-        <div class="message-number">
-            01 — 08
-        </div>
-
-        <h2>
-
-            Nicht alles lässt sich
-            <span class="highlight">
-                berechnen.
-            </span>
-
-        </h2>
-
-        <p>
-
-            Manche Menschen sehen die Welt anders.
-            Sie erkennen Strukturen, wo andere nur Chaos sehen.
-            Sie suchen nach Regeln in einer Welt,
-            die selbst nicht immer logisch erscheint.
-
-        </p>
-
-        <div class="small-note">
-
-            UND MANCHMAL BEGINNT GENAU DORT
-            DIE EIGENE GESCHICHTE.
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     SIMON
-===================================================== -->
-
-<section>
-
-    <div class="message reveal">
-
-        <div class="message-number">
-            02 — 08
-        </div>
-
-        <h2>
-            Eine Welt voller Regeln.
-        </h2>
-
-        <p>
-
-            Simon wächst in einer Welt auf,
-            deren Regeln für ihn nicht immer
-            selbstverständlich sind.
-
-            Schritt für Schritt beginnt er,
-            seinen eigenen Weg darin zu finden.
-
+        <p class="hero-description">
+            Selbstfindung · Wahrnehmung · eigener Weg
         </p>
 
     </div>
 
+    <div class="scroll-indicator">
+        SCROLL . . .
+    </div>
+
 </section>
 
 
-<!-- =====================================================
-     EQUATION
-===================================================== -->
+<!-- ======================================================
+     02 — DIE GLEICHUNG
+====================================================== -->
 
-<section class="equation-section">
+<section class="equation">
 
-    <div class="inner reveal">
+    <div class="equation-inner reveal">
 
-        <div class="message-number">
-            03 — 08
+        <div class="small-label">
+            01 · DIE FRAGE
         </div>
 
-        <h2>
+        <h2 class="section-title">
             Die Gleichung stimmt.
         </h2>
 
-        <p style="margin-bottom:45px;">
+        <p class="section-subtitle">
             Und trotzdem fehlt etwas.
         </p>
 
-        <div class="equation-stage">
+        <div class="equation-box">
 
-            <div class="formula f1">
+            <div class="equation-main">
                 x + y = ?
             </div>
 
-            <div class="formula f2">
+        </div>
+
+        <div class="equation-details">
+
+            <div>
                 ∞ → ∞
             </div>
 
-            <div class="formula f3">
-                STRUCTURE / PATTERN / ORDER
-            </div>
-
-            <div class="formula f4">
-                ERROR_001
-            </div>
-
-            <div class="center-equation">
+            <div>
                 A ≠ B
             </div>
 
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     DEVELOPMENT
-===================================================== -->
-
-<section>
-
-    <div class="message reveal">
-
-        <div class="message-number">
-            04 — 08
-        </div>
-
-        <h2>
-
-            Was zunächst wie eine
-            Schwäche aussieht,
-            wird zur Stärke.
-
-        </h2>
-
-        <p>
-
-            Mit Ausdauer, einem klaren Blick
-            für Strukturen und seiner besonderen
-            Wahrnehmung entdeckt Simon Fähigkeiten,
-            die ihm neue Möglichkeiten eröffnen.
-
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     ZWEI WEGE
-===================================================== -->
-
-<section>
-
-    <div class="inner reveal">
-
-        <div class="message-number">
-            05 — 08
-        </div>
-
-        <h2>
-            Zwei Wege.
-            Eine Geschichte.
-        </h2>
-
-        <p style="margin-bottom:20px;">
-
-            Das Buch erzählt Simons Geschichte
-            auf zwei unterschiedliche Arten.
-
-        </p>
-
-        <div class="paths">
-
-            <div class="path">
-
-                <div class="path-number">
-                    VERSION 01
-                </div>
-
-                <h3>
-                    Der Roman
-                </h3>
-
-                <p>
-
-                    Eine literarische Reise durch
-                    Kindheit, Schule, Entwicklung
-                    und die Suche nach dem eigenen Platz.
-
-                </p>
-
+            <div>
+                STRUCTURE / PATTERN / ORDER
             </div>
 
-
-            <div class="path">
-
-                <div class="path-number">
-                    VERSION 02
-                </div>
-
-                <h3>
-                    Einfacher Zugang
-                </h3>
-
-                <p>
-
-                    Eine chronologische Fassung
-                    mit kürzeren Sätzen,
-                    größeren Abständen und
-                    leichter zugänglicher Sprache.
-
-                </p>
-
+            <div>
+                ERROR_001
             </div>
 
         </div>
 
     </div>
 
-</section>
-
-
-<!-- =====================================================
-     AUTORIN
-===================================================== -->
-
-<section class="author">
-
-    <div class="author-box reveal">
-
-        <div class="message-number">
-            06 — 08
-        </div>
-
-        <h2>
-            Brigitta Nuß
-        </h2>
-
-        <p>
-
-            Eine Geschichte über Entwicklung,
-            Selbstbestimmung und den Mut,
-            den eigenen Weg zu gehen —
-            auch dann, wenn er nicht den Erwartungen
-            anderer entspricht.
-
-        </p>
-
+    <div class="scroll-indicator">
+        SCROLL . . .
     </div>
 
 </section>
 
 
-<!-- =====================================================
-     COVER IN DER MITTE
-===================================================== -->
+<!-- ======================================================
+     03 — GESCHICHTE
+====================================================== -->
+
+<section class="story">
+
+    <div class="story-inner reveal">
+
+        <div class="small-label">
+            02 · DER BLICK ZURÜCK
+        </div>
+
+        <h2 class="story-title">
+            Jenseits der Gleichung
+        </h2>
+
+        <p class="story-text">
+            Ein Blick auf die Geschichte,
+            bevor du sie selbst aufschlägst.
+        </p>
+
+        <p class="story-text">
+            Manche Dinge lassen sich erklären.
+            Andere müssen erlebt werden.
+        </p>
+
+        <p class="story-text">
+            Zwischen Zahlen, Erinnerungen
+            und Entscheidungen beginnt
+            die Suche nach dem eigenen Weg.
+        </p>
+
+    </div>
+
+    <div class="scroll-indicator">
+        SCROLL . . .
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     04 — COVER
+====================================================== -->
 
 <section class="cover-section">
 
-    <div class="inner reveal">
+    <div class="cover-inner reveal">
 
-        <div class="message-number">
-            07 — 08
+        <div class="small-label">
+            03 · DAS BUCH
         </div>
 
-        <h2>
+        <h2 class="cover-title">
             Jenseits der Gleichung
         </h2>
 
-        <p>
-
+        <p class="cover-subtitle">
             Ein Blick auf die Geschichte,
             bevor du sie selbst aufschlägst.
-
         </p>
 
-
-        <div class="cover-display">
-
-            <!--
-                WICHTIG:
-
-                Diese Datei muss im selben Ordner liegen:
-
-                cover.pdf
-            -->
+        <div class="cover-frame">
 
             <iframe
-                src="cover.pdf#toolbar=0&navpanes=0&scrollbar=0"
-                title="Cover von Jenseits der Gleichung">
+                src="cover.pdf#page=1&view=FitH"
+                title="Buchcover – Jenseits der Gleichung"
+                loading="lazy">
             </iframe>
 
-            <div class="cover-caption">
-
-                BRIGITTA NUSS ·
-                JENSEITS DER GLEICHUNG
-
-            </div>
+            <a
+                class="cover-fallback"
+                href="cover.pdf"
+                target="_blank"
+                rel="noopener">
+                COVER ÖFFNEN
+            </a>
 
         </div>
 
+        <div class="cover-author">
+            Brigitta Nuss · Jenseits der Gleichung
+        </div>
+
+    </div>
+
+    <div class="scroll-indicator">
+        SCROLL . . .
     </div>
 
 </section>
 
 
-<!-- =====================================================
-     KAUFEN
-===================================================== -->
+<!-- ======================================================
+     05 — KAUFEN
+====================================================== -->
 
-<section class="buy">
+<section class="buy-section">
 
-    <div class="buy-box reveal">
+    <div class="buy-inner reveal">
 
-        <div class="message-number">
-            08 — 08
+        <div class="small-label">
+            04 · DAS BUCH LESEN
         </div>
 
-        <h2>
-            Jenseits der Gleichung
+        <h2 class="buy-title">
+            Deine Gleichung.
         </h2>
 
-        <div class="buy-sub">
-
-            BRIGITTA NUSS ·
-            176 SEITEN ·
-            TREDITION
-
-        </div>
-
+        <p class="buy-text">
+            Vielleicht fehlt nicht die richtige Antwort.
+            Vielleicht stellst du nur die falsche Frage.
+        </p>
 
         <div class="buttons">
 
             <a
-                class="button"
-                href="https://www.amazon.de/Jenseits-Gleichung-biografisch-inspirierte-Selbstfindung/dp/338474893X/"
+                class="buy-button"
+                href="https://www.amazon.de/Jenseits-Gleichung-biografisch-inspirierte-Selbstfindung/dp/338474893X"
                 target="_blank"
-                rel="noopener noreferrer"
-            >
-                AMAZON
+                rel="noopener noreferrer">
+
+                BEI AMAZON
+
             </a>
 
-
             <a
-                class="button"
+                class="buy-button"
                 href="https://www.thalia.de/shop/home/artikeldetails/A1078991011"
                 target="_blank"
-                rel="noopener noreferrer"
-            >
-                THALIA
+                rel="noopener noreferrer">
+
+                BEI THALIA
+
             </a>
 
-
             <a
-                class="button"
+                class="buy-button"
                 href="https://www.hugendubel.de/de/taschenbuch/brigitta_nuss-jenseits_der_gleichung-52897707-produkt-details.html"
                 target="_blank"
-                rel="noopener noreferrer"
-            >
-                HUGENDUBEL
+                rel="noopener noreferrer">
+
+                BEI HUGENDUBEL
+
             </a>
 
         </div>
@@ -1823,195 +1483,96 @@ footer p {
 </section>
 
 
-<!-- =====================================================
+<!-- ======================================================
      FOOTER
-===================================================== -->
+====================================================== -->
 
 <footer>
 
-    <div>
+    <div class="footer-links">
 
-        <div class="footer-title">
+        <button onclick="openModal('impressum')">
+            IMPRESSUM
+        </button>
 
-            Vielleicht gibt es
-            keine falsche Gleichung.
+        <button onclick="openModal('datenschutz')">
+            DATENSCHUTZERKLÄRUNG
+        </button>
 
-        </div>
+        <button onclick="openModal('haftung')">
+            HAFTUNGSBESCHRÄNKUNG
+        </button>
 
-        <p>
+    </div>
 
-            MANCHMAL MUSS MAN NUR DEN
-            EIGENEN WEG FINDEN.
+    <div class="footer-copy">
+        © 2026 Jenseits der Gleichung · Alle Rechte vorbehalten.
+    </div>
 
-        </p>
-
+    <div class="made-with">
+        Mit ❤️ gemacht
     </div>
 
 </footer>
 
-
-<!-- =====================================================
-     RECHTLICHES
-===================================================== -->
-
-<section class="legal">
-
-    <div class="legal-inner">
-
-        <div class="legal-title">
-            RECHTLICHES
-        </div>
+</div>
 
 
-        <div class="legal-links">
-
-            <button
-                class="legal-button"
-                onclick="openModal('impressum')"
-            >
-                IMPRESSUM
-            </button>
-
-
-            <button
-                class="legal-button"
-                onclick="openModal('datenschutz')"
-            >
-                DATENSCHUTZERKLÄRUNG
-            </button>
-
-
-            <button
-                class="legal-button"
-                onclick="openModal('haftung')"
-            >
-                HAFTUNGSBESCHRÄNKUNG
-            </button>
-
-        </div>
-
-
-        <div class="made-with">
-
-            MIT
-            <span class="heart">♥</span>
-            GEMACHT
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     IMPRESSUM MODAL
-===================================================== -->
+<!-- ======================================================
+     IMPRESSUM
+====================================================== -->
 
 <div
     class="modal"
     id="impressum"
-    onclick="closeOutside(event, 'impressum')"
->
+    onclick="closeOutside(event, 'impressum')">
 
     <div class="modal-box">
 
         <button
-            class="modal-close"
-            onclick="closeModal('impressum')"
-            aria-label="Fenster schließen"
-        >
+            class="close-modal"
+            onclick="closeModal('impressum')">
             ×
         </button>
 
+        <h2>Impressum</h2>
 
-        <div class="modal-number">
-            RECHTLICHES · 01
-        </div>
+        <!--
+        ====================================================
+        MUSTER – BITTE EIGENE DATEN EINTRAGEN
+        ====================================================
+        -->
 
-        <h2>
-            Impressum
-        </h2>
-
-
-        <h3>
-            Angaben gemäß § 5 DDG
-        </h3>
+        <h3>Angaben gemäß § 5 TMG</h3>
 
         <p>
-
-            <span class="placeholder">
-                [[VORNAME NACHNAME / FIRMA]]
-            </span>
-            <br>
-
-            <span class="placeholder">
-                [[STRASSE UND HAUSNUMMER]]
-            </span>
-            <br>
-
-            <span class="placeholder">
-                [[PLZ UND ORT]]
-            </span>
-            <br>
-
-            <span class="placeholder">
-                [[LAND]]
-            </span>
-
+            Vorname Nachname<br>
+            Straße Hausnummer<br>
+            PLZ Ort<br>
+            Deutschland
         </p>
 
-
-        <h3>
-            Kontakt
-        </h3>
+        <h3>Kontakt</h3>
 
         <p>
-
             E-Mail:
-            <span class="placeholder">
-                [[E-MAIL-ADRESSE]]
-            </span>
-
-            <br><br>
-
-            Telefon:
-            <span class="placeholder">
-                [[TELEFONNUMMER – OPTIONAL]]
-            </span>
-
+            deine-email@example.de
         </p>
 
-
-        <h3>
-            Verantwortlich für den Inhalt
-        </h3>
+        <h3>Verantwortlich für den Inhalt</h3>
 
         <p>
-
-            <span class="placeholder">
-                [[VORNAME NACHNAME]]
-            </span>
-            <br>
-
-            <span class="placeholder">
-                [[ANSCHRIFT]]
-            </span>
-
+            Vorname Nachname<br>
+            Anschrift wie oben
         </p>
 
-
-        <h3>
-            Hinweis
-        </h3>
+        <h3>Hinweis</h3>
 
         <p>
-
-            Dieses Impressum ist ein Muster und muss
-            vor Veröffentlichung an die tatsächlichen
-            Betreiber- und Verantwortlichenangaben
+            Dieses Impressum ist ein Muster und muss vor
+            Veröffentlichung an die tatsächlichen
+            rechtlichen und persönlichen Angaben
             angepasst werden.
-
         </p>
 
     </div>
@@ -2019,168 +1580,100 @@ footer p {
 </div>
 
 
-<!-- =====================================================
-     DATENSCHUTZ MODAL
-===================================================== -->
+<!-- ======================================================
+     DATENSCHUTZ
+====================================================== -->
 
 <div
     class="modal"
     id="datenschutz"
-    onclick="closeOutside(event, 'datenschutz')"
->
+    onclick="closeOutside(event, 'datenschutz')">
 
     <div class="modal-box">
 
         <button
-            class="modal-close"
-            onclick="closeModal('datenschutz')"
-            aria-label="Fenster schließen"
-        >
+            class="close-modal"
+            onclick="closeModal('datenschutz')">
             ×
         </button>
 
+        <h2>Datenschutzerklärung</h2>
 
-        <div class="modal-number">
-            RECHTLICHES · 02
-        </div>
+        <!--
+        ====================================================
+        MUSTER – VOR VERÖFFENTLICHUNG ANPASSEN
+        ====================================================
+        -->
 
-        <h2>
-            Datenschutzerklärung
-        </h2>
-
-
-        <h3>
-            1. Verantwortlicher
-        </h3>
+        <h3>1. Verantwortlicher</h3>
 
         <p>
-
             Verantwortlich für die Verarbeitung
             personenbezogener Daten ist:
-
-            <br><br>
-
-            <span class="placeholder">
-                [[VORNAME NACHNAME / FIRMA]]
-            </span>
-            <br>
-
-            <span class="placeholder">
-                [[ANSCHRIFT]]
-            </span>
-            <br>
-
-            <span class="placeholder">
-                [[E-MAIL]]
-            </span>
-
         </p>
 
-
-        <h3>
-            2. Zugriffsdaten
-        </h3>
-
         <p>
-
-            Beim Aufrufen dieser Website können
-            durch den Hosting-Anbieter technische
-            Zugriffsdaten verarbeitet werden.
-
-            Dazu können insbesondere IP-Adresse,
-            Datum und Uhrzeit des Zugriffs,
-            aufgerufene Seiten und technische
-            Informationen zum verwendeten Endgerät
-            gehören.
-
+            Vorname Nachname<br>
+            Straße Hausnummer<br>
+            PLZ Ort<br>
+            E-Mail: deine-email@example.de
         </p>
 
-
-        <h3>
-            3. Externe Links
-        </h3>
+        <h3>2. Allgemeine Hinweise</h3>
 
         <p>
+            Der Schutz deiner persönlichen Daten ist uns
+            wichtig. Personenbezogene Daten werden nur
+            verarbeitet, soweit dies für den Betrieb dieser
+            Website erforderlich ist oder eine entsprechende
+            Rechtsgrundlage besteht.
+        </p>
 
+        <h3>3. Hosting</h3>
+
+        <p>
+            Diese Website wird über einen Hosting-Anbieter
+            bereitgestellt. Bitte ergänze hier den tatsächlich
+            verwendeten Anbieter sowie die entsprechenden
+            Informationen zur Verarbeitung von Zugriffsdaten
+            und Server-Logfiles.
+        </p>
+
+        <h3>4. Externe Links</h3>
+
+        <p>
             Diese Website enthält Links zu externen
-            Webseiten, insbesondere zu Buchhandlungen
-            und Verkaufsplattformen.
-
-            Beim Anklicken eines solchen Links gelten
-            die Datenschutzbestimmungen des jeweiligen
-            externen Anbieters.
-
+            Verkaufsplattformen. Beim Aufrufen dieser Links
+            gelten die Datenschutzbestimmungen des jeweiligen
+            Anbieters.
         </p>
 
-
-        <h3>
-            4. Schriftarten
-        </h3>
+        <h3>5. Cookies und Tracking</h3>
 
         <p>
-
-            Diese Website verwendet derzeit
-            Schriftarten, die über Google Fonts
-            eingebunden werden.
-
-            <br><br>
-
-            <strong>
-                WICHTIG:
-            </strong>
-
-            Vor Veröffentlichung sollte geprüft werden,
-            ob die verwendete Einbindung den gewünschten
-            datenschutzrechtlichen Anforderungen entspricht.
-
+            Bitte ergänze diesen Abschnitt entsprechend der
+            tatsächlich eingesetzten Cookies, Analysewerkzeuge
+            oder sonstigen Tracking-Technologien.
         </p>
 
-
-        <h3>
-            5. Kontakt
-        </h3>
+        <h3>6. Betroffenenrechte</h3>
 
         <p>
-
-            Wenn du Kontakt per E-Mail aufnimmst,
-            werden die von dir übermittelten Angaben
-            ausschließlich zur Bearbeitung deiner
-            Anfrage verwendet, soweit keine anderen
-            gesetzlichen Pflichten bestehen.
-
+            Betroffene Personen können im Rahmen der
+            gesetzlichen Bestimmungen unter anderem Auskunft,
+            Berichtigung, Löschung und Einschränkung der
+            Verarbeitung ihrer personenbezogenen Daten
+            verlangen.
         </p>
 
-
-        <h3>
-            6. Deine Rechte
-        </h3>
+        <h3>Wichtiger Hinweis</h3>
 
         <p>
-
-            Betroffene Personen haben grundsätzlich
-            die gesetzlichen Rechte auf Auskunft,
-            Berichtigung, Löschung, Einschränkung
-            der Verarbeitung und gegebenenfalls
-            Datenübertragbarkeit sowie das Recht,
-            sich bei einer Datenschutzaufsichtsbehörde
-            zu beschweren.
-
-        </p>
-
-
-        <h3>
-            Muster-Hinweis
-        </h3>
-
-        <p>
-
-            Dieser Text ist ein allgemeines Muster.
-            Vor Veröffentlichung muss geprüft werden,
-            welche Dienste tatsächlich auf dieser
-            Website eingesetzt werden und welche
-            personenbezogenen Daten dabei verarbeitet
-            werden.
-
+            Diese Datenschutzerklärung ist ausdrücklich nur
+            ein Muster. Sie sollte vor der Veröffentlichung
+            anhand des tatsächlichen Hostings, der verwendeten
+            Dienste und der tatsächlichen Datenverarbeitung
+            rechtlich geprüft und angepasst werden.
         </p>
 
     </div>
@@ -2188,105 +1681,68 @@ footer p {
 </div>
 
 
-<!-- =====================================================
+<!-- ======================================================
      HAFTUNGSBESCHRÄNKUNG
-===================================================== -->
+====================================================== -->
 
 <div
     class="modal"
     id="haftung"
-    onclick="closeOutside(event, 'haftung')"
->
+    onclick="closeOutside(event, 'haftung')">
 
     <div class="modal-box">
 
         <button
-            class="modal-close"
-            onclick="closeModal('haftung')"
-            aria-label="Fenster schließen"
-        >
+            class="close-modal"
+            onclick="closeModal('haftung')">
             ×
         </button>
 
+        <h2>Haftungsbeschränkung</h2>
 
-        <div class="modal-number">
-            RECHTLICHES · 03
-        </div>
+        <!--
+        ====================================================
+        MUSTER
+        ====================================================
+        -->
 
-        <h2>
-            Haftungsbeschränkung
-        </h2>
-
-
-        <h3>
-            Haftung für Inhalte
-        </h3>
+        <h3>Haftung für Inhalte</h3>
 
         <p>
-
-            Die Inhalte dieser Website wurden
-            mit größtmöglicher Sorgfalt erstellt.
-
-            Für die Richtigkeit, Vollständigkeit
-            und Aktualität der Inhalte kann jedoch
-            keine Gewähr übernommen werden, soweit
-            gesetzlich zulässig.
-
+            Die Inhalte dieser Website wurden nach bestem
+            Wissen erstellt. Es wird jedoch keine Gewähr für
+            die Richtigkeit, Vollständigkeit oder Aktualität
+            der bereitgestellten Informationen übernommen.
         </p>
 
-
-        <h3>
-            Haftung für Links
-        </h3>
+        <h3>Haftung für externe Links</h3>
 
         <p>
-
-            Diese Website enthält Links zu externen
-            Webseiten Dritter.
-
-            Auf deren Inhalte besteht kein
-            unmittelbarer Einfluss.
-
-            Für die Inhalte verlinkter Seiten ist
-            grundsätzlich der jeweilige Betreiber
+            Diese Website kann Links zu externen Websites
+            enthalten. Auf deren Inhalte besteht kein
+            unmittelbarer Einfluss. Für die Inhalte externer
+            Websites ist grundsätzlich der jeweilige Betreiber
             verantwortlich.
-
         </p>
 
-
-        <h3>
-            Urheberrecht
-        </h3>
+        <h3>Urheberrecht</h3>
 
         <p>
-
-            Die auf dieser Website veröffentlichten
-            Inhalte und Werke unterliegen grundsätzlich
-            dem geltenden Urheberrecht.
-
-            Eine Vervielfältigung, Bearbeitung,
-            Verbreitung oder sonstige Verwertung
-            außerhalb der gesetzlichen Grenzen
-            bedarf der Zustimmung des jeweiligen
+            Die auf dieser Website veröffentlichten Inhalte
+            und Werke unterliegen grundsätzlich dem geltenden
+            Urheberrecht. Eine Verwendung, Vervielfältigung
+            oder Verbreitung über die gesetzlichen Grenzen
+            hinaus bedarf der Zustimmung des jeweiligen
             Rechteinhabers.
-
         </p>
 
-
-        <h3>
-            Hinweis
-        </h3>
+        <h3>Hinweis</h3>
 
         <p>
-
-            Dieser Text ist ein allgemeines Muster
-            und ersetzt keine individuelle rechtliche
-            Beratung.
-
-            Vor Veröffentlichung sollte die konkrete
-            rechtliche Situation der Website geprüft
-            und der Text entsprechend angepasst werden.
-
+            Dieser Text ist ein Muster und stellt keine
+            individuelle Rechtsberatung dar. Bitte passe ihn
+            an deine tatsächlichen Gegebenheiten an und lasse
+            ihn gegebenenfalls rechtlich prüfen.
         </p>
 
     </div>
@@ -2296,213 +1752,46 @@ footer p {
 
 <script>
 
-
-/* =====================================================
+/* =========================================================
    SCROLL REVEAL
-===================================================== */
+========================================================= */
 
 const revealElements =
     document.querySelectorAll(".reveal");
 
-
-const observer =
+const revealObserver =
     new IntersectionObserver(
+        (entries) => {
 
-        entries => {
-
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
 
                 if (entry.isIntersecting) {
 
-                    entry.target
-                        .classList
-                        .add("visible");
+                    entry.target.classList.add("visible");
 
+                    revealObserver.unobserve(
+                        entry.target
+                    );
                 }
 
             });
 
         },
-
         {
-            threshold: 0.18
+            threshold: 0.12
         }
-
     );
 
+revealElements.forEach((element) => {
 
-revealElements.forEach(
-    el => observer.observe(el)
-);
+    revealObserver.observe(element);
 
-
-/* =====================================================
-   SCROLL INDICATOR
-===================================================== */
-
-const scrollMessage =
-    document.getElementById(
-        "scrollMessage"
-    );
+});
 
 
-window.addEventListener(
-    "scroll",
-    () => {
-
-        const amount =
-            window.scrollY;
-
-        if (amount > 120) {
-
-            scrollMessage.style.opacity =
-                "0";
-
-        } else {
-
-            scrollMessage.style.opacity =
-                "1";
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   PARALLAX
-===================================================== */
-
-const equations =
-    document.querySelectorAll(
-        ".equation"
-    );
-
-
-window.addEventListener(
-    "scroll",
-    () => {
-
-        const scroll =
-            window.scrollY;
-
-        equations.forEach(
-            (eq, index) => {
-
-                const speed =
-                    (index + 1) * 0.035;
-
-                eq.style.transform =
-                    `translateY(${scroll * speed}px)
-                     rotate(${index % 2 === 0 ? -6 : 6}deg)`;
-
-            }
-        );
-
-    }
-);
-
-
-/* =====================================================
-   EQUATION MOVEMENT
-===================================================== */
-
-const stage =
-    document.querySelector(
-        ".equation-stage"
-    );
-
-
-window.addEventListener(
-    "scroll",
-    () => {
-
-        if (!stage) return;
-
-        const rect =
-            stage.getBoundingClientRect();
-
-        const center =
-            window.innerHeight / 2;
-
-        const distance =
-            (center - rect.top)
-            / window.innerHeight;
-
-        const formulas =
-            document.querySelectorAll(
-                ".formula"
-            );
-
-
-        formulas.forEach(
-            (formula, index) => {
-
-                const direction =
-                    index % 2 === 0
-                    ? 1
-                    : -1;
-
-                const movement =
-                    Math.max(
-                        -35,
-                        Math.min(
-                            35,
-                            distance *
-                            40 *
-                            direction
-                        )
-                    );
-
-
-                formula.style.transform =
-                    `translate(
-                        ${movement}px,
-                        ${movement * .35}px
-                    )`;
-
-            }
-        );
-
-    }
-);
-
-
-/* =====================================================
-   COVER MOVEMENT
-===================================================== */
-
-const cover =
-    document.querySelector(
-        ".cover"
-    );
-
-
-window.addEventListener(
-    "scroll",
-    () => {
-
-        if (!cover) return;
-
-        const scroll =
-            window.scrollY;
-
-        const scale =
-            Math.max(
-                .86,
-                1 - scroll / 5000
-            );
-
-        cover.style.transform =
-            `scale(${scale})`;
-
-    }
-);
-
-
-/* =====================================================
-   RECHTLICHE MODALS
-===================================================== */
+/* =========================================================
+   MODALS
+========================================================= */
 
 function openModal(id) {
 
@@ -2513,8 +1802,7 @@ function openModal(id) {
 
     modal.classList.add("active");
 
-    document.body.style.overflow =
-        "hidden";
+    document.body.style.overflow = "hidden";
 }
 
 
@@ -2527,19 +1815,13 @@ function closeModal(id) {
 
     modal.classList.remove("active");
 
-    document.body.style.overflow =
-        "";
+    document.body.style.overflow = "";
 }
 
 
-function closeOutside(
-    event,
-    id
-) {
+function closeOutside(event, id) {
 
-    if (
-        event.target.id === id
-    ) {
+    if (event.target.id === id) {
 
         closeModal(id);
 
@@ -2548,30 +1830,45 @@ function closeOutside(
 }
 
 
-/* =====================================================
-   ESC-TASTE
-===================================================== */
+/* =========================================================
+   ESCAPE = MODAL SCHLIESSEN
+========================================================= */
 
 document.addEventListener(
     "keydown",
-    event => {
+    function(event) {
 
-        if (event.key === "Escape") {
+        if (event.key !== "Escape") return;
 
-            document
-                .querySelectorAll(".modal.active")
-                .forEach(modal => {
+        document
+            .querySelectorAll(".modal.active")
+            .forEach((modal) => {
 
-                    modal.classList.remove(
-                        "active"
-                    );
+                modal.classList.remove("active");
 
-                });
+            });
 
-            document.body.style.overflow =
-                "";
+        document.body.style.overflow = "";
 
-        }
+    }
+);
+
+
+/* =========================================================
+   VERHINDERT SCROLL-PROBLEME AUF MOBILGERÄTEN
+========================================================= */
+
+window.addEventListener(
+    "orientationchange",
+    () => {
+
+        setTimeout(() => {
+
+            window.dispatchEvent(
+                new Event("resize")
+            );
+
+        }, 250);
 
     }
 );
