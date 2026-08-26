@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 
 <title>Nur ein Pfiff</title>
 
@@ -12,7 +12,7 @@
 <style>
 
 /* =========================================================
-   GRUNDLAYOUT
+   GRUNDLAGEN
 ========================================================= */
 
 *{
@@ -21,776 +21,936 @@
     box-sizing:border-box;
 }
 
+html,
+body{
+    width:100%;
+    min-height:100%;
+}
+
 html{
-    scroll-behavior:smooth;
+    background:#000;
+    scroll-behavior:auto;
 }
 
 body{
     background:#000;
-    color:#f4f4f4;
+    color:#eee;
     font-family:'Special Elite', monospace;
     overflow-x:hidden;
 }
 
+/* Die echte Scrollfläche.
+   Die sichtbare Website bleibt darunter komplett fixiert. */
+
+.scroll-space{
+    height:720vh;
+    width:100%;
+    position:relative;
+    z-index:0;
+}
+
 /* =========================================================
-   FESTER HORROR-HINTERGRUND
+   FESTE HORROR-BÜHNE
 ========================================================= */
 
-.background{
+.horror-stage{
     position:fixed;
     inset:0;
-    z-index:-20;
+    width:100%;
+    height:100dvh;
     overflow:hidden;
     background:
         radial-gradient(
-            ellipse at center,
-            rgba(90,0,0,.035),
-            rgba(0,0,0,.98) 72%
+            ellipse at 50% 45%,
+            rgba(55,0,0,.16),
+            rgba(0,0,0,.72) 55%,
+            #000 100%
         );
+    z-index:10;
+    pointer-events:none;
 }
 
-/* Nebel */
+/* =========================================================
+   ATMOSPHÄRE / NEBEL
+========================================================= */
 
 .fog{
     position:absolute;
     inset:-20%;
     opacity:0;
+    filter:blur(35px);
     background:
         radial-gradient(
-            ellipse at 25% 50%,
-            rgba(130,130,130,.10),
-            transparent 38%
+            ellipse at 30% 45%,
+            rgba(105,105,105,.11),
+            transparent 32%
         ),
         radial-gradient(
-            ellipse at 75% 45%,
-            rgba(100,100,100,.08),
-            transparent 42%
+            ellipse at 70% 55%,
+            rgba(80,80,80,.10),
+            transparent 34%
         ),
         radial-gradient(
             ellipse at 50% 80%,
-            rgba(100,0,0,.07),
+            rgba(85,0,0,.14),
             transparent 40%
         );
-    filter:blur(45px);
     transform:scale(1.1);
-    transition:
-        opacity 1s ease,
-        transform 1.5s ease;
+    transition:opacity:.15s linear;
+    animation:fogMove 16s ease-in-out infinite alternate;
 }
 
-.fog.fog-visible{
-    opacity:1;
-}
-
-.fog.fog-deep{
-    transform:scale(1.28);
-}
-
-/* Dunkler roter Puls */
-
-.red-glow{
-    position:absolute;
-    inset:-20%;
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(110,0,0,.10),
-            transparent 55%
-        );
-    opacity:0;
-    transition:opacity 1.5s ease;
-    animation:redPulse 8s infinite ease-in-out;
-}
-
-@keyframes redPulse{
-
-    0%,100%{
-        transform:scale(1);
+@keyframes fogMove{
+    0%{
+        transform:translate3d(-2%,0,0) scale(1.1);
     }
 
     50%{
-        transform:scale(1.08);
+        transform:translate3d(2%,-1%,0) scale(1.15);
     }
 
+    100%{
+        transform:translate3d(-1%,2%,0) scale(1.12);
+    }
 }
 
-/* Körnung */
+/* sehr feine dunkle Struktur */
 
-.background::after{
-    content:"";
+.noise{
     position:absolute;
     inset:0;
-    opacity:.075;
-    pointer-events:none;
-
+    opacity:.10;
     background-image:
-        repeating-radial-gradient(
-            circle at 0 0,
-            rgba(255,255,255,.15) 0,
-            rgba(255,255,255,.15) 1px,
+        repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,.018) 0px,
+            rgba(255,255,255,.018) 1px,
             transparent 1px,
-            transparent 4px
+            transparent 5px
         );
-
-    background-size:7px 7px;
     mix-blend-mode:screen;
 }
 
 /* =========================================================
-   HAUPTBÜHNE
+   BLUTROTER ATMOSPHÄREN-GLANZ
 ========================================================= */
 
-.stage{
-    position:relative;
+.red-vignette{
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 30%,
+            rgba(70,0,0,.08) 65%,
+            rgba(110,0,0,.12) 100%
+        );
+    opacity:.6;
+}
+
+/* =========================================================
+   COVER OBEN RECHTS
+========================================================= */
+
+.cover-wrap{
+    position:absolute;
+    top:clamp(16px,4vh,48px);
+    right:clamp(14px,3vw,55px);
+
+    width:clamp(76px,9vw,145px);
+
+    z-index:80;
+
+    opacity:.88;
+
+    filter:
+        drop-shadow(0 0 10px rgba(120,0,0,.35))
+        drop-shadow(0 0 25px rgba(0,75,105,.12));
+
+    transition:
+        transform .5s ease,
+        opacity .5s ease;
+}
+
+.cover-wrap:hover{
+    transform:scale(1.04);
+    opacity:1;
+}
+
+.cover-wrap img{
+    display:block;
     width:100%;
+    height:auto;
+    max-height:28vh;
+    object-fit:contain;
+
+    border:1px solid rgba(145,0,0,.65);
+
+    box-shadow:
+        0 0 15px rgba(130,0,0,.35),
+        0 0 35px rgba(0,80,110,.10);
 }
 
 /*
-   Die einzelnen Bereiche sind weiterhin scrollbar,
-   aber alles bleibt mittig auf einer "Bühne".
+Fallback, falls cover.jpg noch nicht vorhanden ist.
 */
 
-.scene{
-    position:relative;
-    min-height:100vh;
-    width:100%;
+.cover-fallback{
+    display:none;
+    aspect-ratio:2 / 3;
+    background:
+        linear-gradient(
+            160deg,
+            #061b29,
+            #0a668b 40%,
+            #050505 70%,
+            #210000
+        );
+    border:1px solid #a00000;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:10px;
+
+    color:#fff;
+    font-size:clamp(.55rem,1vw,.8rem);
+    letter-spacing:3px;
+}
+
+/* =========================================================
+   SEITENNUMMER
+========================================================= */
+
+.page-counter{
+    position:absolute;
+    left:clamp(18px,6vw,100px);
+    top:50%;
+    transform:translateY(-50%);
+
+    color:rgba(155,155,155,.32);
+
+    font-size:clamp(.55rem,.9vw,.8rem);
+    letter-spacing:5px;
+
+    writing-mode:vertical-rl;
+
+    z-index:30;
+}
+
+/* =========================================================
+   HAUPTINHALT
+========================================================= */
+
+.content{
+    position:absolute;
+    inset:0;
 
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
+
+    text-align:center;
 
     padding:
-        clamp(80px,10vh,140px)
-        clamp(20px,5vw,80px);
+        clamp(30px,6vw,100px)
+        clamp(20px,8vw,140px);
 
-    isolation:isolate;
+    z-index:20;
 }
 
 /* =========================================================
-   NAV / COVER
+   INTRO
 ========================================================= */
 
-.cover-preview{
-    position:fixed;
-    top:28px;
-    right:28px;
+.intro-content{
+    position:absolute;
+    width:min(1000px,90vw);
 
-    width:105px;
-    height:150px;
+    top:50%;
+    left:50%;
 
-    z-index:500;
-
-    border:1px solid rgba(180,0,0,.75);
-
-    background:#050505;
-
-    box-shadow:
-        0 0 20px rgba(100,0,0,.35),
-        0 0 45px rgba(80,0,0,.15);
-
-    overflow:hidden;
+    transform:
+        translate(-50%,-42%);
 
     transition:
-        transform .4s ease,
-        box-shadow .4s ease;
+        opacity .15s linear,
+        transform .15s linear;
 }
 
-.cover-preview:hover{
-    transform:scale(1.06);
+.intro-kicker{
+    color:rgba(120,120,120,.18);
+    font-size:clamp(.65rem,1.2vw,1rem);
+    letter-spacing:clamp(5px,1vw,13px);
 
-    box-shadow:
-        0 0 25px rgba(150,0,0,.65),
-        0 0 60px rgba(100,0,0,.35);
+    margin-bottom:clamp(28px,5vh,60px);
 }
 
-.cover-preview object{
-    width:100%;
-    height:100%;
-    border:0;
-    display:block;
-    background:#050505;
-}
-
-/* =========================================================
-   STARTSEITE
-========================================================= */
-
-.hero{
-    text-align:center;
-    flex-direction:column;
-}
-
-.hero-inner{
-    width:min(1100px,94vw);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-}
-
-/* kleine Überschrift */
-
-.eyebrow{
-    color:rgba(220,220,220,.48);
-
-    font-size:
-        clamp(.65rem,1.3vw,1rem);
-
-    letter-spacing:
-        clamp(6px,1.5vw,15px);
+.scroll-message{
+    color:rgba(160,160,160,.22);
+    font-size:clamp(.65rem,1.3vw,1.05rem);
+    letter-spacing:clamp(5px,1vw,12px);
 
     text-transform:uppercase;
 
-    margin-bottom:24px;
-
-    opacity:0;
-    transform:translateY(20px);
+    text-shadow:
+        0 0 10px rgba(160,160,160,.15);
 
     transition:
-        opacity 1.5s ease,
-        transform 1.5s ease;
+        color .2s linear,
+        text-shadow .2s linear,
+        opacity .2s linear;
 }
 
-.hero.active .eyebrow{
-    opacity:1;
-    transform:translateY(0);
+.scroll-line{
+    width:min(360px,55vw);
+    height:1px;
+
+    margin:25px auto 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(140,140,140,.15),
+            transparent
+        );
+
+    transform-origin:center;
+    transition:transform .2s linear;
 }
 
-/* Titel */
+/* =========================================================
+   TITEL
+========================================================= */
 
-.main-title{
+.title-content{
+    position:absolute;
 
-    font-size:
-        clamp(4rem,12vw,11rem);
+    width:min(1100px,90vw);
 
-    line-height:.78;
+    top:50%;
+    left:50%;
+
+    transform:
+        translate(-50%,-48%);
+
+    opacity:0;
+
+    transition:
+        opacity .2s linear,
+        transform .2s linear;
+}
+
+.kicker{
+    color:#737373;
+
+    font-size:clamp(.55rem,1.15vw,1rem);
 
     letter-spacing:
         clamp(5px,1vw,15px);
 
-    color:#f2eeee;
-
-    text-align:center;
-
-    text-shadow:
-        0 0 8px rgba(255,255,255,.45),
-        0 0 25px rgba(110,0,0,.85),
-        0 0 65px rgba(90,0,0,.45);
-
-    opacity:0;
-
-    transform:
-        translateY(60px)
-        scale(.96);
-
-    transition:
-        opacity 1.6s ease,
-        transform 1.6s cubic-bezier(.2,.8,.2,1);
-}
-
-.hero.active .main-title{
-    opacity:1;
-
-    transform:
-        translateY(0)
-        scale(1);
-}
-
-/* Untertitel */
-
-.hero-subtitle{
-
-    margin-top:48px;
-
-    width:min(720px,90vw);
-
-    padding-top:25px;
-
-    border-top:
-        1px solid rgba(120,0,0,.42);
-
-    color:#8f1111;
-
-    font-size:
-        clamp(.7rem,1.5vw,1.1rem);
-
-    letter-spacing:
-        clamp(5px,1.3vw,13px);
+    margin-bottom:clamp(32px,7vh,85px);
 
     text-transform:uppercase;
 
-    opacity:0;
-
-    transition:
-        opacity 1.5s ease 1s;
+    text-shadow:
+        0 0 8px rgba(255,255,255,.06);
 }
 
-.hero.active .hero-subtitle{
-    opacity:.9;
-}
+.blood-title{
 
-/* Scroll */
-
-.scroll-indicator{
-
-    margin-top:55px;
-
-    color:#8d1515;
+    color:#f4eeee;
 
     font-size:
-        clamp(.65rem,1vw,.9rem);
+        clamp(3.3rem,10vw,10rem);
+
+    line-height:.78;
 
     letter-spacing:
-        clamp(7px,1.5vw,14px);
+        clamp(4px,1vw,13px);
 
-    animation:
-        scrollPulse 3s infinite ease-in-out;
+    text-transform:uppercase;
 
-    opacity:.7;
+    text-shadow:
+        0 0 5px rgba(255,255,255,.9),
+        0 0 18px rgba(180,0,0,.75),
+        0 0 42px rgba(105,0,0,.55),
+        0 0 80px rgba(50,0,0,.35);
+
+    animation:titlePulse 5s ease-in-out infinite;
+}
+
+@keyframes titlePulse{
+
+    0%,100%{
+        filter:brightness(.92);
+    }
+
+    50%{
+        filter:brightness(1.08);
+    }
+
+}
+
+.title-divider{
+
+    width:min(680px,75vw);
+
+    height:1px;
+
+    margin:
+        clamp(28px,6vh,65px)
+        auto
+        clamp(22px,4vh,42px);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(120,0,0,.65),
+            transparent
+        );
+}
+
+.title-message{
+
+    color:#a5a5a5;
+
+    font-size:clamp(.75rem,1.45vw,1.25rem);
+
+    line-height:2;
+
+    letter-spacing:
+        clamp(3px,.6vw,8px);
+
+    max-width:850px;
+
+    margin:auto;
+}
+
+.scroll-label{
+
+    margin-top:
+        clamp(30px,6vh,60px);
+
+    color:rgba(150,150,150,.65);
+
+    font-size:.7rem;
+
+    letter-spacing:9px;
+
+    text-transform:uppercase;
+
+    animation:scrollPulse 3s ease-in-out infinite;
 }
 
 @keyframes scrollPulse{
 
     0%,100%{
         opacity:.25;
-        transform:translateY(0);
     }
 
     50%{
-        opacity:1;
-        transform:translateY(8px);
+        opacity:.75;
     }
 
 }
 
 /* =========================================================
-   HORROR-TEXT
+   TEXT / GRAFIK
 ========================================================= */
 
-.story{
-    flex-direction:column;
-    text-align:center;
-}
-
-.story-inner{
-    width:min(1000px,92vw);
-}
-
-/* Geheimnis */
-
-.secret-code{
-
-    display:inline-block;
-
-    color:#d31919;
-
-    font-size:
-        clamp(1rem,2.2vw,1.7rem);
-
-    letter-spacing:
-        clamp(2px,.7vw,6px);
-
-    text-shadow:
-        0 0 8px rgba(150,0,0,.75),
-        0 0 25px rgba(100,0,0,.35);
-
-    position:relative;
-
-    margin-bottom:
-        clamp(70px,10vh,125px);
-
-    opacity:0;
-
-    transform:translateY(35px);
-
-    transition:
-        opacity 1.2s ease,
-        transform 1.2s ease;
-}
-
-.story.active .secret-code{
-    opacity:1;
-    transform:translateY(0);
-}
-
-/* Rote Linie */
-
-.secret-code::after{
-
-    content:"";
+.story-content{
 
     position:absolute;
 
+    width:min(1050px,88vw);
+
     left:50%;
-    transform:translateX(-50%);
+    top:50%;
 
-    bottom:-38px;
-
-    width:
-        clamp(160px,35vw,420px);
-
-    height:1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(140,0,0,.7),
-            transparent
-        );
-
-    box-shadow:
-        0 0 12px rgba(140,0,0,.35);
-}
-
-/* Story Text */
-
-.story-text{
-
-    color:#c51b1b;
-
-    font-size:
-        clamp(1rem,2vw,1.45rem);
-
-    line-height:2.15;
-
-    letter-spacing:
-        clamp(.5px,.15vw,1.5px);
-
-    max-width:850px;
-
-    margin:auto;
-
-    text-shadow:
-        0 0 8px rgba(120,0,0,.45);
+    transform:
+        translate(-50%,-50%);
 
     opacity:0;
 
-    transform:translateY(40px);
-
     transition:
-        opacity 1.3s ease .35s,
-        transform 1.3s ease .35s;
+        opacity .15s linear;
 }
 
-.story.active .story-text{
-    opacity:1;
-    transform:translateY(0);
-}
+.secret-code{
 
-/* einzelne Absätze */
+    color:#b41414;
 
-.story-text p{
-    margin-bottom:34px;
-}
+    font-size:
+        clamp(.85rem,1.7vw,1.45rem);
 
-.story-text p:last-child{
-    margin-bottom:0;
-}
+    letter-spacing:
+        clamp(2px,.5vw,6px);
 
-.whisper{
-    color:#6f1010;
-    font-size:.82em;
-    letter-spacing:3px;
+    text-shadow:
+        0 0 8px rgba(160,0,0,.65),
+        0 0 22px rgba(110,0,0,.3);
+
+    white-space:normal;
+
+    overflow-wrap:anywhere;
+
+    margin-bottom:
+        clamp(70px,11vh,125px);
 }
 
 /* =========================================================
-   KRATZER / BLUTSPUR
+   KRATZER
 ========================================================= */
 
 .scratch-area{
 
     position:relative;
 
-    width:min(760px,88vw);
+    width:min(850px,82vw);
 
-    height:75px;
+    height:clamp(90px,12vh,150px);
 
-    margin:
-        55px auto
-        40px;
+    margin:0 auto;
 
-    overflow:hidden;
+    pointer-events:none;
 }
 
 .scratch{
-
     position:absolute;
 
-    left:0;
+    left:50%;
     top:50%;
 
     width:0;
-    height:7px;
+
+    height:clamp(3px,.45vw,7px);
 
     transform:
-        translateY(-50%)
-        rotate(-2deg);
+        translate(-50%,-50%)
+        rotate(-4deg);
+
+    transform-origin:left center;
 
     background:
         linear-gradient(
             90deg,
-            rgba(70,0,0,.2),
-            #a00000 20%,
-            #e00000 55%,
-            #650000
+            #5d0000,
+            #d20a0a 25%,
+            #a00000 75%,
+            #4d0000
         );
 
+    border-radius:60% 25% 65% 35%;
+
     box-shadow:
-        0 0 8px rgba(150,0,0,.75),
-        0 0 22px rgba(100,0,0,.4);
+        0 0 6px rgba(180,0,0,.8),
+        0 0 16px rgba(130,0,0,.45);
 
-    transition:
-        width .15s linear;
-
-    border-radius:50%;
+    transition:width .1s linear;
 }
+
+/* unregelmäßige Seitenkratzer */
 
 .scratch::before,
 .scratch::after{
-
     content:"";
 
     position:absolute;
 
-    left:0;
-
-    width:100%;
-
-    border-radius:50%;
-
-    background:#8f0000;
-
-}
-
-.scratch::before{
-
-    top:-7px;
-
-    height:3px;
-
-    opacity:.75;
-
-}
-
-.scratch::after{
-
-    top:9px;
+    left:8%;
 
     height:2px;
 
-    opacity:.55;
+    background:#7d0000;
 
+    border-radius:100%;
+
+    transform-origin:left center;
+}
+
+.scratch::before{
+    width:45%;
+    top:-7px;
+    transform:rotate(-3deg);
+}
+
+.scratch::after{
+    width:30%;
+    top:8px;
+    transform:rotate(5deg);
+}
+
+/* kleine Blutspritzer am Kratzer */
+
+.splatter{
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    background:#9e0000;
+
+    border-radius:50%;
+
+    opacity:.8;
+
+    box-shadow:
+        0 0 7px rgba(160,0,0,.6);
+}
+
+.splatter:nth-child(2){
+    left:17%;
+    top:32%;
+}
+
+.splatter:nth-child(3){
+    left:71%;
+    top:64%;
+    width:4px;
+    height:4px;
+}
+
+.splatter:nth-child(4){
+    left:83%;
+    top:38%;
+    width:3px;
+    height:3px;
+}
+
+.story-text{
+
+    color:#c01818;
+
+    font-size:
+        clamp(.9rem,1.7vw,1.45rem);
+
+    line-height:2.25;
+
+    letter-spacing:
+        clamp(1px,.3vw,4px);
+
+    max-width:920px;
+
+    margin:auto;
+
+    text-shadow:
+        0 0 10px rgba(125,0,0,.45);
+}
+
+.story-text strong{
+    color:#e11a1a;
 }
 
 /* =========================================================
-   BESTELLBEREICH
+   WEITERE STORY
 ========================================================= */
 
-.buy-scene{
-    flex-direction:column;
+.story-two{
+
+    position:absolute;
+
+    width:min(850px,88vw);
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    opacity:0;
 }
 
-.buy-wrapper{
+.story-two p{
 
-    width:min(900px,94vw);
+    color:#9e1010;
 
-    position:relative;
+    font-size:
+        clamp(.85rem,1.55vw,1.3rem);
 
-    text-align:center;
+    line-height:2.4;
+
+    letter-spacing:
+        clamp(1px,.3vw,3px);
+
+    margin:25px 0;
 }
 
-/* Überschrift */
+.story-two .warning{
 
-.buy-label{
+    color:#dedede;
+
+    font-size:
+        clamp(1rem,2vw,1.6rem);
+
+    text-shadow:
+        0 0 15px rgba(255,255,255,.15);
+}
+
+/* =========================================================
+   KAUFBEREICH
+========================================================= */
+
+.buy-content{
+
+    position:absolute;
+
+    width:min(1000px,90vw);
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.94);
+
+    opacity:0;
+
+    transition:
+        opacity .2s linear,
+        transform .2s linear;
+}
+
+.section-label{
 
     display:inline-block;
 
-    padding:
-        14px 30px;
+    color:#b30a0a;
 
-    border:
-        1px solid rgba(160,0,0,.8);
+    border:1px solid rgba(150,0,0,.7);
 
-    color:#d01919;
+    padding:12px 34px;
 
-    font-size:
-        clamp(.75rem,1.5vw,1rem);
+    margin-bottom:28px;
 
-    letter-spacing:
-        clamp(4px,1vw,9px);
+    letter-spacing:8px;
 
-    text-transform:uppercase;
-
-    margin-bottom:25px;
+    font-size:clamp(.65rem,1vw,.9rem);
 
     box-shadow:
-        0 0 20px rgba(100,0,0,.2);
+        0 0 18px rgba(110,0,0,.16);
 }
 
-/* Hauptbutton */
+.buy-box{
+
+    position:relative;
+
+    width:100%;
+
+    padding:
+        clamp(35px,6vw,75px)
+        clamp(22px,6vw,70px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(7,7,7,.96),
+            rgba(24,0,0,.62),
+            rgba(5,5,5,.96)
+        );
+
+    border:
+        1px solid rgba(160,0,0,.72);
+
+    box-shadow:
+        0 0 35px rgba(100,0,0,.20),
+        inset 0 0 45px rgba(90,0,0,.08);
+
+    overflow:visible;
+}
+
+.buy-title{
+
+    color:#f0eeee;
+
+    font-size:
+        clamp(1.7rem,4vw,3.5rem);
+
+    letter-spacing:
+        clamp(3px,.8vw,9px);
+
+    text-shadow:
+        0 0 12px rgba(255,255,255,.18),
+        0 0 25px rgba(130,0,0,.3);
+
+    margin-bottom:18px;
+}
+
+.buy-subtitle{
+
+    color:#777;
+
+    font-size:clamp(.7rem,1.1vw,1rem);
+
+    letter-spacing:4px;
+
+    margin-bottom:38px;
+}
+
+/* Button */
 
 .buy-btn{
 
     position:relative;
 
-    display:flex;
+    display:block;
 
-    justify-content:center;
-    align-items:center;
+    width:min(620px,100%);
 
-    width:100%;
+    margin:0 auto;
 
-    min-height:130px;
+    padding:
+        20px
+        25px;
 
-    padding:30px;
+    border:1px solid #a50000;
 
     background:
-
         linear-gradient(
-            135deg,
-            rgba(30,0,0,.96),
-            rgba(5,5,5,.98)
+            90deg,
+            #300000,
+            #850000,
+            #360000
         );
 
-    border:
-        1px solid #a00000;
-
-    color:#fff;
+    color:white;
 
     font-family:'Special Elite',monospace;
 
     font-size:
-        clamp(1.25rem,3vw,2.2rem);
+        clamp(.9rem,1.7vw,1.4rem);
 
-    letter-spacing:
-        clamp(2px,.5vw,6px);
+    letter-spacing:4px;
 
     cursor:pointer;
 
-    transition:
-        transform .4s ease,
-        background .4s ease,
-        box-shadow .4s ease;
+    pointer-events:auto;
+
+    transition:.3s;
 
     box-shadow:
-        0 0 25px rgba(100,0,0,.18);
-
-    z-index:20;
+        0 0 20px rgba(120,0,0,.28);
 }
 
 .buy-btn:hover{
 
-    transform:translateY(-4px);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(90,0,0,.85),
-            rgba(15,0,0,.98)
-        );
+    transform:scale(1.025);
 
     box-shadow:
-        0 0 30px rgba(160,0,0,.45),
-        0 0 80px rgba(100,0,0,.2);
+        0 0 25px rgba(150,0,0,.55),
+        0 0 60px rgba(100,0,0,.22);
 }
 
-/* Blutstropfen */
+.buy-btn:active{
+    transform:scale(.985);
+}
 
-.blood-drop{
+/* =========================================================
+   REALISTISCHE BLUTTROPFEN
+========================================================= */
+
+.blood-drip{
 
     position:absolute;
 
     top:100%;
 
-    width:14px;
+    width:18px;
 
-    height:55px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #4b0000,
-            #d90000 45%,
-            #710000
-        );
-
-    border-radius:
-        50% 50% 48% 48% / 20% 20% 80% 80%;
-
-    filter:
-        drop-shadow(
-            0 0 8px rgba(150,0,0,.7)
-        );
+    height:65px;
 
     pointer-events:none;
 
-    transform-origin:top center;
-
-    z-index:5;
+    filter:
+        drop-shadow(0 4px 8px rgba(80,0,0,.5))
+        drop-shadow(0 0 12px rgba(150,0,0,.3));
 }
 
-.blood-drop::after{
+/* Blutstrang */
+
+.blood-drip::before{
 
     content:"";
 
     position:absolute;
 
-    width:22px;
-    height:22px;
-
     left:50%;
-    bottom:-11px;
+    top:-1px;
+
+    width:8px;
+    height:50px;
 
     transform:translateX(-50%);
 
     background:
-        radial-gradient(
-            circle at 35% 30%,
-            #ff4a4a,
-            #c90000 35%,
-            #550000 80%
+        linear-gradient(
+            90deg,
+            #390000 0%,
+            #790000 20%,
+            #d00909 48%,
+            #770000 80%,
+            #250000 100%
         );
 
-    border-radius:50%;
+    border-radius:
+        50% 50% 45% 45%;
 
     box-shadow:
-        inset -3px -4px 5px rgba(0,0,0,.35),
-        0 3px 8px rgba(100,0,0,.6);
+        inset 1px 0 2px rgba(255,80,80,.35),
+        inset -2px 0 3px rgba(0,0,0,.55);
 }
 
-.drop1{
-    left:25%;
-    animation:bloodDrip 4s infinite ease-in-out;
-}
+/* runde Blutperle */
 
-.drop2{
+.blood-drip::after{
+
+    content:"";
+
+    position:absolute;
+
     left:50%;
-    animation:bloodDrip 3.4s infinite ease-in-out .8s;
+    bottom:-3px;
+
+    width:25px;
+    height:25px;
+
+    transform:
+        translateX(-50%)
+        scaleY(1.03);
+
+    border-radius:55% 48% 58% 46%;
+
+    background:
+        radial-gradient(
+            circle at 32% 25%,
+            rgba(255,100,100,.85) 0%,
+            rgba(215,15,15,.95) 8%,
+            #a50000 34%,
+            #560000 67%,
+            #220000 100%
+        );
+
+    box-shadow:
+        inset 3px 3px 5px rgba(255,100,100,.16),
+        inset -5px -6px 7px rgba(0,0,0,.45),
+        0 0 10px rgba(130,0,0,.7);
 }
 
-.drop3{
-    left:75%;
-    animation:bloodDrip 4.5s infinite ease-in-out 1.2s;
+.drip-one{
+    left:24%;
+    transform:scale(.9);
 }
 
-@keyframes bloodDrip{
+.drip-two{
+    left:50%;
+    height:82px;
+    transform:scale(1.08);
+}
 
-    0%,100%{
-        transform:scaleY(.65);
-        opacity:.75;
-    }
-
-    40%{
-        transform:scaleY(1);
-        opacity:1;
-    }
-
-    60%{
-        transform:scaleY(.8);
-        opacity:.9;
-    }
-
+.drip-three{
+    left:76%;
+    transform:scale(.76);
 }
 
 /* =========================================================
@@ -799,31 +959,26 @@ body{
 
 .modal{
 
-    display:none;
-
     position:fixed;
 
     inset:0;
 
-    width:100%;
-    height:100%;
+    display:none;
+
+    align-items:center;
+    justify-content:center;
 
     padding:
-        30px 20px;
+        max(20px,env(safe-area-inset-top))
+        20px
+        max(20px,env(safe-area-inset-bottom));
 
     background:
-        radial-gradient(
-            circle at center,
-            rgba(80,0,0,.18),
-            rgba(0,0,0,.97) 70%
-        );
+        rgba(0,0,0,.94);
 
-    justify-content:center;
-    align-items:center;
+    z-index:99999;
 
-    z-index:10000;
-
-    overflow-y:auto;
+    pointer-events:auto;
 }
 
 .modal.open{
@@ -834,11 +989,11 @@ body{
 
     position:relative;
 
-    width:min(850px,96vw);
+    width:min(820px,94vw);
 
-    max-height:90vh;
+    max-height:90dvh;
 
-    overflow-y:auto;
+    overflow:auto;
 
     padding:
         clamp(25px,5vw,55px);
@@ -846,199 +1001,141 @@ body{
     background:
         linear-gradient(
             145deg,
-            rgba(12,12,12,.99),
-            rgba(2,2,2,.99)
+            #080808,
+            #120000,
+            #050505
         );
 
-    border:
-        1px solid rgba(170,0,0,.85);
+    border:1px solid #a00000;
 
     box-shadow:
-        0 0 35px rgba(130,0,0,.35),
-        0 0 100px rgba(80,0,0,.2);
+        0 0 35px rgba(150,0,0,.45),
+        inset 0 0 45px rgba(80,0,0,.12);
 
-    scrollbar-width:thin;
-    scrollbar-color:#770000 #080808;
+    color:white;
+
+    pointer-events:auto;
 }
-
-/* Coming Soon */
 
 .coming-soon{
 
     display:inline-block;
 
-    padding:
-        11px 18px;
+    background:#a50000;
 
-    background:#8e0000;
+    padding:10px 16px;
 
-    color:white;
-
-    font-size:.8rem;
+    margin-bottom:20px;
 
     letter-spacing:2px;
-
-    margin-bottom:25px;
-
-    box-shadow:
-        0 0 20px rgba(140,0,0,.35);
 }
-
-/* Modal Titel */
 
 .modal h2{
 
-    color:#e21a1a;
+    color:#d01010;
 
     font-size:
-        clamp(1.8rem,5vw,3.4rem);
+        clamp(1.5rem,4vw,2.8rem);
 
-    letter-spacing:
-        clamp(2px,1vw,8px);
-
-    margin-bottom:30px;
+    margin-bottom:28px;
 
     text-shadow:
-        0 0 15px rgba(150,0,0,.6);
+        0 0 15px rgba(150,0,0,.5);
 }
 
 .modal p{
 
     line-height:1.9;
 
-    margin-bottom:22px;
+    margin-bottom:18px;
 
     color:#ddd;
 }
-
-/* Shop Links */
 
 .shop-links{
 
     display:grid;
 
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
     gap:12px;
 
-    margin-top:30px;
+    margin-top:28px;
 }
 
 .shop-links a{
 
-    display:flex;
+    display:block;
 
-    align-items:center;
-    justify-content:space-between;
+    width:100%;
 
-    min-height:58px;
-
-    padding:
-        14px 18px;
-
-    border:
-        1px solid rgba(140,0,0,.8);
-
-    color:#f3f3f3;
+    padding:15px 18px;
 
     text-decoration:none;
 
-    background:
-        rgba(20,0,0,.35);
+    color:#eee;
 
-    transition:
-        background .3s ease,
-        transform .3s ease,
-        border-color .3s ease;
+    border:1px solid rgba(145,0,0,.7);
 
-    position:relative;
+    background:rgba(20,0,0,.35);
 
-    z-index:20;
-}
+    transition:.3s;
 
-.shop-links a::after{
-
-    content:"↗";
-
-    color:#c80000;
-
-    font-size:1.2rem;
-
+    pointer-events:auto;
 }
 
 .shop-links a:hover{
 
-    background:
-        rgba(120,0,0,.4);
+    color:white;
 
-    border-color:#d00000;
+    background:#650000;
 
-    transform:translateX(4px);
+    border-color:#c00000;
+
+    box-shadow:
+        0 0 20px rgba(140,0,0,.3);
 }
 
-/* Download */
+/* Download-Button */
 
 .download-link{
 
-    display:flex !important;
-
-    justify-content:center !important;
-
-    align-items:center !important;
-
-    grid-column:1 / -1;
-
-    min-height:70px !important;
-
     background:
         linear-gradient(
-            135deg,
-            #720000,
-            #b00000
+            90deg,
+            #5c0000,
+            #b00000,
+            #5c0000
         ) !important;
 
-    border-color:#d00000 !important;
+    color:#fff !important;
 
-    font-size:
-        clamp(1rem,2vw,1.25rem);
+    text-align:center;
 
-    letter-spacing:2px;
+    font-size:1.05rem;
 
     box-shadow:
-        0 0 25px rgba(150,0,0,.3);
-}
-
-.download-link::after{
-    content:"↓" !important;
-    color:white !important;
+        0 0 20px rgba(150,0,0,.25);
 }
 
 .download-link:hover{
 
     background:
         linear-gradient(
-            135deg,
-            #a00000,
-            #d00000
+            90deg,
+            #870000,
+            #d00000,
+            #870000
         ) !important;
-
-    transform:
-        translateY(-3px) !important;
 }
-
-/* Schließen */
 
 .close-btn{
 
-    margin-top:30px;
+    margin-top:25px;
 
-    padding:
-        13px 25px;
+    padding:13px 25px;
 
     border:1px solid #a00000;
 
-    background:#550000;
+    background:#760000;
 
     color:white;
 
@@ -1046,65 +1143,65 @@ body{
 
     font-family:'Special Elite',monospace;
 
-    position:relative;
-
-    z-index:30;
+    pointer-events:auto;
 
     transition:.3s;
 }
 
 .close-btn:hover{
-
     background:#a00000;
-
-    box-shadow:
-        0 0 20px rgba(150,0,0,.5);
 }
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
-.footer{
-    flex-direction:column;
-    text-align:center;
-}
-
 .footer-content{
 
-    color:#777;
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:min(800px,88vw);
+
+    text-align:center;
+
+    opacity:0;
+}
+
+.footer-content p{
+
+    color:#686868;
 
     font-size:
-        clamp(.8rem,1.5vw,1.1rem);
+        clamp(.75rem,1.2vw,1rem);
 
     line-height:2;
 
-    letter-spacing:2px;
+    margin:12px 0;
 }
 
-.instagram-link{
+.footer-content a{
 
-    color:#b81717;
+    color:#aaa;
 
     text-decoration:none;
 
     transition:.3s;
 
-    position:relative;
-
-    z-index:20;
+    pointer-events:auto;
 }
 
-.instagram-link:hover{
-
-    color:#e51c1c;
-
-    text-shadow:
-        0 0 15px rgba(160,0,0,.8);
+.footer-content a:hover{
+    color:#d00000;
 }
 
 .heart{
-    color:#b00000;
+    color:#9f0000;
 }
 
 /* =========================================================
@@ -1113,153 +1210,200 @@ body{
 
 @media(max-width:700px){
 
-    .cover-preview{
-
-        top:14px;
-        right:14px;
-
-        width:62px;
-        height:90px;
+    .scroll-space{
+        height:900vh;
     }
 
-    .scene{
+    .cover-wrap{
+        top:
+            calc(
+                env(safe-area-inset-top) + 12px
+            );
 
+        right:12px;
+
+        width:66px;
+
+        opacity:.78;
+    }
+
+    .page-counter{
+        display:none;
+    }
+
+    .content{
         padding:
-            70px 18px;
+            25px
+            18px;
     }
 
-    .main-title{
-
-        font-size:
-            clamp(3.2rem,18vw,6rem);
-
-        letter-spacing:4px;
+    .intro-content{
+        width:88vw;
     }
 
-    .hero-subtitle{
-
-        margin-top:35px;
-
+    .intro-kicker{
         letter-spacing:5px;
-
-        line-height:1.8;
+        margin-bottom:35px;
     }
 
-    .scroll-indicator{
-        margin-top:42px;
+    .scroll-message{
+        letter-spacing:5px;
     }
 
-    .story-inner{
-        width:94vw;
+    .title-content{
+        width:91vw;
     }
 
-    .secret-code{
+    .kicker{
+        letter-spacing:4px;
+        margin-bottom:48px;
+    }
 
+    .blood-title{
         font-size:
-            clamp(.75rem,3.4vw,1.1rem);
+            clamp(3rem,17vw,5.7rem);
 
-        letter-spacing:1px;
+        letter-spacing:3px;
 
-        white-space:nowrap;
-
-        margin-bottom:95px;
+        line-height:.82;
     }
 
-    .story-text{
-
-        font-size:
-            clamp(.95rem,4vw,1.15rem);
-
-        line-height:2;
-
-        padding:0 6px;
-    }
-
-    .story-text p{
+    .title-divider{
+        margin-top:45px;
         margin-bottom:30px;
     }
 
-    .scratch-area{
-
-        width:88vw;
-
-        height:65px;
-
-        margin:
-            50px auto
-            35px;
+    .title-message{
+        font-size:.78rem;
+        line-height:2;
+        letter-spacing:2px;
     }
 
-    .buy-wrapper{
-        width:94vw;
+    .secret-code{
+        font-size:.76rem;
+        line-height:2;
+        margin-bottom:65px;
+    }
+
+    .story-text{
+        font-size:.82rem;
+        line-height:2.2;
+        letter-spacing:1px;
+    }
+
+    .scratch-area{
+        width:86vw;
+        height:105px;
+    }
+
+    .scratch{
+        height:4px;
+    }
+
+    .buy-content{
+        width:90vw;
+    }
+
+    .buy-box{
+        padding:30px 18px 42px;
+    }
+
+    .buy-title{
+        font-size:1.55rem;
+        letter-spacing:3px;
+    }
+
+    .buy-subtitle{
+        font-size:.65rem;
+        line-height:1.8;
     }
 
     .buy-btn{
-
-        min-height:105px;
-
-        padding:22px 15px;
-
-        font-size:
-            clamp(1rem,5vw,1.4rem);
+        padding:18px 12px;
+        font-size:.8rem;
+        letter-spacing:2px;
     }
 
-    .blood-drop{
-        width:10px;
-        height:42px;
+    .blood-drip{
+        transform:scale(.72);
     }
 
-    .blood-drop::after{
-        width:17px;
-        height:17px;
+    .drip-one{
+        left:22%;
     }
 
-    .shop-links{
-
-        grid-template-columns:1fr;
+    .drip-two{
+        left:50%;
+        transform:scale(.78);
     }
 
-    .download-link{
-        grid-column:auto;
-    }
-
-    .modal{
-
-        padding:15px;
-        align-items:center;
+    .drip-three{
+        left:78%;
+        transform:scale(.64);
     }
 
     .modal-content{
-
-        width:100%;
-        max-height:92vh;
-
-        padding:
-            25px 18px;
+        width:94vw;
+        max-height:88dvh;
+        padding:25px 18px 30px;
     }
 
-    .modal h2{
-        font-size:2rem;
+    .shop-links a{
+        padding:14px;
     }
 
+    .footer-content{
+        width:88vw;
+    }
 }
 
-/* =========================================================
-   REDUZIERTE BEWEGUNG
-========================================================= */
+/* sehr kleine Smartphones */
 
-@media(prefers-reduced-motion:reduce){
+@media(max-width:390px){
 
-    *,
-    *::before,
-    *::after{
-
-        animation-duration:.01ms !important;
-        animation-iteration-count:1 !important;
-        scroll-behavior:auto !important;
-        transition-duration:.01ms !important;
+    .cover-wrap{
+        width:58px;
     }
 
+    .blood-title{
+        font-size:2.8rem;
+    }
+
+    .title-message{
+        font-size:.7rem;
+    }
+
+    .buy-title{
+        font-size:1.3rem;
+    }
+}
+
+/* Querformat auf Smartphones */
+
+@media(max-height:500px) and (orientation:landscape){
+
+    .cover-wrap{
+        width:58px;
+        top:10px;
+    }
+
+    .title-content{
+        transform:
+            translate(-50%,-46%)
+            scale(.78);
+    }
+
+    .intro-content{
+        transform:
+            translate(-50%,-50%)
+            scale(.8);
+    }
+
+    .buy-content{
+        transform:
+            translate(-50%,-50%)
+            scale(.75);
+    }
 }
 
 </style>
@@ -1267,259 +1411,328 @@ body{
 
 <body>
 
+<!-- =====================================================
+     SCROLL-TRACK
+===================================================== -->
 
-<!-- ======================================================
-     HINTERGRUND
-====================================================== -->
+<div class="scroll-space"></div>
 
-<div class="background">
+<!-- =====================================================
+     FESTE BÜHNE
+===================================================== -->
+
+<main class="horror-stage">
 
     <div class="fog" id="fog"></div>
+    <div class="red-vignette"></div>
+    <div class="noise"></div>
 
-    <div class="red-glow" id="redGlow"></div>
+    <!-- COVER -->
+    <div class="cover-wrap">
 
-</div>
+        <img
+            src="cover.jpg"
+            alt="Cover von Nur ein Pfiff"
+            id="bookCover">
 
+        <div
+            class="cover-fallback"
+            id="coverFallback">
 
-<!-- ======================================================
-     COVER OBEN RECHTS
+            NUR EIN<br>PFIFF
 
-     WICHTIG:
-     Die Datei "buch-cover.pdf" muss im selben Ordner
-     wie diese HTML-Datei liegen.
-====================================================== -->
-
-<a
-    class="cover-preview"
-    href="buch-cover.pdf"
-    target="_blank"
-    aria-label="Cover öffnen">
-
-    <object
-        data="buch-cover.pdf#page=1&view=FitH"
-        type="application/pdf">
-
-        <span style="
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            height:100%;
-            color:#aaa;
-            font-size:11px;
-            text-align:center;
-            padding:8px;
-        ">
-            COVER
-        </span>
-
-    </object>
-
-</a>
-
-
-<!-- ======================================================
-     HAUPTBÜHNE
-====================================================== -->
-
-<main class="stage">
-
-
-<!-- ======================================================
-     SZENE 1 – START
-====================================================== -->
-
-<section
-    class="scene hero"
-    id="hero">
-
-    <div class="hero-inner">
-
-        <div class="eyebrow">
-            EIN PSYCHOTHRILLER
-        </div>
-
-        <h1 class="main-title">
-            NUR EIN<br>
-            PFIFF
-        </h1>
-
-        <div class="hero-subtitle">
-            Manche Geräusche hört man nur einmal.
-        </div>
-
-        <div class="scroll-indicator">
-            SCROLL
         </div>
 
     </div>
 
-</section>
+    <!-- SEITENANZEIGE -->
+    <div
+        class="page-counter"
+        id="pageCounter">
+
+        01 — 05
+
+    </div>
 
 
-<!-- ======================================================
-     SZENE 2 – GEHEIMNIS
-====================================================== -->
+    <!-- =================================================
+         INTRO
+    ================================================= -->
 
-<section
-    class="scene story"
-    id="story">
+    <section class="content">
 
-    <div class="story-inner">
+        <div
+            class="intro-content"
+            id="introContent">
 
-        <div class="secret-code">
-
-            abcdefghijklmnopqrstuvwxyz1234567890
-
-        </div>
-
-
-        <div class="scratch-area">
+            <div class="intro-kicker">
+                ES IST STILL
+            </div>
 
             <div
-                class="scratch"
-                id="scratch">
+                class="scroll-message"
+                id="scrollMessage">
+
+                SCROLL ...
+
+            </div>
+
+            <div
+                class="scroll-line"
+                id="scrollLine">
             </div>
 
         </div>
 
+    </section>
 
-        <div class="story-text">
 
-            <p>
-                Es beginnt mit einem Geräusch.
+    <!-- =================================================
+         TITEL
+    ================================================= -->
+
+    <section class="content">
+
+        <div
+            class="title-content"
+            id="titleContent">
+
+            <div class="kicker">
+
+                EIN PSYCHOTHRILLER
+
+            </div>
+
+            <h1 class="blood-title">
+
+                NUR EIN<br>PFIFF
+
+            </h1>
+
+            <div class="title-divider"></div>
+
+            <div class="title-message">
+
+                Manche Geräusche hört man nur einmal.<br>
+                Manche vergisst man nie.
+
+            </div>
+
+            <div class="scroll-label">
+
+                SCROLL
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         STORY
+    ================================================= -->
+
+    <section class="content">
+
+        <div
+            class="story-content"
+            id="storyContent">
+
+            <div class="secret-code">
+
+                abcdefghijklmnopqrstuvwxyz1234567890
+
+            </div>
+
+            <div
+                class="scratch-area"
+                id="scratchArea">
+
+                <div
+                    class="scratch"
+                    id="scratch">
+                </div>
+
+                <span class="splatter"></span>
+                <span class="splatter"></span>
+                <span class="splatter"></span>
+
+            </div>
+
+            <div class="story-text">
+
+                <p>
+                    Es beginnt mit einem Geräusch.
+                </p>
+
+                <p>
+                    Ein kurzer Pfiff. Leise. Fast unscheinbar.
+                    Und doch verändert er alles.
+                </p>
+
+                <br>
+
+                <p>
+                    Zuerst glaubt man, es sei Zufall.
+                    Ein Windzug. Ein Vogel. Eine Erinnerung.
+                </p>
+
+                <p>
+                    Doch dann ertönt er wieder.
+                </p>
+
+                <p>
+                    <strong>
+                        Näher.
+                    </strong>
+                </p>
+
+                <p>
+                    Und diesmal weiß jemand,
+                    dass du ihn gehört hast.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         WEITERE STORY
+    ================================================= -->
+
+    <section class="content">
+
+        <div
+            class="story-two"
+            id="storyTwo">
+
+            <p class="warning">
+                DU BIST NICHT ALLEIN.
             </p>
 
             <p>
-                Ein kurzer Pfiff.
-                Leise.
-                Fast unscheinbar.
-                Und doch verändert er alles.
+                Je länger die Stille dauert,
+                desto deutlicher wird das Geräusch.
             </p>
 
             <p>
-                Zuerst glaubst du,
-                du hättest ihn dir nur eingebildet.
+                Ein Pfiff.
             </p>
 
             <p>
-                Dann hörst du ihn wieder.
-            </p>
-
-            <p class="whisper">
-                Und diesmal kommt er näher.
+                Wieder.
             </p>
 
             <p>
-                Mit jedem weiteren Schritt
-                verschwindet ein Stück der Gewissheit.
-            </p>
-
-            <p>
-                Bis du irgendwann nicht mehr weißt,
-                ob du eigentlich beobachtest...
-                oder längst selbst beobachtet wirst.
+                Und diesmal kommt er
+                direkt hinter dir.
             </p>
 
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 
-<!-- ======================================================
-     SZENE 3 – KAUFEN
-====================================================== -->
+    <!-- =================================================
+         KAUFEN
+    ================================================= -->
 
-<section
-    class="scene buy-scene"
-    id="buy">
+    <section class="content">
 
-    <div class="buy-wrapper">
+        <div
+            class="buy-content"
+            id="buyContent">
 
-        <div class="buy-label">
-            DAS BUCH
+            <div class="section-label">
+                DAS BUCH
+            </div>
+
+            <div class="buy-box">
+
+                <div class="buy-title">
+                    JETZT BUCH KAUFEN
+                </div>
+
+                <div class="buy-subtitle">
+                    DER PFiff IST ERST DER ANFANG.
+                </div>
+
+                <button
+                    type="button"
+                    class="buy-btn"
+                    id="buyButton">
+
+                    BUCH &amp; LESEPROBE
+
+                    <span class="blood-drip drip-one"></span>
+                    <span class="blood-drip drip-two"></span>
+                    <span class="blood-drip drip-three"></span>
+
+                </button>
+
+            </div>
+
         </div>
 
-        <button
-            type="button"
-            class="buy-btn"
-            id="openBookButton">
-
-            JETZT BUCH KAUFEN
-
-            <span class="blood-drop drop1"></span>
-            <span class="blood-drop drop2"></span>
-            <span class="blood-drop drop3"></span>
-
-        </button>
-
-    </div>
-
-</section>
+    </section>
 
 
-<!-- ======================================================
-     SZENE 4 – FOOTER
-====================================================== -->
+    <!-- =================================================
+         FOOTER
+    ================================================= -->
 
-<section
-    class="scene footer">
+    <section class="content">
 
-    <div class="footer-content">
+        <div
+            class="footer-content"
+            id="footerContent">
 
-        <p>
-            © 2026
-        </p>
+            <p>
+                © 2026
+                <a
+                    href="https://www.instagram.com/thesimonfischer"
+                    target="_blank"
+                    rel="noopener noreferrer">
 
-        <p>
+                    Simon Fischer
 
-            <a
-                class="instagram-link"
-                href="https://www.instagram.com/thesimonfischer"
-                target="_blank"
-                rel="noopener noreferrer">
+                </a>
+            </p>
 
-                Simon Fischer
+            <p>
+                made by
+                <span class="heart">
+                    ROTES HERZ
+                </span>
+            </p>
 
-            </a>
+        </div>
 
-        </p>
-
-        <p>
-            made by
-            <span class="heart">
-                ROTES HERZ
-            </span>
-        </p>
-
-    </div>
-
-</section>
+    </section>
 
 </main>
 
 
-<!-- ======================================================
+<!-- =====================================================
      MODAL
-====================================================== -->
+===================================================== -->
 
 <div
-    id="bookModal"
     class="modal"
+    id="bookModal"
     aria-hidden="true">
 
-    <div
-        class="modal-content"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modalTitle">
+    <div class="modal-content">
 
         <div class="coming-soon">
             COMING SOON
         </div>
 
-        <h2 id="modalTitle">
+        <h2>
             NUR EIN PFIFF
         </h2>
 
@@ -1535,23 +1748,15 @@ body{
 
         <p>
             <strong>Beschreibung:</strong><br>
+
             Hier steht später die offizielle Beschreibung
             des Buches.
         </p>
 
-        <p>
-            Ein Pfiff.
-            Ein Moment.
-            Ein Geräusch, das nicht mehr aus deinem Kopf
-            verschwinden will.
-        </p>
-
-
-        <!-- ==================================================
-             SHOP BUTTONS
-        ================================================== -->
 
         <div class="shop-links">
+
+            <!-- AMAZON -->
 
             <a
                 href="https://www.amazon.de/"
@@ -1563,6 +1768,8 @@ body{
             </a>
 
 
+            <!-- THALIA -->
+
             <a
                 href="https://www.thalia.de/"
                 target="_blank"
@@ -1573,20 +1780,19 @@ body{
             </a>
 
 
-            <!-- DOWNLOAD
-                 Die Datei muss "buch-dokument.pdf"
-                 heißen und neben der HTML liegen.
-            -->
+            <!-- LESEPROBE -->
 
             <a
                 class="download-link"
-                href="buch-dokument.pdf"
-                download="Nur-ein-Pfiff.pdf">
+                href="leseprobe.pdf"
+                download="Nur-ein-Pfiff-Leseprobe.pdf">
 
-                ↓ &nbsp; DOKUMENT HERUNTERLADEN
+                ↓ &nbsp; LESEPROBE HERUNTERLADEN
 
             </a>
 
+
+            <!-- HUGENDUBEL -->
 
             <a
                 href="https://hugendubel.de/"
@@ -1597,6 +1803,8 @@ body{
 
             </a>
 
+
+            <!-- GENIALOKAL -->
 
             <a
                 href="https://www.genialokal.de/"
@@ -1613,7 +1821,7 @@ body{
         <button
             type="button"
             class="close-btn"
-            id="closeBookButton">
+            id="closeButton">
 
             SCHLIESSEN
 
@@ -1630,275 +1838,366 @@ body{
    ELEMENTE
 ========================================================= */
 
-const hero = document.getElementById("hero");
-const story = document.getElementById("story");
+const fog =
+    document.getElementById("fog");
 
-const fog = document.getElementById("fog");
-const redGlow = document.getElementById("redGlow");
+const introContent =
+    document.getElementById("introContent");
 
-const scratch = document.getElementById("scratch");
+const titleContent =
+    document.getElementById("titleContent");
 
-const modal = document.getElementById("bookModal");
-const openBookButton = document.getElementById("openBookButton");
-const closeBookButton = document.getElementById("closeBookButton");
+const storyContent =
+    document.getElementById("storyContent");
+
+const storyTwo =
+    document.getElementById("storyTwo");
+
+const buyContent =
+    document.getElementById("buyContent");
+
+const footerContent =
+    document.getElementById("footerContent");
+
+const scrollMessage =
+    document.getElementById("scrollMessage");
+
+const scrollLine =
+    document.getElementById("scrollLine");
+
+const scratch =
+    document.getElementById("scratch");
+
+const pageCounter =
+    document.getElementById("pageCounter");
+
+const bookModal =
+    document.getElementById("bookModal");
+
+const buyButton =
+    document.getElementById("buyButton");
+
+const closeButton =
+    document.getElementById("closeButton");
+
+const bookCover =
+    document.getElementById("bookCover");
+
+const coverFallback =
+    document.getElementById("coverFallback");
 
 
 /* =========================================================
-   STARTZUSTAND
+   COVER FALLBACK
 ========================================================= */
 
-hero.classList.add("active");
+bookCover.addEventListener("error",()=>{
+
+    bookCover.style.display="none";
+    coverFallback.style.display="flex";
+
+});
 
 
 /* =========================================================
-   SCROLL ATMOSPHÄRE
+   SCROLL-PROGRESS
 ========================================================= */
 
 let ticking = false;
 
-function updateScrollAtmosphere(){
+function clamp(value,min,max){
 
-    const scrollTop =
-        window.scrollY ||
-        document.documentElement.scrollTop;
+    return Math.max(
+        min,
+        Math.min(max,value)
+    );
+
+}
+
+
+function updateScene(){
 
     const maxScroll =
         document.documentElement.scrollHeight -
         window.innerHeight;
 
+    const scrollTop =
+        window.scrollY || window.pageYOffset;
+
     const progress =
         maxScroll > 0
-        ? Math.min(scrollTop / maxScroll, 1)
+        ? clamp(scrollTop / maxScroll,0,1)
         : 0;
 
 
-    /*
-       Am Anfang fast komplett schwarz.
-       Beim Scrollen kommt langsam Nebel.
-    */
+    /* =====================================================
+       NEBEL
+    ===================================================== */
 
-    const fogStart = 0.03;
+    const fogProgress =
+        clamp(progress / .20,0,1);
 
-    if(progress > fogStart){
-
-        fog.classList.add("fog-visible");
-
-        const fogStrength =
-            Math.min(
-                0.78,
-                (progress - fogStart) * 1.25
-            );
-
-        fog.style.opacity = fogStrength;
-
-    }else{
-
-        fog.classList.remove("fog-visible");
-
-        fog.style.opacity = "0";
-
-    }
+    fog.style.opacity =
+        (.12 + fogProgress * .34).toFixed(3);
 
 
-    /* Nebel wird beim Scrollen dichter */
+    /* =====================================================
+       INTRO
+    ===================================================== */
 
-    if(progress > .25){
+    const introFade =
+        1 - clamp(progress / .16,0,1);
 
-        fog.classList.add("fog-deep");
+    introContent.style.opacity =
+        introFade;
 
-    }else{
-
-        fog.classList.remove("fog-deep");
-
-    }
-
-
-    /* Roter Hintergrund */
-
-    redGlow.style.opacity =
-        Math.min(.75, progress * 1.15);
+    introContent.style.transform =
+        `translate(-50%,calc(-42% - ${progress * 90}px))`;
 
 
-    /*
-       Kratzer wächst mit dem Scrollen
-       innerhalb des Story-Bereichs.
-    */
+    /* Scroll-Nachricht wird heller */
 
-    const storyRect =
-        story.getBoundingClientRect();
+    const messageBrightness =
+        .18 + fogProgress * .58;
 
-    const storyHeight =
-        story.offsetHeight;
+    scrollMessage.style.color =
+        `rgba(165,165,165,${messageBrightness})`;
 
-    const viewportCenter =
-        window.innerHeight / 2;
+    scrollMessage.style.textShadow =
+        `0 0 ${8 + fogProgress * 14}px rgba(180,180,180,.16)`;
 
-    const storyProgress =
-        Math.max(
+    scrollLine.style.transform =
+        `scaleX(${.4 + fogProgress * .6})`;
+
+
+    /* =====================================================
+       TITEL
+    ===================================================== */
+
+    const titleStart = .07;
+    const titleEnd   = .27;
+
+    const titleProgress =
+        clamp(
+            (progress-titleStart) /
+            (titleEnd-titleStart),
             0,
-            Math.min(
-                1,
-                (viewportCenter - storyRect.top) /
-                storyHeight
-            )
+            1
         );
 
+    titleContent.style.opacity =
+        titleProgress;
+
+    titleContent.style.transform =
+        `translate(-50%,calc(-48% + ${(1-titleProgress)*50}px))`;
+
+
+    /* =====================================================
+       STORY
+    ===================================================== */
+
+    const storyStart = .20;
+    const storyEnd   = .54;
+
+    const storyProgress =
+        clamp(
+            (progress-storyStart) /
+            (storyEnd-storyStart),
+            0,
+            1
+        );
+
+    storyContent.style.opacity =
+        storyProgress;
+
 
     /*
-       Der Kratzer beginnt erst nachdem
-       der Text sichtbar wird.
+       Die Grafik beginnt deutlich früher.
+       Dadurch entfaltet sich der Kratzer schon,
+       bevor der eigentliche Text komplett erscheint.
     */
 
     const scratchProgress =
-        Math.max(
+        clamp(
+            (progress-.24) /
+            .18,
             0,
-            Math.min(
-                1,
-                (storyProgress - .35) / .5
-            )
+            1
         );
 
     scratch.style.width =
-        (scratchProgress * 100) + "%";
+        `${scratchProgress * 100}%`;
 
 
-    ticking = false;
+    /* =====================================================
+       ZWEITER STORY-BEREICH
+    ===================================================== */
+
+    const storyTwoStart = .47;
+    const storyTwoEnd   = .68;
+
+    const storyTwoProgress =
+        clamp(
+            (progress-storyTwoStart) /
+            (storyTwoEnd-storyTwoStart),
+            0,
+            1
+        );
+
+    storyTwo.style.opacity =
+        storyTwoProgress;
+
+    storyTwo.style.transform =
+        `translate(-50%,calc(-50% + ${(1-storyTwoProgress)*50}px))`;
+
+
+    /* =====================================================
+       KAUFBEREICH
+    ===================================================== */
+
+    const buyStart = .63;
+    const buyEnd   = .82;
+
+    const buyProgress =
+        clamp(
+            (progress-buyStart) /
+            (buyEnd-buyStart),
+            0,
+            1
+        );
+
+    buyContent.style.opacity =
+        buyProgress;
+
+    buyContent.style.transform =
+        `translate(-50%, -50%) scale(${.94 + buyProgress*.06})`;
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    const footerStart = .80;
+
+    const footerProgress =
+        clamp(
+            (progress-footerStart)/.15,
+            0,
+            1
+        );
+
+    footerContent.style.opacity =
+        footerProgress;
+
+
+    /* =====================================================
+       SEITENZÄHLER
+    ===================================================== */
+
+    const page =
+        Math.min(
+            5,
+            Math.floor(progress * 5) + 1
+        );
+
+    pageCounter.textContent =
+        `0${page} — 05`;
+
+
+    ticking=false;
+
+}
+
+
+function requestSceneUpdate(){
+
+    if(!ticking){
+
+        window.requestAnimationFrame(
+            updateScene
+        );
+
+        ticking=true;
+
+    }
+
 }
 
 
 window.addEventListener(
     "scroll",
-    () => {
-
-        if(!ticking){
-
-            window.requestAnimationFrame(
-                updateScrollAtmosphere
-            );
-
-            ticking = true;
-        }
-
-    },
+    requestSceneUpdate,
     {passive:true}
 );
 
-
 window.addEventListener(
     "resize",
-    updateScrollAtmosphere
+    requestSceneUpdate
 );
 
-updateScrollAtmosphere();
+window.addEventListener(
+    "orientationchange",
+    requestSceneUpdate
+);
 
 
 /* =========================================================
-   INTERSECTION OBSERVER
-========================================================= */
-
-const observer =
-    new IntersectionObserver(
-
-        (entries) => {
-
-            entries.forEach(
-                entry => {
-
-                    if(entry.isIntersecting){
-
-                        entry.target.classList.add("active");
-
-                    }
-
-                }
-            );
-
-        },
-
-        {
-            threshold:.25
-        }
-
-    );
-
-
-observer.observe(hero);
-observer.observe(story);
-
-
-/* =========================================================
-   MODAL ÖFFNEN
+   MODAL
 ========================================================= */
 
 function openBookModal(){
 
-    modal.classList.add("open");
+    bookModal.classList.add("open");
 
-    modal.setAttribute(
+    bookModal.setAttribute(
         "aria-hidden",
         "false"
     );
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow="hidden";
 
 }
 
 
-/* =========================================================
-   MODAL SCHLIESSEN
-========================================================= */
-
 function closeBookModal(){
 
-    modal.classList.remove("open");
+    bookModal.classList.remove("open");
 
-    modal.setAttribute(
+    bookModal.setAttribute(
         "aria-hidden",
         "true"
     );
 
-    document.body.style.overflow = "";
+    document.body.style.overflow="";
 
 }
 
 
-/* =========================================================
-   BUTTON EVENTS
-========================================================= */
+/* Button */
 
-openBookButton.addEventListener(
+buyButton.addEventListener(
     "click",
-    function(event){
-
-        event.preventDefault();
-
-        openBookModal();
-
-    }
+    openBookModal
 );
 
 
-closeBookButton.addEventListener(
+/* Schließen */
+
+closeButton.addEventListener(
     "click",
-    function(event){
-
-        event.preventDefault();
-
-        closeBookModal();
-
-    }
+    closeBookModal
 );
 
 
-/* =========================================================
-   KLICK AUF DEN HINTERGRUND SCHLIESST MODAL
-========================================================= */
+/* Klick außerhalb */
 
-modal.addEventListener(
+bookModal.addEventListener(
     "click",
     function(event){
 
-        if(event.target === modal){
+        if(
+            event.target === bookModal
+        ){
 
             closeBookModal();
 
@@ -1908,9 +2207,7 @@ modal.addEventListener(
 );
 
 
-/* =========================================================
-   ESC SCHLIESST MODAL
-========================================================= */
+/* ESC */
 
 document.addEventListener(
     "keydown",
@@ -1918,7 +2215,7 @@ document.addEventListener(
 
         if(
             event.key === "Escape" &&
-            modal.classList.contains("open")
+            bookModal.classList.contains("open")
         ){
 
             closeBookModal();
@@ -1930,26 +2227,10 @@ document.addEventListener(
 
 
 /* =========================================================
-   VERHINDERT, DASS KLICKS DURCH UNSICHTBARE ELEMENTE
-   BLOCKIERT WERDEN
+   INITIALISIERUNG
 ========================================================= */
 
-document.querySelectorAll(
-    ".shop-links a, .cover-preview, .instagram-link"
-).forEach(
-    element => {
-
-        element.addEventListener(
-            "click",
-            event => {
-
-                event.stopPropagation();
-
-            }
-        );
-
-    }
-);
+updateScene();
 
 </script>
 
