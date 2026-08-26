@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nur ein Pfiff</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    font-family:'Special Elite', monospace;
+    overflow-x:hidden;
+    cursor:default;
+}
+
+/* =========================================================
+   ATMOSPHÄRE
+========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(130,0,0,.12),
+            rgba(0,0,0,.35) 42%,
+            rgba(0,0,0,.72) 100%
+        );
+
+    pointer-events:none;
+    z-index:0;
+
+    animation:
+        atmosphere 9s ease-in-out infinite;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0,0,0,.55) 100%
+        );
+
+    pointer-events:none;
+    z-index:1;
+}
+
+@keyframes atmosphere{
+
+    0%,100%{
+        opacity:.85;
+        transform:scale(1);
+    }
+
+    50%{
+        opacity:1;
+        transform:scale(1.04);
+    }
+
+}
+
+/* =========================================================
+   FILM-GRAIN
+========================================================= */
+
+.grain{
+    position:fixed;
+    inset:-50%;
+    width:200%;
+    height:200%;
+
+    pointer-events:none;
+    z-index:20;
+
+    opacity:.055;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+
+    animation:grainMove .25s steps(2) infinite;
+}
+
+@keyframes grainMove{
+
+    0%{
+        transform:translate(0,0);
+    }
+
+    25%{
+        transform:translate(2%,-1%);
+    }
+
+    50%{
+        transform:translate(-1%,2%);
+    }
+
+    75%{
+        transform:translate(1%,1%);
+    }
+
+    100%{
+        transform:translate(-2%,-1%);
+    }
+
+}
+
+/* =========================================================
+   MAIN SCROLL WORLD
+========================================================= */
+
+#scrollWorld{
+    position:relative;
+    height:500vh;
+}
+
+/*
+   Der Bildschirm bleibt stehen.
+   Die Inhalte bewegen sich innerhalb dieser Bühne.
+*/
+
+#stage{
+    position:fixed;
+    inset:0;
+
+    width:100vw;
+    height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    z-index:5;
+
+    pointer-events:none;
+}
+
+/* =========================================================
+   SZENEN
+========================================================= */
+
+.scene{
+
+    position:absolute;
+
+    width:min(1100px,90vw);
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        translateY(80px)
+        scale(.96);
+
+    opacity:0;
+
+    transition:
+        opacity .7s ease,
+        transform 1s cubic-bezier(.2,.8,.2,1);
+
+    text-align:center;
+
+    pointer-events:none;
+}
+
+.scene.active{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,-50%)
+        translateY(0)
+        scale(1);
+
+    pointer-events:auto;
+}
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro-content{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:30px;
+}
+
+.intro-small{
+
+    color:#777;
+
+    font-size:clamp(.75rem,1.2vw,1rem);
+
+    letter-spacing:
+        clamp(5px,1vw,12px);
+
+    text-transform:uppercase;
+
+    animation:pulse 3s ease-in-out infinite;
+}
+
+.intro-title{
+
+    font-size:
+        clamp(3rem,10vw,9rem);
+
+    line-height:.9;
+
+    letter-spacing:
+        clamp(4px,1vw,15px);
+
+    color:#f2f2f2;
+
+    text-shadow:
+        0 0 8px rgba(255,255,255,.15),
+        0 0 35px rgba(120,0,0,.25);
+}
+
+.intro-line{
+
+    width:min(420px,70vw);
+
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #8d0000,
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px rgba(180,0,0,.4);
+}
+
+.scroll-text{
+
+    color:#9d0000;
+
+    font-size:.9rem;
+
+    letter-spacing:8px;
+
+    animation:scrollPulse 2.5s infinite;
+}
+
+@keyframes pulse{
+
+    0%,100%{
+        opacity:.35;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+}
+
+@keyframes scrollPulse{
+
+    0%,100%{
+        opacity:.25;
+        transform:translateY(0);
+    }
+
+    50%{
+        opacity:1;
+        transform:translateY(5px);
+    }
+
+}
+
+/* =========================================================
+   TITEL
+========================================================= */
+
+.blood-title{
+
+    font-size:
+        clamp(3rem,9vw,8.5rem);
+
+    line-height:.9;
+
+    color:#b30000;
+
+    letter-spacing:
+        clamp(5px,1.2vw,18px);
+
+    text-transform:uppercase;
+
+    text-shadow:
+        0 0 8px #750000,
+        0 0 20px #650000,
+        0 0 45px rgba(130,0,0,.65);
+
+    animation:titleBreath 5s ease-in-out infinite;
+}
+
+@keyframes titleBreath{
+
+    0%,100%{
+        text-shadow:
+            0 0 8px #750000,
+            0 0 20px #650000,
+            0 0 45px rgba(130,0,0,.55);
+    }
+
+    50%{
+        text-shadow:
+            0 0 10px #a00000,
+            0 0 28px #720000,
+            0 0 65px rgba(150,0,0,.75);
+    }
+
+}
+
+.subtitle{
+
+    margin-top:28px;
+
+    color:#777;
+
+    font-size:
+        clamp(.8rem,1.5vw,1.2rem);
+
+    letter-spacing:6px;
+
+    text-transform:uppercase;
+}
+
+/* =========================================================
+   TEXT / ABCDEFG
+========================================================= */
+
+.secret-wrapper{
+
+    width:min(1050px,90vw);
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.secret-code{
+
+    position:relative;
+
+    color:#b00000;
+
+    font-size:
+        clamp(1rem,2.3vw,2rem);
+
+    letter-spacing:
+        clamp(1px,.4vw,5px);
+
+    line-height:2;
+
+    text-shadow:
+        0 0 8px rgba(170,0,0,.75),
+        0 0 20px rgba(130,0,0,.4);
+
+    margin-bottom:65px;
+
+    white-space:nowrap;
+
+    max-width:100%;
+
+    overflow:hidden;
+}
+
+/* Kratzer */
+
+.slash-container{
+
+    position:absolute;
+
+    left:0;
+    top:50%;
+
+    width:100%;
+    height:42px;
+
+    transform:translateY(-50%);
+
+    pointer-events:none;
+}
+
+.slash{
+
+    position:absolute;
+
+    left:0;
+    top:50%;
+
+    width:0;
+    height:7px;
+
+    transform:
+        translateY(-50%)
+        rotate(-4deg);
+
+    transform-origin:left center;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4b0000,
+            #e00000 45%,
+            #810000
+        );
+
+    border-radius:
+        45% 55% 40% 60%;
+
+    box-shadow:
+        0 0 4px #650000,
+        0 0 12px rgba(170,0,0,.8);
+
+    transition:width .05s linear;
+}
+
+/* zweite unregelmäßige Blutspur */
+
+.slash::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:5px;
+    top:-7px;
+
+    width:100%;
+    height:3px;
+
+    background:#7d0000;
+
+    border-radius:50%;
+
+    transform:rotate(2deg);
+
+    opacity:.85;
+}
+
+.slash::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:0;
+    top:2px;
+
+    width:10px;
+    height:10px;
+
+    background:#8f0000;
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 8px rgba(150,0,0,.7);
+}
+
+.secret-text{
+
+    color:#b00000;
+
+    font-size:
+        clamp(1rem,2vw,1.65rem);
+
+    line-height:2.1;
+
+    max-width:900px;
+
+    text-shadow:
+        0 0 8px rgba(150,0,0,.5);
+}
+
+/* =========================================================
+   COVER OBEN RECHTS
+========================================================= */
+
+.cover-corner{
+
+    position:fixed;
+
+    top:25px;
+    right:25px;
+
+    width:105px;
+    height:145px;
+
+    z-index:15;
+
+    border:1px solid rgba(150,0,0,.7);
+
+    background:#050505;
+
+    box-shadow:
+        0 0 15px rgba(100,0,0,.35),
+        0 0 40px rgba(80,0,0,.15);
+
+    overflow:hidden;
+
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease;
+}
+
+.cover-corner:hover{
+
+    transform:
+        scale(1.08)
+        rotate(1deg);
+
+    box-shadow:
+        0 0 20px rgba(160,0,0,.65),
+        0 0 55px rgba(100,0,0,.35);
+}
+
+/*
+   PDF wird direkt im kleinen Cover-Fenster dargestellt.
+*/
+
+.cover-corner iframe{
+
+    width:100%;
+    height:100%;
+
+    border:none;
+
+    pointer-events:auto;
+
+    background:#111;
+}
+
+.cover-label{
+
+    position:absolute;
+
+    bottom:0;
+    left:0;
+    right:0;
+
+    padding:6px 3px;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(0,0,0,.95)
+        );
+
+    color:#ddd;
+
+    font-size:.55rem;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+}
+
+/* =========================================================
+   KAUF / BESTELLFELD
+========================================================= */
+
+.order-card{
+
+    position:relative;
+
+    width:min(980px,92vw);
+
+    padding:
+        clamp(25px,4vw,55px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,20,20,.96),
+            rgba(5,5,5,.98)
+        );
+
+    border:
+        1px solid rgba(170,0,0,.8);
+
+    box-shadow:
+        0 0 0 1px rgba(90,0,0,.15),
+        0 0 35px rgba(100,0,0,.25),
+        inset 0 0 50px rgba(80,0,0,.08);
+
+    text-align:left;
+
+    overflow:hidden;
+}
+
+/* dekorativer roter Rand */
+
+.order-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #a90000,
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px #900000;
+}
+
+.order-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:280px;
+    height:280px;
+
+    right:-130px;
+    bottom:-170px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(120,0,0,.2),
+            transparent 70%
+        );
+
+    pointer-events:none;
+}
+
+.order-header{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    gap:30px;
+
+    margin-bottom:35px;
+}
+
+.order-heading{
+
+    font-size:
+        clamp(2rem,4vw,4rem);
+
+    color:#eee;
+
+    letter-spacing:3px;
+
+    line-height:1;
+}
+
+.order-heading span{
+
+    display:block;
+
+    margin-bottom:12px;
+
+    color:#a00000;
+
+    font-size:.65rem;
+
+    letter-spacing:6px;
+}
+
+.order-description{
+
+    max-width:600px;
+
+    color:#999;
+
+    line-height:1.8;
+
+    margin-top:15px;
+}
+
+/* Kaufoptionen */
+
+.shop-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:14px;
+
+    margin-top:25px;
+}
+
+.shop-button{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    min-height:65px;
+
+    padding:16px 20px;
+
+    text-decoration:none;
+
+    color:#eee;
+
+    background:#080808;
+
+    border:
+        1px solid rgba(160,0,0,.65);
+
+    transition:
+        background .3s ease,
+        border-color .3s ease,
+        transform .3s ease,
+        box-shadow .3s ease;
+
+    cursor:pointer;
+
+    z-index:3;
+}
+
+.shop-button:hover{
+
+    background:#170000;
+
+    border-color:#c00000;
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 8px 25px rgba(100,0,0,.3);
+}
+
+.shop-name{
+
+    font-size:
+        clamp(.9rem,1.5vw,1.15rem);
+
+    letter-spacing:2px;
+}
+
+.shop-arrow{
+
+    color:#a00000;
+
+    font-size:1.4rem;
+}
+
+/* =========================================================
+   DOWNLOAD
+========================================================= */
+
+.download-box{
+
+    margin:22px 0;
+
+    position:relative;
+
+    z-index:5;
+}
+
+.download-button{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:15px;
+
+    min-height:75px;
+
+    padding:18px 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #8c0000,
+            #b50000,
+            #750000
+        );
+
+    border:1px solid #d00000;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:
+        clamp(.9rem,1.8vw,1.25rem);
+
+    letter-spacing:2px;
+
+    box-shadow:
+        0 0 25px rgba(140,0,0,.35);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        filter .3s ease;
+
+    cursor:pointer;
+}
+
+.download-button:hover{
+
+    transform:translateY(-3px);
+
+    filter:brightness(1.15);
+
+    box-shadow:
+        0 0 25px rgba(180,0,0,.55),
+        0 10px 35px rgba(120,0,0,.35);
+}
+
+.download-icon{
+
+    font-size:1.7rem;
+}
+
+/* =========================================================
+   COMING SOON
+========================================================= */
+
+.coming-soon{
+
+    display:inline-block;
+
+    padding:8px 13px;
+
+    margin-bottom:18px;
+
+    background:#9d0000;
+
+    color:#fff;
+
+    font-size:.8rem;
+
+    letter-spacing:2px;
+
+    box-shadow:
+        0 0 18px rgba(140,0,0,.35);
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    background:
+        rgba(0,0,0,.88);
+
+    backdrop-filter:blur(8px);
+
+    z-index:100;
+
+    pointer-events:auto;
+}
+
+.modal.open{
+
+    display:flex;
+}
+
+.modal-content{
+
+    position:relative;
+
+    width:min(900px,95vw);
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    padding:
+        clamp(25px,5vw,55px);
+
+    background:
+        linear-gradient(
+            145deg,
+            #0d0d0d,
+            #030303
+        );
+
+    border:
+        1px solid #a00000;
+
+    box-shadow:
+        0 0 30px rgba(130,0,0,.45),
+        0 0 100px rgba(80,0,0,.2);
+}
+
+.modal-content h2{
+
+    color:#c00000;
+
+    font-size:
+        clamp(1.8rem,4vw,3rem);
+
+    margin-bottom:20px;
+
+    text-shadow:
+        0 0 15px rgba(160,0,0,.5);
+}
+
+.modal-content p{
+
+    color:#ddd;
+
+    line-height:1.8;
+
+    margin-bottom:18px;
+}
+
+.close-btn{
+
+    margin-top:25px;
+
+    padding:13px 25px;
+
+    border:1px solid #a00000;
+
+    background:#080808;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-family:'Special Elite', monospace;
+
+    transition:.3s;
+}
+
+.close-btn:hover{
+
+    background:#a00000;
+
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:22px;
+}
+
+.footer-main{
+
+    font-size:
+        clamp(1.5rem,3vw,2.5rem);
+
+    color:#ddd;
+}
+
+.footer-link{
+
+    color:#aaa;
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+.footer-link:hover{
+
+    color:#d00000;
+
+    text-shadow:
+        0 0 12px rgba(180,0,0,.7);
+}
+
+.heart{
+
+    color:#a00000;
+
+    text-shadow:
+        0 0 10px rgba(160,0,0,.6);
+}
+
+.footer-small{
+
+    color:#555;
+
+    font-size:.8rem;
+
+    letter-spacing:2px;
+}
+
+/* =========================================================
+   NAVIGATION / PROGRESS
+========================================================= */
+
+.progress{
+
+    position:fixed;
+
+    left:25px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:2px;
+    height:150px;
+
+    background:#1a1a1a;
+
+    z-index:15;
+}
+
+.progress-fill{
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:0;
+
+    background:#a00000;
+
+    box-shadow:
+        0 0 10px #900000;
+
+    transition:height .1s linear;
+}
+
+.progress-label{
+
+    position:absolute;
+
+    left:12px;
+    top:-2px;
+
+    color:#555;
+
+    font-size:.6rem;
+
+    letter-spacing:2px;
+
+    white-space:nowrap;
+}
+
+/* =========================================================
+   BLUTSTROPFEN
+========================================================= */
+
+.blood-drop{
+
+    position:absolute;
+
+    width:13px;
+
+    height:55px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #6f0000,
+            #c50000 55%,
+            #780000
+        );
+
+    border-radius:
+        50% 50% 55% 55% /
+        15% 15% 85% 85%;
+
+    filter:
+        drop-shadow(
+            0 0 7px rgba(150,0,0,.7)
+        );
+
+    animation:drip 3s ease-in-out infinite;
+
+    z-index:2;
+}
+
+.blood-drop::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    bottom:-10px;
+
+    width:25px;
+    height:25px;
+
+    transform:translateX(-50%);
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #e40000,
+            #a00000 45%,
+            #620000 100%
+        );
+
+    border-radius:50%;
+
+    box-shadow:
+        inset -3px -4px 6px rgba(40,0,0,.5),
+        0 0 8px rgba(130,0,0,.6);
+}
+
+.drop1{
+    left:20%;
+    top:100%;
+    animation-delay:0s;
+}
+
+.drop2{
+    left:50%;
+    top:100%;
+    height:68px;
+    animation-delay:1s;
+}
+
+.drop3{
+    left:78%;
+    top:100%;
+    height:48px;
+    animation-delay:1.8s;
+}
+
+@keyframes drip{
+
+    0%,100%{
+        transform:scaleY(.9);
+    }
+
+    50%{
+        transform:scaleY(1.12);
+    }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+    #scrollWorld{
+        height:500vh;
+    }
+
+    .cover-corner{
+
+        width:72px;
+        height:100px;
+
+        top:14px;
+        right:14px;
+    }
+
+    .progress{
+
+        left:10px;
+
+        height:100px;
+    }
+
+    .progress-label{
+        display:none;
+    }
+
+    .scene{
+
+        width:88vw;
+    }
+
+    .intro-title{
+
+        font-size:
+            clamp(2.5rem,14vw,5rem);
+
+        letter-spacing:4px;
+    }
+
+    .secret-code{
+
+        white-space:normal;
+
+        overflow:visible;
+
+        line-height:1.8;
+
+        margin-bottom:85px;
+    }
+
+    .secret-text{
+
+        font-size:1rem;
+
+        line-height:2;
+
+        max-width:90vw;
+    }
+
+    .shop-grid{
+
+        grid-template-columns:1fr;
+
+        gap:10px;
+    }
+
+    .order-card{
+
+        max-height:82vh;
+
+        overflow-y:auto;
+
+        padding:24px 18px;
+    }
+
+    .order-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:15px;
+    }
+
+    .order-heading{
+
+        font-size:2rem;
+    }
+
+    .shop-button{
+
+        min-height:58px;
+    }
+
+    .download-button{
+
+        min-height:68px;
+
+        font-size:.9rem;
+    }
+
+    .blood-drop{
+
+        transform:scale(.8);
+    }
+
+}
+
+/* =========================================================
+   SEHR KLEINE SMARTPHONES
+========================================================= */
+
+@media(max-width:390px){
+
+    .cover-corner{
+
+        width:62px;
+        height:88px;
+    }
+
+    .intro-title{
+
+        font-size:2.3rem;
+    }
+
+    .secret-code{
+
+        font-size:.85rem;
+    }
+
+    .order-card{
+
+        padding:20px 14px;
+    }
+
+}
+
+/* =========================================================
+   TOUCH
+========================================================= */
+
+@media(hover:none){
+
+    .shop-button:hover,
+    .download-button:hover,
+    .cover-corner:hover{
+
+        transform:none;
+    }
+
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="grain"></div>
+
+<!-- =======================================================
+     COVER OBEN RECHTS
+======================================================= -->
+
+<div class="cover-corner">
+
+    <iframe
+        src="buch-cover.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0"
+        title="Cover von Nur ein Pfiff">
+    </iframe>
+
+    <div class="cover-label">
+        NUR EIN PFIFF
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     FORTSCHRITTSBALKEN
+======================================================= -->
+
+<div class="progress">
+
+    <div
+        class="progress-fill"
+        id="progressFill">
+    </div>
+
+    <div class="progress-label">
+        01 — 05
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     FIXIERTE BÜHNE
+======================================================= -->
+
+<div id="stage">
+
+
+    <!-- ===================================================
+         SZENE 1
+    ==================================================== -->
+
+    <section
+        class="scene active"
+        id="scene0">
+
+        <div class="intro-content">
+
+            <div class="intro-small">
+                EIN PSYCHOTHRILLER
+            </div>
+
+            <h1 class="intro-title">
+                NUR EIN<br>PFIFF
+            </h1>
+
+            <div class="intro-line"></div>
+
+            <div class="scroll-text">
+                SCROLL
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SZENE 2
+    ==================================================== -->
+
+    <section
+        class="scene"
+        id="scene1">
+
+        <h2 class="blood-title">
+            NUR EIN PFIFF
+        </h2>
+
+        <div class="subtitle">
+            Manche Geräusche sollte man nie hören.
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SZENE 3
+    ==================================================== -->
+
+    <section
+        class="scene"
+        id="scene2">
+
+        <div class="secret-wrapper">
+
+            <div class="secret-code" id="secretCode">
+
+                abcdefghijklmnopqrstuvwxyz1234567890
+
+                <div class="slash-container">
+                    <div
+                        class="slash"
+                        id="slash">
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="secret-text">
+                Mit jedem Scrollen enthüllt die Dunkelheit
+                weitere Geheimnisse.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SZENE 4 — BESTELLEN
+    ==================================================== -->
+
+    <section
+        class="scene"
+        id="scene3">
+
+        <div class="order-card">
+
+            <div class="order-header">
+
+                <div>
+
+                    <div class="coming-soon">
+                        COMING SOON
+                    </div>
+
+                    <h2 class="order-heading">
+
+                        <span>
+                            DER THRILLER
+                        </span>
+
+                        NUR EIN PFIFF
+
+                    </h2>
+
+                    <p class="order-description">
+
+                        Ein Geräusch.
+                        Ein Moment.
+                        Und plötzlich ist nichts mehr so,
+                        wie es vorher war.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Blut -->
+
+            <span class="blood-drop drop1"></span>
+            <span class="blood-drop drop2"></span>
+            <span class="blood-drop drop3"></span>
+
+
+            <!-- Shops -->
+
+            <div class="shop-grid">
+
+                <a
+                    class="shop-button"
+                    href="https://www.amazon.de/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    <span class="shop-name">
+                        AMAZON
+                    </span>
+
+                    <span class="shop-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="shop-button"
+                    href="https://www.thalia.de/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    <span class="shop-name">
+                        THALIA
+                    </span>
+
+                    <span class="shop-arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- Download -->
+
+            <div class="download-box">
+
+                <a
+                    class="download-button"
+                    href="buch-dokument.pdf"
+                    download="Nur-ein-Pfiff.pdf">
+
+                    <span class="download-icon">
+                        ↓
+                    </span>
+
+                    <span>
+                        DOKUMENT HERUNTERLADEN
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <div class="shop-grid">
+
+                <a
+                    class="shop-button"
+                    href="https://hugendubel.de/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    <span class="shop-name">
+                        HUGENDUBEL
+                    </span>
+
+                    <span class="shop-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="shop-button"
+                    href="https://www.genialokal.de/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    <span class="shop-name">
+                        GENIALOKAL
+                    </span>
+
+                    <span class="shop-arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SZENE 5 — FOOTER
+    ==================================================== -->
+
+    <section
+        class="scene"
+        id="scene4">
+
+        <div class="footer-content">
+
+            <div class="footer-main">
+
+                © 2026
+
+            </div>
+
+
+            <a
+                class="footer-link"
+                href="https://www.instagram.com/thesimonfischer"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                Simon Fischer
+
+            </a>
+
+
+            <div class="footer-small">
+
+                MADE BY
+                <span class="heart">
+                    ♥
+                </span>
+                ROTES HERZ
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =======================================================
+     JAVASCRIPT
+======================================================= -->
+
+<script>
+
+/* =========================================================
+   ELEMENTE
+========================================================= */
+
+const scenes =
+    document.querySelectorAll(".scene");
+
+const world =
+    document.getElementById("scrollWorld");
+
+const slash =
+    document.getElementById("slash");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+
+/* =========================================================
+   SZENEN STEUERN
+========================================================= */
+
+function updateScene(){
+
+    const maxScroll =
+        world.offsetHeight - window.innerHeight;
+
+    const scroll =
+        window.scrollY;
+
+    const progress =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                scroll / maxScroll
+            )
+        );
+
+    /*
+       5 Szenen über die gesamte Scrollstrecke
+    */
+
+    let index =
+        Math.floor(
+            progress * scenes.length
+        );
+
+    if(index >= scenes.length){
+        index = scenes.length - 1;
+    }
+
+
+    scenes.forEach(
+        (scene,i)=>{
+
+            scene.classList.toggle(
+                "active",
+                i === index
+            );
+
+        }
+    );
+
+
+    /* Fortschrittsbalken */
+
+    progressFill.style.height =
+        (progress * 100) + "%";
+
+
+    /* =====================================================
+       KRATZER / BLUTSCHNITT
+       Wird nur während Szene 3 aufgebaut.
+    ===================================================== */
+
+    const sceneProgress =
+        (progress * scenes.length) - index;
+
+
+    if(index === 2){
+
+        /*
+           Der Kratzer wächst mit dem Scrollen.
+        */
+
+        const slashProgress =
+            Math.max(
+                0,
+                Math.min(
+                    1,
+                    sceneProgress
+                )
+            );
+
+        slash.style.width =
+            (slashProgress * 100) + "%";
+
+    }
+
+    else if(index > 2){
+
+        slash.style.width = "100%";
+
+    }
+
+    else{
+
+        slash.style.width = "0%";
+
+    }
+
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+let ticking = false;
+
+window.addEventListener(
+    "scroll",
+    ()=>{
+
+        if(!ticking){
+
+            window.requestAnimationFrame(
+                ()=>{
+
+                    updateScene();
+
+                    ticking = false;
+
+                }
+            );
+
+            ticking = true;
+        }
+
+    },
+    {passive:true}
+);
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    updateScene
+);
+
+
+/* =========================================================
+   MODAL / KLICK-SICHERHEIT
+========================================================= */
+
+/*
+   Die Buttons funktionieren bewusst als echte <a>-Links.
+   Dadurch funktionieren sie auch auf iPhone,
+   Safari, Chrome und Desktop zuverlässig.
+*/
+
+
+/* =========================================================
+   TOUCH / MOBILE SCROLL
+========================================================= */
+
+let touchStartY = 0;
+
+window.addEventListener(
+    "touchstart",
+    (event)=>{
+
+        touchStartY =
+            event.touches[0].clientY;
+
+    },
+    {passive:true}
+);
+
+window.addEventListener(
+    "touchmove",
+    ()=>{
+        /*
+           Nichts blockieren.
+           Dadurch bleibt normales iPhone-Scrolling
+           vollständig funktionsfähig.
+        */
+    },
+    {passive:true}
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+updateScene();
+
+</script>
+
+</body>
+</html>
