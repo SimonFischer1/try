@@ -3,22 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#050b0f">
 
-<title>Jenseits der Gleichung – Brigitta Nuss</title>
+<title>Jenseits der Gleichung</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
-
 :root {
-    --bg: #050b0f;
-    --bg2: #071117;
-    --text: #e8eef0;
-    --muted: #8da0a7;
-    --line: rgba(126, 164, 177, .22);
-    --accent: #8fb7c3;
-    --accent-soft: rgba(143,183,195,.12);
-    --max: 1180px;
+    --bg: #050b0e;
+    --bg2: #071116;
+    --text: #dfe8eb;
+    --muted: #81949b;
+    --line: rgba(128, 164, 174, 0.25);
+    --line-strong: rgba(142, 187, 198, 0.42);
+    --accent: #91aeb7;
 }
 
 * {
@@ -32,19 +28,24 @@ html {
 
 body {
     margin: 0;
+    min-height: 100%;
     background:
-        radial-gradient(circle at 50% 35%, rgba(25,65,78,.12), transparent 38%),
+        radial-gradient(
+            ellipse at 50% 30%,
+            rgba(20, 48, 58, 0.18),
+            transparent 55%
+        ),
         var(--bg);
     color: var(--text);
-    font-family: "Libre Baskerville", Georgia, serif;
+    font-family: Georgia, "Times New Roman", serif;
     overflow-x: hidden;
 }
 
 /* =========================================================
-   ANIMIERTE FORMELN IM HINTERGRUND
-   ========================================================= */
+   ANIMIERTER FORMEL-HINTERGRUND
+========================================================= */
 
-.formulas {
+.formula-background {
     position: fixed;
     inset: 0;
     overflow: hidden;
@@ -54,489 +55,767 @@ body {
 
 .formula {
     position: absolute;
-    color: rgba(115,153,164,.075);
-    font-family: "Space Mono", monospace;
     white-space: nowrap;
-    animation: floatFormula linear infinite;
+    color: rgba(126, 166, 177, 0.055);
+    font-family: "Courier New", monospace;
+    font-size: clamp(18px, 2.2vw, 32px);
+    letter-spacing: 3px;
+    animation: drift linear infinite;
 }
 
-.f1 { top: 12%; left: 5%; font-size: clamp(14px, 2vw, 25px); animation-duration: 26s; }
-.f2 { top: 28%; left: 60%; font-size: clamp(13px, 1.8vw, 22px); animation-duration: 31s; }
-.f3 { top: 45%; left: 12%; font-size: clamp(14px, 2vw, 24px); animation-duration: 35s; }
-.f4 { top: 61%; left: 68%; font-size: clamp(13px, 1.7vw, 22px); animation-duration: 29s; }
-.f5 { top: 78%; left: 18%; font-size: clamp(14px, 1.9vw, 23px); animation-duration: 33s; }
-.f6 { top: 88%; left: 65%; font-size: clamp(13px, 1.8vw, 22px); animation-duration: 38s; }
+.formula:nth-child(1) {
+    top: 12%;
+    left: -20%;
+    animation-duration: 34s;
+}
 
-@keyframes floatFormula {
+.formula:nth-child(2) {
+    top: 28%;
+    left: -35%;
+    animation-duration: 42s;
+    animation-delay: -12s;
+}
+
+.formula:nth-child(3) {
+    top: 47%;
+    left: -15%;
+    animation-duration: 38s;
+    animation-delay: -22s;
+}
+
+.formula:nth-child(4) {
+    top: 67%;
+    left: -30%;
+    animation-duration: 45s;
+    animation-delay: -8s;
+}
+
+.formula:nth-child(5) {
+    top: 82%;
+    left: -25%;
+    animation-duration: 36s;
+    animation-delay: -19s;
+}
+
+.formula:nth-child(6) {
+    top: 91%;
+    left: -10%;
+    animation-duration: 48s;
+    animation-delay: -30s;
+}
+
+@keyframes drift {
     0% {
-        transform: translate3d(-5vw, 0, 0) rotate(-2deg);
+        transform: translateX(0) translateY(0);
     }
+
     50% {
-        transform: translate3d(7vw, -3vh, 0) rotate(2deg);
+        transform: translateX(65vw) translateY(-15px);
     }
+
     100% {
-        transform: translate3d(-5vw, 0, 0) rotate(-2deg);
+        transform: translateX(145vw) translateY(5px);
     }
 }
 
 /* =========================================================
-   ALLGEMEIN
-   ========================================================= */
+   SEITENSTRUKTUR
+========================================================= */
 
-main,
-footer {
+main {
     position: relative;
-    z-index: 2;
+    z-index: 1;
 }
 
 section {
+    position: relative;
     min-height: 100svh;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 90px 24px;
-    position: relative;
+    padding:
+        clamp(70px, 10vh, 120px)
+        clamp(18px, 6vw, 90px);
 }
 
-.inner {
-    width: min(100%, var(--max));
-    margin: auto;
+/* =========================================================
+   SCROLL-HINWEIS
+========================================================= */
+
+.scroll-hint {
+    position: absolute;
+    bottom: clamp(25px, 5vh, 55px);
+    left: 50%;
+    transform: translateX(-50%);
+    color: #71838a;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    letter-spacing: 8px;
     text-align: center;
-}
-
-.mono {
-    font-family: "Space Mono", monospace;
-}
-
-.scroll {
-    margin-top: 55px;
-    font-family: "Space Mono", monospace;
-    font-size: 11px;
-    letter-spacing: .45em;
-    color: #7e9096;
     animation: pulse 2.2s ease-in-out infinite;
+    white-space: nowrap;
 }
 
 @keyframes pulse {
-    0%,100% {
-        opacity: .25;
-        transform: translateY(0);
+    0%, 100% {
+        opacity: 0.25;
     }
+
     50% {
-        opacity: .8;
-        transform: translateY(4px);
+        opacity: 0.85;
     }
 }
 
 /* =========================================================
    HERO
-   ========================================================= */
+========================================================= */
 
 .hero {
-    min-height: 100svh;
-    padding-top: 70px;
+    text-align: center;
+    flex-direction: column;
 }
 
-.author {
-    font-family: "Space Mono", monospace;
-    font-size: clamp(10px, 1.3vw, 15px);
-    letter-spacing: .42em;
-    color: #81949b;
-    margin-bottom: 25px;
+.eyebrow {
+    margin-bottom: 28px;
+    color: #71838a;
+    font-family: "Courier New", monospace;
+    font-size: clamp(11px, 1.4vw, 17px);
+    letter-spacing: clamp(4px, 1vw, 10px);
+    text-transform: uppercase;
 }
 
 .hero h1 {
     margin: 0;
-    font-size: clamp(54px, 10vw, 145px);
-    line-height: .88;
-    letter-spacing: -.055em;
+    max-width: 1000px;
+    font-size: clamp(48px, 10vw, 145px);
+    line-height: 0.9;
     font-weight: 400;
+    letter-spacing: -3px;
 }
 
 .hero h1 span {
     display: block;
 }
 
-.subtitle {
-    margin: 40px auto 0;
-    max-width: 760px;
-    font-family: "Space Mono", monospace;
-    color: #87999f;
-    font-size: clamp(11px, 1.4vw, 16px);
-    letter-spacing: .28em;
-    line-height: 1.9;
-    text-transform: uppercase;
-}
-
-.cover-small {
-    position: absolute;
-    top: 45px;
-    right: 5%;
-    width: 105px;
-    max-width: 18vw;
-    border: 1px solid rgba(143,183,195,.3);
-    box-shadow: 0 0 30px rgba(90,140,155,.08);
+.hero-subtitle {
+    margin-top: 45px;
+    max-width: 800px;
+    color: var(--muted);
+    font-size: clamp(18px, 2.4vw, 31px);
+    line-height: 1.45;
 }
 
 /* =========================================================
    GLEICHUNG
-   ========================================================= */
+========================================================= */
 
 .equation-section {
-    padding-top: 80px;
+    flex-direction: column;
+    text-align: center;
 }
 
 .section-title {
-    font-size: clamp(28px, 5vw, 60px);
-    line-height: 1.2;
-    margin: 0 auto 12px;
+    margin: 0 0 12px;
+    font-size: clamp(30px, 5vw, 66px);
     font-weight: 400;
+    line-height: 1.15;
 }
 
 .section-subtitle {
-    color: #aab8bc;
-    font-size: clamp(16px, 2vw, 25px);
-    line-height: 1.55;
-    margin: 0 auto 55px;
+    margin: 0 0 45px;
+    color: #a9b6ba;
+    font-size: clamp(18px, 2.5vw, 30px);
 }
 
+/* =========================================================
+   INTERAKTIVES FUNKTIONS-KÄSTCHEN
+========================================================= */
+
 .function-box {
-    width: min(100%, 900px);
-    min-height: 430px;
-    margin: auto;
-    border: 1px solid var(--line);
-    background: rgba(4,12,16,.48);
     position: relative;
-    overflow: hidden;
+    width: min(900px, 92vw);
+    min-height: 430px;
+
+    border: 1px solid var(--line);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(8, 19, 23, 0.82),
+            rgba(5, 12, 15, 0.9)
+        );
+
+    box-shadow:
+        inset 0 0 80px rgba(61, 103, 115, 0.035),
+        0 0 60px rgba(0, 0, 0, 0.3);
+
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow:
-        inset 0 0 80px rgba(74,117,130,.025),
-        0 0 40px rgba(0,0,0,.2);
+
+    overflow: hidden;
 }
 
 .function-box::before {
     content: "";
     position: absolute;
     inset: 0;
-    background:
-        linear-gradient(rgba(120,160,170,.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(120,160,170,.045) 1px, transparent 1px);
-    background-size: 70px 70px;
+
+    background-image:
+        linear-gradient(
+            rgba(125, 165, 175, 0.045) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(125, 165, 175, 0.045) 1px,
+            transparent 1px
+        );
+
+    background-size: 72px 72px;
+
+    pointer-events: none;
 }
+
+.function-box::after {
+    content: "";
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    background: rgba(73, 121, 134, 0.045);
+
+    filter: blur(70px);
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   INTERAKTIVE GLEICHUNG
+========================================================= */
 
 .equation {
     position: relative;
     z-index: 2;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(22px, 5vw, 75px);
-    font-family: "Libre Baskerville", serif;
-    font-size: clamp(42px, 8vw, 88px);
-    color: #a8c2ca;
-    white-space: nowrap;
+
+    gap: clamp(18px, 4vw, 55px);
+
+    width: 100%;
+    padding: 30px 20px;
+
+    color: #a7bdc4;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: clamp(45px, 8vw, 90px);
+
+    line-height: 1;
 }
 
-.eq-symbol {
-    display: inline-block;
-    min-width: .65em;
-    text-align: center;
-}
-
-.function-data {
-    position: absolute;
-    z-index: 3;
-    inset: auto 0 38px;
-    display: flex;
-    flex-direction: column;
+.eq-part {
+    display: inline-flex;
     align-items: center;
-    gap: 22px;
-    color: #78949d;
-    font-family: "Space Mono", monospace;
-    font-size: clamp(9px, 1.4vw, 14px);
-    letter-spacing: .22em;
+    justify-content: center;
+
+    min-width: 70px;
+
+    transition:
+        transform 0.35s ease,
+        color 0.35s ease,
+        text-shadow 0.35s ease;
 }
 
-.function-data span {
-    display: block;
+.eq-part.clickable {
+    cursor: pointer;
+}
+
+.eq-part.clickable:hover,
+.eq-part.clickable.active {
+    color: #dbe8eb;
+
+    transform:
+        translateY(-5px)
+        scale(1.04);
+
+    text-shadow:
+        0 0 12px
+        rgba(160, 198, 207, 0.35);
+}
+
+/* =========================================================
+   FUNKTIONS-INFORMATION
+========================================================= */
+
+.function-info {
+    position: relative;
+    z-index: 3;
+
+    width: min(620px, 82%);
+    min-height: 75px;
+
+    margin-top: 10px;
+    padding: 18px 24px;
+
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+
+    color: #81969d;
+
+    font-family: "Courier New", monospace;
+
+    font-size: clamp(13px, 1.7vw, 18px);
+
+    letter-spacing: 2px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.function-info strong {
+    color: #a9bec5;
+    font-weight: normal;
+}
+
+/* =========================================================
+   ZUSÄTZLICHE FORMELN
+========================================================= */
+
+.equation-details {
+    position: relative;
+    z-index: 2;
+
+    width: min(700px, 90%);
+
+    margin-top: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    color: #657c84;
+
+    font-family: "Courier New", monospace;
+
+    font-size: clamp(13px, 2vw, 20px);
+
+    letter-spacing: 3px;
+}
+
+/* =========================================================
+   KLEINER TEXT
+========================================================= */
+
+.pattern-text {
+    margin-top: 38px;
+
+    max-width: 800px;
+
+    color: #738990;
+
+    font-family: "Courier New", monospace;
+
+    font-size: clamp(11px, 1.5vw, 15px);
+
+    letter-spacing: clamp(2px, 0.8vw, 7px);
+
+    text-align: center;
 }
 
 /* =========================================================
    STORY
-   ========================================================= */
+========================================================= */
 
 .story {
-    min-height: 95svh;
+    text-align: center;
+    flex-direction: column;
+}
+
+.story-inner {
+    width: min(900px, 92vw);
 }
 
 .story h2 {
-    font-size: clamp(28px, 5vw, 58px);
+    margin: 0 0 45px;
+
+    font-size: clamp(30px, 5vw, 65px);
+
     font-weight: 400;
-    margin: 0 auto 45px;
-    line-height: 1.25;
 }
 
-.story-card {
-    width: min(100%, 950px);
-    margin: auto;
-    border: 1px solid var(--line);
-    padding: clamp(28px, 6vw, 70px);
-    background: rgba(5,13,17,.48);
+.story p {
+    margin: 0 auto 30px;
+
+    max-width: 760px;
+
+    color: #a5b0b3;
+
+    font-size: clamp(18px, 2.3vw, 28px);
+
+    line-height: 1.7;
 }
 
-.story-card p {
-    font-size: clamp(16px, 2vw, 23px);
-    line-height: 1.9;
-    color: #bac5c8;
-    margin: 0 0 25px;
-}
-
-.story-card p:last-child {
-    margin-bottom: 0;
-}
-
-.quote {
-    font-size: clamp(23px, 4vw, 45px) !important;
-    color: #e8eef0 !important;
+.story p.highlight {
+    color: #d9e1e3;
 }
 
 /* =========================================================
    COVER
-   ========================================================= */
+========================================================= */
 
 .cover-section {
-    min-height: auto;
-    padding-top: 120px;
-    padding-bottom: 130px;
+    flex-direction: column;
+    text-align: center;
 }
 
 .cover-section h2 {
-    font-size: clamp(30px, 5vw, 58px);
+    margin-bottom: 12px;
+
+    font-size: clamp(30px, 5vw, 60px);
+
     font-weight: 400;
-    margin: 0 0 15px;
 }
 
-.cover-section .intro {
-    color: #8fa1a7;
-    font-family: "Space Mono", monospace;
-    font-size: clamp(10px, 1.4vw, 15px);
-    letter-spacing: .12em;
-    margin-bottom: 55px;
+.cover-section p {
+    margin-top: 0;
+    margin-bottom: 40px;
+
+    color: #83949a;
+
+    font-size: clamp(16px, 2vw, 23px);
 }
 
 .cover-frame {
-    width: min(78vw, 440px);
-    margin: auto;
-    border: 1px solid var(--line);
-    padding: 14px;
-    background: rgba(4,10,14,.55);
+    position: relative;
+
+    width: min(390px, 72vw);
+
+    aspect-ratio: 2 / 3;
+
+    border: 1px solid var(--line-strong);
+
+    background: #071015;
+
+    box-shadow:
+        0 0 60px
+        rgba(52, 90, 101, 0.08);
+
+    overflow: hidden;
 }
 
-.cover-frame img {
-    display: block;
+.cover-frame iframe {
     width: 100%;
-    height: auto;
-}
-
-.cover-note {
-    margin-top: 30px;
-    color: #75878d;
-    font-family: "Space Mono", monospace;
-    font-size: 10px;
-    letter-spacing: .3em;
+    height: 100%;
+    border: 0;
 }
 
 /* =========================================================
-   KAUFEN
-   ========================================================= */
+   KAUF-BEREICH
+========================================================= */
 
 .buy-section {
-    min-height: 85svh;
+    text-align: center;
+    flex-direction: column;
 }
 
 .buy-section h2 {
-    font-size: clamp(30px, 5vw, 62px);
+    margin: 0 0 18px;
+
+    font-size: clamp(32px, 5vw, 64px);
+
     font-weight: 400;
-    margin: 0 0 20px;
+
+    line-height: 1.15;
 }
 
 .buy-section p {
-    color: #8fa0a5;
-    font-family: "Space Mono", monospace;
-    font-size: clamp(10px, 1.5vw, 15px);
-    letter-spacing: .12em;
-    line-height: 1.8;
+    margin: 0 0 55px;
+
+    color: #8a9ca2;
+
+    font-family: "Courier New", monospace;
+
+    font-size: clamp(12px, 1.5vw, 17px);
+
+    letter-spacing: 4px;
 }
 
-.shop-grid {
-    width: min(100%, 900px);
-    margin: 55px auto 0;
+/* =========================================================
+   AMAZON / THALIA / HUGENDUBEL
+========================================================= */
+
+.buy-links {
+    width: min(1020px, 92vw);
+
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
 }
 
-.shop-button {
-    min-height: 95px;
-    border: 1px solid rgba(143,183,195,.28);
-    background: rgba(6,15,20,.65);
-    color: #dbe5e7;
+.buy-button {
+    position: relative;
+
+    min-height: 108px;
+
+    padding: 22px 18px;
+
+    border: 1px solid var(--line-strong);
+
+    background:
+        rgba(5, 15, 18, 0.72);
+
+    color: #dce6e8;
+
     text-decoration: none;
+
     display: flex;
+
     flex-direction: column;
-    justify-content: center;
+
     align-items: center;
-    gap: 8px;
+
+    justify-content: center;
+
+    gap: 13px;
+
     transition:
-        background .3s ease,
-        border-color .3s ease,
-        transform .3s ease,
-        box-shadow .3s ease;
+        background 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
-.shop-button strong {
-    font-family: "Space Mono", monospace;
-    font-size: 12px;
-    letter-spacing: .22em;
+.buy-button:hover,
+.buy-button:focus-visible {
+    background:
+        rgba(42, 68, 76, 0.22);
+
+    border-color: #9bb8c0;
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0, 0, 0, 0.22);
+
+    outline: none;
 }
 
-.shop-button span {
-    color: #71858c;
-    font-family: "Space Mono", monospace;
-    font-size: 9px;
-    letter-spacing: .16em;
+.shop-name {
+    font-family: "Courier New", monospace;
+
+    font-size: clamp(13px, 1.5vw, 17px);
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
 }
 
-.shop-button:hover {
-    transform: translateY(-4px);
-    border-color: rgba(170,205,214,.65);
-    background: rgba(25,48,56,.35);
-    box-shadow: 0 15px 45px rgba(0,0,0,.25);
+.shop-action {
+    color: #6f838a;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
 }
 
 /* =========================================================
    FOOTER
-   ========================================================= */
+========================================================= */
 
 footer {
-    border-top: 1px solid rgba(126,164,177,.14);
-    padding: 55px 24px 25px;
+    position: relative;
+    z-index: 2;
+
+    padding:
+        55px 20px
+        calc(55px + env(safe-area-inset-bottom));
+
+    border-top:
+        1px solid
+        rgba(125, 165, 175, 0.12);
+
     text-align: center;
-    background: rgba(3,8,11,.75);
 }
 
 .legal-links {
     display: flex;
+
     justify-content: center;
+
+    align-items: center;
+
     flex-wrap: wrap;
-    gap: 12px 30px;
+
+    gap: 10px 22px;
 }
 
 .legal-links button {
     border: 0;
+
     background: transparent;
-    color: #7f9298;
-    font-family: "Space Mono", monospace;
-    font-size: 10px;
-    letter-spacing: .15em;
+
+    color: #71838a;
+
     cursor: pointer;
-    padding: 8px;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    transition:
+        color 0.25s ease;
 }
 
 .legal-links button:hover {
-    color: #c1d1d5;
+    color: #d3dfe2;
 }
 
-.made {
+.footer-heart {
     margin-top: 35px;
-    color: #60737a;
-    font-family: "Space Mono", monospace;
-    font-size: 9px;
-    letter-spacing: .18em;
-}
 
-.made .heart {
-    color: #d98991;
+    color: #74868c;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
 }
 
 /* =========================================================
    MODAL
-   ========================================================= */
+========================================================= */
 
 .modal {
     position: fixed;
+
     inset: 0;
-    background: rgba(0,0,0,.78);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: none;
+
+    display: flex;
+
     align-items: center;
+
     justify-content: center;
-    padding: 20px;
+
+    padding: 25px;
+
+    background:
+        rgba(0, 5, 7, 0.82);
+
+    backdrop-filter: blur(8px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+
     z-index: 100;
 }
 
-.modal.active {
-    display: flex;
+.modal.open {
+    opacity: 1;
+    visibility: visible;
 }
 
-.modal-box {
-    width: min(100%, 760px);
-    max-height: 85svh;
-    overflow-y: auto;
-    background: #071117;
-    border: 1px solid rgba(143,183,195,.3);
-    padding: clamp(25px, 5vw, 55px);
+.modal-content {
     position: relative;
+
+    width: min(700px, 94vw);
+
+    max-height: 85svh;
+
+    overflow-y: auto;
+
+    padding:
+        clamp(25px, 5vw, 55px);
+
+    border: 1px solid var(--line-strong);
+
+    background: #071015;
+
+    box-shadow:
+        0 0 80px
+        rgba(0, 0, 0, 0.5);
 }
 
-.modal-box h2 {
+.modal-content h2 {
     margin-top: 0;
-    font-size: clamp(25px, 4vw, 42px);
+
+    font-size:
+        clamp(28px, 5vw, 48px);
+
     font-weight: 400;
 }
 
-.modal-box h3 {
-    margin-top: 35px;
-    color: #b8c9ce;
+.modal-content p {
+    color: #a8b4b8;
+
+    font-size: 16px;
+
+    line-height: 1.7;
 }
 
-.modal-box p,
-.modal-box li {
-    color: #98aab0;
-    font-family: "Space Mono", monospace;
-    font-size: 12px;
-    line-height: 1.8;
-}
-
-.close-modal {
+.modal-close {
     position: absolute;
+
     top: 15px;
-    right: 20px;
+    right: 18px;
+
     border: 0;
-    background: transparent;
-    color: #91a7ae;
-    font-size: 27px;
+
+    background: none;
+
+    color: #81949b;
+
+    font-size: 25px;
+
     cursor: pointer;
 }
 
-/* =========================================================
-   TABLET
-   ========================================================= */
+.legal-content {
+    display: none;
+}
 
-@media (max-width: 800px) {
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
 
     section {
-        padding: 80px 18px;
-    }
+        min-height: 100svh;
 
-    .cover-small {
-        width: 75px;
-        right: 18px;
-        top: 25px;
+        padding:
+            75px
+            16px
+            85px;
     }
 
     .hero {
@@ -544,235 +823,175 @@ footer {
     }
 
     .hero h1 {
-        font-size: clamp(48px, 14vw, 100px);
-        letter-spacing: -.045em;
+        font-size:
+            clamp(47px, 15vw, 85px);
+
+        letter-spacing: -1px;
     }
 
-    .subtitle {
-        max-width: 90%;
-        letter-spacing: .18em;
+    .hero-subtitle {
+        margin-top: 28px;
+        padding: 0 12px;
     }
 
-    .function-box {
-        min-height: 390px;
-    }
-
-    .equation {
-        gap: clamp(14px, 5vw, 35px);
-        font-size: clamp(38px, 10vw, 72px);
-    }
-
-    .shop-grid {
-        grid-template-columns: 1fr;
-        max-width: 500px;
-    }
-
-    .shop-button {
-        min-height: 80px;
-    }
-}
-
-/* =========================================================
-   SMARTPHONE
-   ========================================================= */
-
-@media (max-width: 520px) {
-
-    section {
-        padding-left: 14px;
-        padding-right: 14px;
-    }
-
-    .hero {
-        min-height: 100svh;
-        padding-top: 110px;
-    }
-
-    .author {
-        font-size: 9px;
-        letter-spacing: .25em;
-        margin-bottom: 22px;
-    }
-
-    .hero h1 {
-        font-size: clamp(46px, 16vw, 76px);
-        line-height: .94;
-        letter-spacing: -.04em;
-    }
-
-    .subtitle {
-        margin-top: 30px;
-        font-size: 9px;
-        line-height: 2;
-        letter-spacing: .13em;
-        max-width: 95%;
-    }
-
-    .cover-small {
-        width: 62px;
-        max-width: none;
-        top: 18px;
-        right: 14px;
-    }
-
-    .scroll {
-        margin-top: 45px;
-        font-size: 9px;
+    .equation-section {
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
     .section-title {
-        font-size: clamp(27px, 9vw, 42px);
+        max-width: 94vw;
     }
 
     .section-subtitle {
-        font-size: 14px;
-        line-height: 1.6;
-        margin-bottom: 35px;
+        max-width: 90vw;
+        margin-bottom: 30px;
     }
 
     .function-box {
-        width: 100%;
-        min-height: 360px;
+        width: 94vw;
+        min-height: 430px;
     }
 
     .equation {
-        width: 100%;
-        gap: 0;
-        justify-content: space-evenly;
-        font-size: clamp(34px, 12vw, 60px);
+        gap: 8px;
+
+        padding:
+            25px 10px;
+
+        font-size:
+            clamp(38px, 13vw, 65px);
     }
 
-    .eq-symbol {
+    .eq-part {
         min-width: auto;
     }
 
-    .function-data {
-        bottom: 25px;
-        gap: 13px;
-        font-size: 8px;
-        letter-spacing: .12em;
+    .function-info {
+        width: 88%;
+
+        padding:
+            16px 12px;
+
+        letter-spacing: 1px;
+
+        line-height: 1.6;
     }
 
-    .story {
-        min-height: auto;
-        padding-top: 110px;
-        padding-bottom: 110px;
+    .equation-details {
+        width: 90%;
+
+        gap: 12px;
+
+        flex-wrap: wrap;
+
+        line-height: 2;
+
+        text-align: center;
     }
 
-    .story h2 {
-        font-size: clamp(27px, 8vw, 39px);
-        line-height: 1.35;
-    }
-
-    .story-card {
-        padding: 27px 20px;
-    }
-
-    .story-card p {
-        font-size: 14px;
-        line-height: 1.85;
-    }
-
-    .quote {
-        font-size: 20px !important;
-        line-height: 1.55 !important;
-    }
-
-    .cover-section {
-        padding-top: 90px;
-        padding-bottom: 100px;
-    }
-
-    .cover-section h2 {
-        font-size: 30px;
-        line-height: 1.3;
-    }
-
-    .cover-section .intro {
-        font-size: 8px;
+    .pattern-text {
         line-height: 1.8;
+        max-width: 90vw;
+    }
+
+    .story-inner {
+        width: 94vw;
+    }
+
+    .story p {
+        line-height: 1.55;
     }
 
     .cover-frame {
-        width: min(82vw, 350px);
-        padding: 9px;
+        width: min(330px, 78vw);
     }
 
-    .cover-note {
-        font-size: 8px;
-        line-height: 1.8;
+    /* Buttons untereinander auf dem iPhone */
+
+    .buy-links {
+        grid-template-columns: 1fr;
+
+        width:
+            min(88vw, 420px);
+
+        gap: 14px;
     }
 
-    .buy-section {
-        min-height: auto;
-        padding-top: 90px;
-        padding-bottom: 110px;
-    }
+    .buy-button {
+        min-height: 82px;
 
-    .buy-section h2 {
-        font-size: 31px;
-        line-height: 1.3;
+        padding:
+            17px 15px;
     }
 
     .buy-section p {
-        font-size: 8px;
-        line-height: 2;
+        margin-bottom: 35px;
+
+        letter-spacing: 2px;
+
+        line-height: 1.6;
     }
 
-    .shop-grid {
-        margin-top: 35px;
-        gap: 12px;
-    }
+    .scroll-hint {
+        bottom: 25px;
 
-    .shop-button {
-        min-height: 78px;
-    }
+        letter-spacing: 5px;
 
-    .shop-button strong {
         font-size: 10px;
     }
 
-    .shop-button span {
-        font-size: 7px;
-    }
-
-    footer {
-        padding: 40px 15px 22px;
-    }
-
-    .legal-links {
-        gap: 8px 12px;
-    }
-
-    .legal-links button {
-        font-size: 8px;
-    }
-
-    .made {
-        font-size: 7px;
+    .formula {
+        font-size: 15px;
     }
 }
 
 /* =========================================================
-   SEHR KLEINE GERÄTE
-   ========================================================= */
+   SEHR KLEINE SMARTPHONES
+========================================================= */
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
 
     .hero h1 {
         font-size: 43px;
     }
 
     .equation {
-        font-size: 31px;
+        gap: 5px;
+
+        font-size: 34px;
     }
 
     .function-box {
-        min-height: 330px;
+        min-height: 390px;
     }
 
-    .function-data {
-        font-size: 7px;
+    .function-info {
+        font-size: 11px;
+    }
+
+    .equation-details {
+        font-size: 11px;
+    }
+}
+
+/* =========================================================
+   BEWEGUNGEN REDUZIEREN
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    .formula,
+    .scroll-hint {
+        animation: none;
+    }
+
+    * {
+        transition-duration: 0.01ms !important;
     }
 }
 </style>
@@ -780,219 +999,312 @@ footer {
 
 <body>
 
-<!-- Bewegte Formeln -->
-<div class="formulas" aria-hidden="true">
-    <div class="formula f1">x → ∞ &nbsp;&nbsp; f(x) = ?</div>
-    <div class="formula f2">Σ (n = 1 ... ∞)</div>
-    <div class="formula f3">A ≠ B &nbsp;&nbsp; ?</div>
-    <div class="formula f4">y = f(x) &nbsp;&nbsp; Δx → 0</div>
-    <div class="formula f5">1 + 1 = 2 &nbsp;&nbsp; / &nbsp;&nbsp; oder doch nicht?</div>
-    <div class="formula f6">∞ → ∞ &nbsp;&nbsp; f(x) = x²</div>
+<!-- =====================================================
+     FORMEL-HINTERGRUND
+===================================================== -->
+
+<div class="formula-background" aria-hidden="true">
+
+    <div class="formula">
+        x → ∞ &nbsp;&nbsp; f(x) = ?
+    </div>
+
+    <div class="formula">
+        Σ(n=1...∞) &nbsp;&nbsp; A ≠ B
+    </div>
+
+    <div class="formula">
+        y = f(x) &nbsp;&nbsp; ∫ Δx
+    </div>
+
+    <div class="formula">
+        01 01 01 &nbsp;&nbsp; ERROR_001
+    </div>
+
+    <div class="formula">
+        x + y = ? &nbsp;&nbsp; ∞ → ∞
+    </div>
+
+    <div class="formula">
+        A = B &nbsp;&nbsp; / &nbsp;&nbsp; A ≠ B
+    </div>
+
 </div>
+
 
 <main>
 
-<!-- =======================================================
+<!-- =====================================================
      HERO
-     ======================================================= -->
+===================================================== -->
 
 <section class="hero">
-    <img class="cover-small" src="cover.pdf" alt="Cover von Jenseits der Gleichung">
 
-    <div class="inner">
-
-        <div class="author">
-            BRIGITTA NUSS
-        </div>
-
-        <h1>
-            <span>JENSEITS</span>
-            <span>DER</span>
-            <span>GLEICHUNG</span>
-        </h1>
-
-        <div class="subtitle">
-            EINE BIOGRAFISCH INSPIRIERTE ERZÄHLUNG<br>
-            SELBSTFINDUNG · WAHRNEHMUNG · EIGENER WEG
-        </div>
-
-        <div class="scroll">
-            SCROLL ···
-        </div>
-
+    <div class="eyebrow">
+        Eine biografisch inspirierte Erzählung
     </div>
+
+    <h1>
+        <span>JENSEITS</span>
+        <span>DER</span>
+        <span>GLEICHUNG</span>
+    </h1>
+
+    <div class="hero-subtitle">
+        Selbstfindung · Wahrnehmung · eigener Weg
+    </div>
+
+    <div class="scroll-hint">
+        SCROLL ···
+    </div>
+
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      GLEICHUNG
-     ======================================================= -->
+===================================================== -->
 
 <section class="equation-section">
-    <div class="inner">
 
-        <h2 class="section-title">
-            Die Gleichung stimmt.
-        </h2>
+    <h2 class="section-title">
+        Die Gleichung stimmt.
+    </h2>
 
-        <p class="section-subtitle">
-            Und trotzdem fehlt etwas.
-        </p>
+    <p class="section-subtitle">
+        Und trotzdem fehlt etwas.
+    </p>
 
-        <div class="function-box">
+    <div class="function-box">
 
-            <div class="equation">
-                <span class="eq-symbol">x</span>
-                <span class="eq-symbol">+</span>
-                <span class="eq-symbol">y</span>
-                <span class="eq-symbol">=</span>
-                <span class="eq-symbol">?</span>
-            </div>
+        <div class="equation">
 
-            <div class="function-data">
-                <span>∞ → ∞</span>
-                <span>A ≠ B</span>
-                <span>STRUCTURE / PATTERN / ORDER</span>
-                <span>ERROR_001</span>
-            </div>
+            <span
+                class="eq-part clickable"
+                data-info="X steht für das, was wir bereits zu wissen glauben."
+            >
+                x
+            </span>
+
+            <span class="eq-part">
+                +
+            </span>
+
+            <span
+                class="eq-part clickable"
+                data-info="Y steht für das, was noch nicht berechnet werden kann."
+            >
+                y
+            </span>
+
+            <span class="eq-part">
+                =
+            </span>
+
+            <span
+                class="eq-part clickable"
+                data-info="Die Antwort ist nicht immer eine Zahl."
+            >
+                ?
+            </span>
 
         </div>
 
-        <div class="scroll">
-            SCROLL ···
+        <div class="function-info" id="functionInfo">
+
+            <span>
+                Klicke auf
+                <strong>x</strong>,
+                <strong>y</strong>
+                oder
+                <strong>?</strong>.
+            </span>
+
+        </div>
+
+        <div class="equation-details">
+
+            <span>∞ → ∞</span>
+
+            <span>A ≠ B</span>
+
+            <span>f(x) = ?</span>
+
         </div>
 
     </div>
+
+    <div class="pattern-text">
+
+        STRUCTURE / PATTERN / ORDER
+
+        <br><br>
+
+        ERROR_001
+
+    </div>
+
+    <div class="scroll-hint">
+        SCROLL ···
+    </div>
+
 </section>
 
 
-<!-- =======================================================
-     GESCHICHTE
-     ======================================================= -->
+<!-- =====================================================
+     STORY
+===================================================== -->
 
 <section class="story">
-    <div class="inner">
+
+    <div class="story-inner">
 
         <h2>
             Jenseits der Gleichung
         </h2>
 
-        <div class="story-card">
+        <p class="highlight">
+            Ein Blick auf die Geschichte,
+            bevor du sie selbst aufschlägst.
+        </p>
 
-            <p class="quote">
-                Ein Blick auf die Geschichte,
-                bevor du sie selbst aufschlägst.
-            </p>
+        <p>
+            Manche Fragen lassen sich nicht berechnen.
+            Manche Wege lassen sich nicht planen.
+            Und manchmal beginnt die eigentliche Suche
+            genau dort, wo eine Gleichung nicht mehr weiterhilft.
+        </p>
 
-            <p>
-                Manchmal stimmt alles.
-                Die Zahlen passen. Die Wege sind logisch.
-                Die Erwartungen sind erfüllt.
-            </p>
-
-            <p>
-                Und trotzdem bleibt dieses Gefühl,
-                dass etwas nicht ganz aufgeht.
-            </p>
-
-            <p>
-                Zwischen Struktur und Zufall,
-                zwischen dem, was wir wissen,
-                und dem, was wir fühlen,
-                beginnt die eigentliche Suche.
-            </p>
-
-        </div>
-
-        <div class="scroll">
-            SCROLL ···
-        </div>
+        <p>
+            Zwischen dem, was war, dem, was ist,
+            und dem, was vielleicht noch kommt,
+            entsteht ein eigener Weg.
+        </p>
 
     </div>
+
+    <div class="scroll-hint">
+        SCROLL ···
+    </div>
+
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      COVER
-     ======================================================= -->
+===================================================== -->
 
 <section class="cover-section">
 
-    <div class="inner">
+    <h2>
+        Das Buch
+    </h2>
 
-        <h2>
-            Das Buch
-        </h2>
+    <p>
+        Ein Blick zwischen die Zeilen.
+    </p>
 
-        <div class="intro">
-            JENSEITS DER GLEICHUNG · BRIGITTA NUSS
-        </div>
+    <div class="cover-frame">
 
-        <div class="cover-frame">
-            <img src="cover.pdf" alt="Jenseits der Gleichung – Buchcover">
-        </div>
+        <!--
+            cover.pdf muss im selben Ordner
+            wie diese index.html liegen.
+        -->
 
-        <div class="cover-note">
-            EINE BIOGRAFISCH INSPIRIERTE ERZÄHLUNG
-        </div>
+        <iframe
+            src="cover.pdf#toolbar=0&navpanes=0&scrollbar=0"
+            title="Cover von Jenseits der Gleichung">
+        </iframe>
 
+    </div>
+
+    <div class="scroll-hint">
+        SCROLL ···
     </div>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      KAUFEN
-     ======================================================= -->
+===================================================== -->
 
 <section class="buy-section">
 
-    <div class="inner">
+    <h2>
+        Wo du das Buch findest.
+    </h2>
 
-        <h2>
-            Wo du das Buch findest.
-        </h2>
+    <p>
+        JENSEITS DER GLEICHUNG · BRIGITTA NUSS
+    </p>
 
-        <p>
-            JENSEITS DER GLEICHUNG · BRIGITTA NUSS
-        </p>
+    <div class="buy-links">
 
-        <div class="shop-grid">
+        <!-- =================================================
+             AMAZON
+        ================================================== -->
 
-            <!-- AMAZON -->
-            <a
-                class="shop-button"
-                href="https://www.amazon.de/Jenseits-Gleichung-biografisch-inspirierte-Selbstfindung/dp/338474893X/ref=sr_1_1?__mk_de_DE=ÅMÅŽÕÑ&crid=20UM3KROZLO5M&dib=eyJ2IjoiMSJ9.evxjL3d7QMubcCc2KHd3jIyHLPHz3QfMoG4fLxsMd-2AZwfasN4aBlJsEyB-QkKa9B2BqVOGV4uoACuqQmZ0-RXQ0n0WEb_ZMF2_0HGa8Oo.YdWZQpUvjsKO_H5Frru3nslg9aeY12-ihgO1cTiWkKo&dib_tag=se&keywords=jenseits+der+gleichung&qid=1787749149&sprefix=jedenseits+der+gleichiung%2Cspecialty-aps%2C165&sr=8-1"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <strong>AMAZON</strong>
-                <span>BUCH BESTELLEN</span>
-            </a>
+        <a
+            class="buy-button"
+            href="https://www.amazon.de/dp/338474893X"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
 
-            <!-- THALIA -->
-            <a
-                class="shop-button"
-                href="https://www.thalia.de/shop/home/artikeldetails/A1078991011"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <strong>THALIA</strong>
-                <span>BUCH BESTELLEN</span>
-            </a>
+            <span class="shop-name">
+                AMAZON
+            </span>
 
-            <!-- HUGENDUBEL -->
-            <a
-                class="shop-button"
-                href="https://www.hugendubel.de/de/taschenbuch/brigitta_nuss-jenseits_der_gleichung-52897707-produkt-details.html"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <strong>HUGENDUBEL</strong>
-                <span>BUCH BESTELLEN</span>
-            </a>
+            <span class="shop-action">
+                BUCH BESTELLEN
+            </span>
 
-        </div>
+        </a>
+
+
+        <!-- =================================================
+             THALIA
+        ================================================== -->
+
+        <a
+            class="buy-button"
+            href="https://www.thalia.de/shop/home/artikeldetails/A1078991011"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+
+            <span class="shop-name">
+                THALIA
+            </span>
+
+            <span class="shop-action">
+                BUCH BESTELLEN
+            </span>
+
+        </a>
+
+
+        <!-- =================================================
+             HUGENDUBEL
+        ================================================== -->
+
+        <a
+            class="buy-button"
+            href="https://www.hugendubel.de/de/taschenbuch/brigitta_nuss-jenseits_der_gleichung-52897707-produkt-details.html"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+
+            <span class="shop-name">
+                HUGENDUBEL
+            </span>
+
+            <span class="shop-action">
+                BUCH BESTELLEN
+            </span>
+
+        </a>
 
     </div>
 
@@ -1001,9 +1313,9 @@ footer {
 </main>
 
 
-<!-- =======================================================
-     FOOTER / RECHTLICHES
-     ======================================================= -->
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
@@ -1023,177 +1335,202 @@ footer {
 
     </div>
 
-    <div class="made">
-        MIT <span class="heart">♥</span> ERSTELLT
+    <div class="footer-heart">
+        Mit ❤️ erstellt.
     </div>
 
 </footer>
 
 
-<!-- =======================================================
-     IMPRESSUM
-     ======================================================= -->
+<!-- =====================================================
+     MODAL
+===================================================== -->
 
-<div class="modal" id="impressum">
+<div class="modal" id="modal">
 
-    <div class="modal-box">
+    <div class="modal-content">
 
-        <button class="close-modal" onclick="closeModal('impressum')">
+        <button
+            class="modal-close"
+            onclick="closeModal()"
+            aria-label="Fenster schließen"
+        >
             ×
         </button>
 
-        <h2>Impressum</h2>
 
-        <h3>Angaben gemäß § 5 TMG</h3>
+        <!-- IMPRESSUM -->
 
-        <p>
-            VORNAME NACHNAME<br>
-            STRAßE UND HAUSNUMMER<br>
-            PLZ ORT<br>
-            DEUTSCHLAND
-        </p>
+        <div class="legal-content" id="impressum">
 
-        <h3>Kontakt</h3>
+            <h2>
+                Impressum
+            </h2>
 
-        <p>
-            E-Mail: DEINE-E-MAIL-ADRESSE@BEISPIEL.DE
-        </p>
+            <p>
+                <strong>
+                    Angaben gemäß § 5 TMG
+                </strong>
+            </p>
 
-        <h3>Vertreten durch</h3>
+            <p>
+                [Vorname Nachname]<br>
+                [Straße und Hausnummer]<br>
+                [PLZ Ort]<br>
+                [Land]
+            </p>
 
-        <p>
-            VORNAME NACHNAME
-        </p>
+            <p>
+                E-Mail:
+                [E-Mail-Adresse]
+            </p>
 
-        <h3>Hinweis</h3>
+            <p>
+                Verantwortlich für den Inhalt:
+                [Vorname Nachname]
+            </p>
 
-        <p>
-            Bitte ersetze alle Platzhalter durch deine tatsächlichen
-            Angaben, bevor diese Website veröffentlicht wird.
-        </p>
+            <p>
+                <em>
+                    Mustertext: Bitte vor Veröffentlichung
+                    vollständig durch die tatsächlichen
+                    Angaben ersetzen.
+                </em>
+            </p>
 
-    </div>
-
-</div>
-
-
-<!-- =======================================================
-     DATENSCHUTZ
-     ======================================================= -->
-
-<div class="modal" id="datenschutz">
-
-    <div class="modal-box">
-
-        <button class="close-modal" onclick="closeModal('datenschutz')">
-            ×
-        </button>
-
-        <h2>Datenschutzerklärung</h2>
-
-        <h3>1. Allgemeine Hinweise</h3>
-
-        <p>
-            Der Schutz deiner persönlichen Daten ist mir wichtig.
-            Diese Datenschutzerklärung informiert darüber, welche
-            personenbezogenen Daten beim Besuch dieser Website
-            verarbeitet werden können.
-        </p>
-
-        <h3>2. Verantwortlicher</h3>
-
-        <p>
-            VORNAME NACHNAME<br>
-            STRAßE UND HAUSNUMMER<br>
-            PLZ ORT<br>
-            E-Mail: DEINE-E-MAIL-ADRESSE@BEISPIEL.DE
-        </p>
-
-        <h3>3. Hosting</h3>
-
-        <p>
-            Diese Website wird über einen Hosting-Anbieter bereitgestellt.
-            Dabei können technisch notwendige Informationen wie IP-Adresse,
-            Zeitpunkt des Zugriffs und verwendeter Browser verarbeitet werden.
-        </p>
-
-        <h3>4. Externe Links</h3>
-
-        <p>
-            Diese Website enthält Links zu externen Verkaufsplattformen.
-            Beim Anklicken eines solchen Links gelten die
-            Datenschutzbestimmungen des jeweiligen Anbieters.
-        </p>
-
-        <h3>5. Kontaktaufnahme</h3>
-
-        <p>
-            Wenn du per E-Mail Kontakt aufnimmst, werden die von dir
-            übermittelten Daten ausschließlich zur Bearbeitung deiner
-            Anfrage verwendet, soweit keine gesetzlichen
-            Aufbewahrungspflichten entgegenstehen.
-        </p>
-
-        <h3>6. Platzhalter anpassen</h3>
-
-        <p>
-            Diese Datenschutzerklärung ist ein Muster und muss vor der
-            Veröffentlichung an die tatsächlich verwendeten Dienste,
-            den Hosting-Anbieter und die konkrete Website angepasst werden.
-        </p>
-
-    </div>
-
-</div>
+        </div>
 
 
-<!-- =======================================================
-     HAFTUNGSBESCHRÄNKUNG
-     ======================================================= -->
+        <!-- DATENSCHUTZ -->
 
-<div class="modal" id="haftung">
+        <div class="legal-content" id="datenschutz">
 
-    <div class="modal-box">
+            <h2>
+                Datenschutzerklärung
+            </h2>
 
-        <button class="close-modal" onclick="closeModal('haftung')">
-            ×
-        </button>
+            <p>
+                Der Schutz deiner persönlichen Daten ist uns wichtig.
+                Nachfolgend informieren wir darüber, welche Daten
+                beim Besuch dieser Website verarbeitet werden.
+            </p>
 
-        <h2>Haftungsbeschränkung</h2>
+            <p>
+                <strong>
+                    1. Verantwortlicher
+                </strong>
+                <br>
 
-        <h3>Haftung für Inhalte</h3>
+                [Vorname Nachname]
+                <br>
 
-        <p>
-            Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt
-            erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität
-            der Inhalte kann jedoch keine Gewähr übernommen werden.
-        </p>
+                [Anschrift]
+                <br>
 
-        <h3>Haftung für externe Links</h3>
+                [E-Mail-Adresse]
+            </p>
 
-        <p>
-            Diese Website enthält Links zu externen Websites Dritter.
-            Auf deren Inhalte besteht kein Einfluss. Für die Inhalte
-            externer Seiten ist grundsätzlich der jeweilige Betreiber
-            verantwortlich.
-        </p>
+            <p>
+                <strong>
+                    2. Zugriffsdaten
+                </strong>
+                <br>
 
-        <h3>Urheberrecht</h3>
+                Beim Aufrufen dieser Website können technisch
+                erforderliche Daten verarbeitet werden,
+                beispielsweise IP-Adresse, Zeitpunkt des Zugriffs,
+                Browsertyp und Betriebssystem.
+            </p>
 
-        <p>
-            Die auf dieser Website veröffentlichten Inhalte und Werke
-            unterliegen, soweit gesetzlich zulässig, dem Urheberrecht.
-            Eine Verwendung, Vervielfältigung oder Verbreitung bedarf
-            grundsätzlich der Zustimmung des jeweiligen Rechteinhabers.
-        </p>
+            <p>
+                <strong>
+                    3. Externe Links
+                </strong>
+                <br>
 
-        <h3>Hinweis</h3>
+                Diese Website kann Links zu externen Websites,
+                beispielsweise Verkaufsplattformen, enthalten.
+                Für deren Inhalte und Datenverarbeitung gelten
+                die jeweiligen Datenschutzbestimmungen der Anbieter.
+            </p>
 
-        <p>
-            Dieser Text stellt ein allgemeines Muster dar und sollte vor
-            der Veröffentlichung rechtlich geprüft und an die konkrete
-            Website angepasst werden.
-        </p>
+            <p>
+                <strong>
+                    4. Kontakt
+                </strong>
+                <br>
+
+                Bei Fragen zum Datenschutz kannst du dich an die
+                oben genannte verantwortliche Stelle wenden.
+            </p>
+
+            <p>
+                <em>
+                    Hinweis: Dieses Dokument ist ein Muster und
+                    muss vor Veröffentlichung an die tatsächlich
+                    verwendeten Dienste und die konkrete Website
+                    angepasst werden.
+                </em>
+            </p>
+
+        </div>
+
+
+        <!-- HAFTUNG -->
+
+        <div class="legal-content" id="haftung">
+
+            <h2>
+                Haftungsbeschränkung
+            </h2>
+
+            <p>
+                <strong>
+                    Haftung für Inhalte
+                </strong>
+                <br>
+
+                Die Inhalte dieser Website wurden nach bestem
+                Wissen erstellt. Eine Gewähr für Vollständigkeit,
+                Richtigkeit und Aktualität kann jedoch nicht
+                übernommen werden.
+            </p>
+
+            <p>
+                <strong>
+                    Haftung für Links
+                </strong>
+                <br>
+
+                Diese Website kann Links zu externen Webseiten
+                enthalten. Auf deren Inhalte besteht kein
+                unmittelbarer Einfluss. Für die Inhalte der
+                verlinkten Seiten ist grundsätzlich der jeweilige
+                Betreiber verantwortlich.
+            </p>
+
+            <p>
+                <strong>
+                    Urheberrecht
+                </strong>
+                <br>
+
+                Die auf dieser Website veröffentlichten Inhalte
+                unterliegen dem geltenden Urheberrecht.
+                Eine Verwendung außerhalb der gesetzlichen
+                Grenzen bedarf der vorherigen Zustimmung des
+                jeweiligen Rechteinhabers.
+            </p>
+
+            <p>
+                <em>
+                    Hinweis: Dieses Dokument ist ein allgemeines
+                    Muster und sollte vor Veröffentlichung rechtlich
+                    geprüft und an die konkrete Website angepasst werden.
+                </em>
+            </p>
+
+        </div>
 
     </div>
 
@@ -1203,127 +1540,146 @@ footer {
 <script>
 
 /* =========================================================
-   MODAL-FUNKTIONEN
-   ========================================================= */
+   INTERAKTIVE GLEICHUNG
+========================================================= */
 
-function openModal(id) {
-    const modal = document.getElementById(id);
+const equationParts =
+    document.querySelectorAll(".eq-part.clickable");
 
-    if (!modal) return;
+const functionInfo =
+    document.getElementById("functionInfo");
 
-    modal.classList.add("active");
-    document.body.style.overflow = "hidden";
-}
+equationParts.forEach(part => {
 
-function closeModal(id) {
-    const modal = document.getElementById(id);
+    part.addEventListener("click", () => {
 
-    if (!modal) return;
+        equationParts.forEach(item => {
+            item.classList.remove("active");
+        });
 
-    modal.classList.remove("active");
-    document.body.style.overflow = "";
-}
+        part.classList.add("active");
 
+        const text =
+            part.dataset.info;
 
-/* Klick auf dunklen Hintergrund schließt Fenster */
+        functionInfo.style.opacity = "0";
 
-document.querySelectorAll(".modal").forEach(modal => {
+        functionInfo.style.transform =
+            "translateY(5px)";
 
-    modal.addEventListener("click", function(event) {
+        setTimeout(() => {
 
-        if (event.target === modal) {
-            modal.classList.remove("active");
-            document.body.style.overflow = "";
-        }
+            functionInfo.innerHTML =
+                "<span>" + text + "</span>";
+
+            functionInfo.style.opacity = "1";
+
+            functionInfo.style.transform =
+                "translateY(0)";
+
+        }, 180);
 
     });
 
 });
 
 
-/* ESC schließt Fenster */
+/* =========================================================
+   MODAL
+========================================================= */
 
-document.addEventListener("keydown", function(event) {
+const modal =
+    document.getElementById("modal");
+
+const legalContents =
+    document.querySelectorAll(".legal-content");
+
+
+function openModal(type) {
+
+    legalContents.forEach(content => {
+        content.style.display = "none";
+    });
+
+    const selected =
+        document.getElementById(type);
+
+    if (selected) {
+        selected.style.display = "block";
+    }
+
+    modal.classList.add("open");
+
+    document.body.style.overflow =
+        "hidden";
+}
+
+
+function closeModal() {
+
+    modal.classList.remove("open");
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* =========================================================
+   MODAL DURCH KLICK AUF HINTERGRUND SCHLIESSEN
+========================================================= */
+
+modal.addEventListener("click", event => {
+
+    if (event.target === modal) {
+        closeModal();
+    }
+
+});
+
+
+/* =========================================================
+   ESC SCHLIESST MODAL
+========================================================= */
+
+document.addEventListener("keydown", event => {
 
     if (event.key === "Escape") {
-
-        document.querySelectorAll(".modal.active").forEach(modal => {
-            modal.classList.remove("active");
-        });
-
-        document.body.style.overflow = "";
+        closeModal();
     }
 
 });
 
 
 /* =========================================================
-   SANFTE INTERAKTION DES FUNKTIONS-KÄSTCHENS
-   ========================================================= */
+   SANFTE INTERAKTION DER FORMELN
+========================================================= */
 
-const functionBox = document.querySelector(".function-box");
+const formulas =
+    document.querySelectorAll(".formula");
 
-if (functionBox) {
+window.addEventListener("pointermove", event => {
 
-    functionBox.addEventListener("mousemove", event => {
+    const x =
+        (event.clientX /
+        window.innerWidth - 0.5) * 2;
 
-        const rect = functionBox.getBoundingClientRect();
+    const y =
+        (event.clientY /
+        window.innerHeight - 0.5) * 2;
 
-        const x = (event.clientX - rect.left) / rect.width - .5;
-        const y = (event.clientY - rect.top) / rect.height - .5;
+    formulas.forEach((formula, index) => {
 
-        functionBox.style.transform =
-            `perspective(900px)
-             rotateX(${y * -2}deg)
-             rotateY(${x * 2}deg)`;
+        const strength =
+            (index + 1) * 1.2;
+
+        formula.style.marginLeft =
+            `${x * strength}px`;
+
+        formula.style.marginTop =
+            `${y * strength}px`;
 
     });
-
-    functionBox.addEventListener("mouseleave", () => {
-        functionBox.style.transform =
-            "perspective(900px) rotateX(0deg) rotateY(0deg)";
-    });
-
-}
-
-
-/* =========================================================
-   SCROLL-REVEAL
-   ========================================================= */
-
-const revealElements = document.querySelectorAll(
-    ".story-card, .cover-frame, .shop-button, .function-box"
-);
-
-const observer = new IntersectionObserver(
-    entries => {
-
-        entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-
-                entry.target.style.opacity = "1";
-                entry.target.style.transform =
-                    "translateY(0)";
-
-            }
-
-        });
-
-    },
-    {
-        threshold: .12
-    }
-);
-
-revealElements.forEach(element => {
-
-    element.style.opacity = "0";
-    element.style.transform = "translateY(25px)";
-    element.style.transition =
-        "opacity .9s ease, transform .9s ease";
-
-    observer.observe(element);
 
 });
 
